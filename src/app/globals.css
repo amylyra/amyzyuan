@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-display: 'Instrument Serif', Georgia, serif;
+  --font-family-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-family-sans: 'Satoshi', 'SF Pro Display', system-ui, sans-serif;
+  
+  --color-coal: #0a0a0a;
+  --color-smoke: #1a1a1a;
+  --color-ash: #2a2a2a;
+  --color-fog: #8a8a8a;
+  --color-mist: #c0c0c0;
+  --color-bone: #e8e4df;
+  --color-cream: #f5f3ef;
+  --color-ember: #ff6b35;
+  --color-amber: #ffc857;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('https://fonts.gstatic.com/s/instrumentserif/v4/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('https://fonts.gstatic.com/s/instrumentserif/v4/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAS.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://cdn.fontshare.com/wf/HQDZXF3YJBMHKJL5CL6JXAQDXEKPLCPW/YQE5DNVBZEZX6QYLXC4KKWT46FPWKGW3/MRZ74NL4NRE6AI7CXFWFBNQSPUBBQ35M.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('https://cdn.fontshare.com/wf/HQDZXF3YJBMHKJL5CL6JXAQDXEKPLCPW/YQE5DNVBZEZX6QYLXC4KKWT46FPWKGW3/RRZ74NL4NRE6AI7CXFWFBNQSPUBBQ35M.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background: var(--color-coal);
+  color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-coal);
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-coal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-ash);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fog);
+}
+
+/* Animation keyframes */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 107, 53, 0.5);
+  }
+}
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* Chat message styling */
+.chat-message {
+  @apply rounded-2xl px-5 py-4;
+}
+
+.chat-message-user {
+  @apply bg-gradient-to-br from-ember/20 to-amber/10 border border-ember/20;
+}
+
+.chat-message-assistant {
+  @apply bg-ash/50 border border-ash;
+}
+
+/* Typing cursor */
+.typing-cursor::after {
+  content: '▌';
+  animation: cursor-blink 1s infinite;
+  color: var(--color-ember);
+  margin-left: 2px;
+}
+
+/* Glowing border effect */
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--color-ember), var(--color-amber), var(--color-ember));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border:focus-within::before {
+  opacity: 1;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-mist) 50%, var(--color-cream) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}
+
