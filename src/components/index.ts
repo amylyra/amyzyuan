@@ -1,4 +1,2 @@
-export { default as Chat } from './Chat'
-export { default as Hero } from './Hero'
-export { default as Navigation } from './Navigation'
-
+export { default as LandingView } from './LandingView'
+export { default as ChatView } from './ChatView'
