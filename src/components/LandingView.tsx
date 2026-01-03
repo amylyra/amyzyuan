@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 
 interface LandingViewProps {
   showChat: boolean
-  onOpenChat: (topic?: string, command?: string) => void
+  onOpenChat: (message?: string) => void
 }
 
 const autocompleteSuggestions = [
@@ -51,17 +51,14 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (input.trim()) {
-      onOpenChat()
+      onOpenChat(input.trim())
+      setInput('')
     }
-  }
-
-  const handleTopic = (topic: string) => {
-    onOpenChat(topic)
   }
 
   const topics = [
     {
-      topic: 'about',
+      message: 'Tell me about yourself',
       label: 'About Me',
       icon: (
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -71,7 +68,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       )
     },
     {
-      topic: 'projects',
+      message: 'What projects are you working on?',
       label: 'My Projects',
       icon: (
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -81,7 +78,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       )
     },
     {
-      topic: 'research',
+      message: 'What are your research interests?',
       label: 'My Research',
       icon: (
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -91,7 +88,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       )
     },
     {
-      topic: 'climbing',
+      message: 'Tell me about your mountaineering',
       label: 'Mountaineering',
       icon: (
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -137,8 +134,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             <div className="grid grid-cols-4 gap-3 mb-10 max-md:grid-cols-4 max-md:gap-2 max-md:mb-6">
               {topics.map((item) => (
                 <button
-                  key={item.topic}
-                  onClick={() => handleTopic(item.topic)}
+                  key={item.label}
+                  onClick={() => onOpenChat(item.message)}
                   className="flex flex-col items-center gap-3 p-5 text-center bg-transparent border border-[var(--color-border)] rounded-2xl transition-all duration-150 hover:bg-[var(--color-card-bg)] hover:border-[var(--color-muted)] hover:shadow-md group max-md:p-3 max-md:gap-2 max-md:rounded-xl"
                 >
                   <div className="w-10 h-10 rounded-full bg-[var(--color-fg)]/5 flex items-center justify-center text-[var(--color-muted)] group-hover:bg-[var(--color-fg)]/10 group-hover:text-[var(--color-fg)] transition-all max-md:w-8 max-md:h-8">
@@ -212,16 +209,16 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             {/* Quick prompts - Left aligned */}
             <div className="flex flex-wrap gap-2.5 max-md:gap-2">
               {[
-                { cmd: 'chat', label: 'Chat' },
-                { cmd: 'contact_info', label: 'Get in touch' },
-                { cmd: 'technical', label: 'Tech Stack' },
-                { cmd: 'brainstorm', label: 'Brainstorm' },
-                { cmd: 'noteworthy', label: 'Noteworthy' },
-                { cmd: 'research', label: 'Research' },
-              ].map(({ cmd, label }) => (
+                { message: undefined, label: 'Chat' },
+                { message: 'How can I get in touch with you?', label: 'Get in touch' },
+                { message: "What's your technical background?", label: 'Tech Stack' },
+                { message: 'I have an idea I want to brainstorm', label: 'Brainstorm' },
+                { message: 'Tell me about Noteworthy', label: 'Noteworthy' },
+                { message: 'What are your research interests?', label: 'Research' },
+              ].map(({ message, label }) => (
                 <button
-                  key={cmd}
-                  onClick={() => onOpenChat(undefined, cmd)}
+                  key={label}
+                  onClick={() => onOpenChat(message)}
                   className="px-4 py-2 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded-full text-[0.8rem] font-medium text-[var(--color-muted)] transition-all duration-150 hover:border-[var(--color-muted)] hover:text-[var(--color-fg)] hover:shadow-sm active:scale-[0.98] max-md:text-[0.75rem] max-md:px-3 max-md:py-1.5"
                 >
                   {label}
