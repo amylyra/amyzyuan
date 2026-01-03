@@ -1,219 +1,84 @@
 'use client'
 
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
+import { useChat } from '@ai-sdk/react'
+import { createChatSession, saveChatMessage } from '@/lib/supabase'
 
 interface ChatViewProps {
   showChat: boolean
   onClose: () => void
-  initialTopic?: string
-  initialCommand?: string
+  initialMessage?: string
 }
 
-interface Message {
-  id: string
-  role: 'user' | 'amy'
-  content: string
-}
-
-export default function ChatView({ showChat, onClose, initialTopic, initialCommand }: ChatViewProps) {
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
+export default function ChatView({ showChat, onClose, initialMessage }: ChatViewProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const sessionIdRef = useRef<string | null>(null)
   const hasInitialized = useRef(false)
+  const lastSavedMessageCount = useRef(0)
 
-  // Smooth scroll to bottom
+  const { messages, input, setInput, handleSubmit, isLoading, setMessages, append } = useChat({
+    api: '/api/chat',
+  })
+
+  // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }
-  }, [messages, isTyping])
+  }, [messages, isLoading])
 
-  const addMessage = useCallback((role: 'user' | 'amy', content: string) => {
-    setMessages((prev) => [...prev, { id: `${Date.now()}-${Math.random()}`, role, content }])
-  }, [])
+  // Save new messages to Supabase
+  useEffect(() => {
+    if (!sessionIdRef.current || messages.length === 0) return
 
-  const showTypingIndicator = useCallback(() => setIsTyping(true), [])
-  const hideTypingIndicator = useCallback(() => setIsTyping(false), [])
-
-  const topicContent: Record<string, { question: string; answer: string }> = {
-    about: {
-      question: "Tell me about yourself",
-      answer: `
-        <div class="rich-card">
-          <div class="rich-card-image"></div>
-          <div class="rich-card-content">
-            <h3>Zaoshi (Amy) Yuan</h3>
-            <p>Trained in large-scale computational physics at Stanford. Co-founded and scaled an AI-powered personalization company to $150M+ in total revenue.</p>
-            <p class="text-secondary">Still building, looking for the next hard problem in AI.</p>
-            <div class="rich-card-links">
-              <a href="https://linkedin.com/in/amyzyuan" target="_blank">LinkedIn</a>
-              <a href="mailto:amy@example.com">Email</a>
-            </div>
-          </div>
-        </div>
-      `,
-    },
-    projects: {
-      question: "What projects are you working on?",
-      answer: `
-        <div class="project-list">
-          <div class="project-item">
-            <div class="project-header">
-              <h4>Proven</h4>
-              <span class="project-status active">Scaled to $150M+</span>
-            </div>
-            <p>AI-powered personalization engine for skincare and cosmetics. Built ML models for user behavior prediction and product recommendations.</p>
-            <div class="project-tags">
-              <span>AI/ML</span>
-              <span>SaaS</span>
-              <span>Personalization</span>
-            </div>
-          </div>
-          <div class="project-item">
-            <div class="project-header">
-              <h4>Durin</h4>
-              <span class="project-status">In Progress</span>
-            </div>
-            <p>AI infrastructure for the next generation of intelligent systems. Focusing on scalability and developer experience.</p>
-            <div class="project-tags">
-              <span>Infrastructure</span>
-              <span>Developer Tools</span>
-            </div>
-          </div>
-          <div class="project-item">
-            <div class="project-header">
-              <h4>Noteworthy</h4>
-              <span class="project-status">In Progress</span>
-            </div>
-            <p>Personalized fragrance discovery platform using AI to match scent profiles with individual preferences.</p>
-            <div class="project-tags">
-              <span>Consumer</span>
-              <span>AI Matching</span>
-            </div>
-          </div>
-        </div>
-      `,
-    },
-    climbing: {
-      question: "Tell me about your climbing",
-      answer: `
-        <div class="adventure-section">
-          <h4>Mountaineering & Alpine Climbing</h4>
-          <p>Experienced mountaineer with ascents in the Himalayas, Andes, and Rockies. Specializes in technical alpine routes and high-altitude expeditions.</p>
-          <div class="project-tags">
-            <span>Mountaineering</span>
-            <span>Alpine</span>
-            <span>Expeditions</span>
-          </div>
-          <blockquote>"The mountains teach patience, resilience, and the value of preparation. Every summit is a lesson in systems thinking."</blockquote>
-        </div>
-      `,
-    },
-  }
-
-  const cmdContent: Record<string, { question: string; answer: string }> = {
-    proven: {
-      question: "Tell me about Proven",
-      answer: `<p><strong>Proven</strong> is an AI-powered skincare personalization company I co-founded. We built machine learning models that analyze skin profiles, lifestyle factors, and environmental data to create personalized formulations.</p><p class="text-secondary">We scaled to $150M+ in revenue by combining cutting-edge AI with deep expertise in cosmetic chemistry.</p>`,
-    },
-    durin: {
-      question: "Tell me about Durin",
-      answer: `<p><strong>Durin</strong> is my current focus—building AI infrastructure that makes it easier for developers to create intelligent systems. Think of it as the foundation layer for the next generation of AI applications.</p>`,
-    },
-    noteworthy: {
-      question: "Tell me about Noteworthy",
-      answer: `<p><strong>Noteworthy</strong> applies similar personalization principles to fragrance discovery. We use AI to understand individual scent preferences and match people with perfumes they'll love.</p>`,
-    },
-    technical: {
-      question: "What's your technical background?",
-      answer: `<p>I have a PhD in Computational Physics from Stanford, where I worked on large-scale simulations and high-performance computing. My technical work spans:</p><ul><li>Machine learning for personalization at scale</li><li>Distributed systems and infrastructure</li><li>Algorithm design for recommendation engines</li><li>Computer vision and natural language processing</li></ul>`,
-    },
-    contact_info: {
-      question: "How can I contact you?",
-      answer: `<p>You can reach me at <a href="mailto:amy@example.com">amy@example.com</a> or connect on <a href="https://linkedin.com/in/amyzyuan" target="_blank">LinkedIn</a>.</p>`,
-    },
-  }
-
-  const handleTopic = useCallback((topic: string) => {
-    const content = topicContent[topic]
-    if (!content) return
-
-    addMessage('user', content.question)
-    
-    // Immediate typing indicator for responsiveness
-    requestAnimationFrame(() => {
-      showTypingIndicator()
-      setTimeout(() => {
-        hideTypingIndicator()
-        addMessage('amy', content.answer)
-      }, 400 + Math.random() * 200)
+    // Only save messages we haven't saved yet
+    const newMessages = messages.slice(lastSavedMessageCount.current)
+    newMessages.forEach((msg) => {
+      const role = msg.role === 'user' ? 'user' : 'amy'
+      saveChatMessage(sessionIdRef.current!, role, msg.content)
     })
-  }, [addMessage, showTypingIndicator, hideTypingIndicator])
+    lastSavedMessageCount.current = messages.length
+  }, [messages])
 
-  const handleCommand = useCallback((cmd: string) => {
-    const content = cmdContent[cmd]
-    if (!content) return
-
-    addMessage('user', content.question)
-    
-    requestAnimationFrame(() => {
-      showTypingIndicator()
-      setTimeout(() => {
-        hideTypingIndicator()
-        addMessage('amy', content.answer)
-      }, 400 + Math.random() * 200)
-    })
-  }, [addMessage, showTypingIndicator, hideTypingIndicator])
-
+  // Handle initial message and chat open/close
   useEffect(() => {
     if (showChat) {
-      // Focus input immediately for better responsiveness
+      // Create a new chat session only if we don't have one
+      if (!sessionIdRef.current) {
+        createChatSession().then((id) => {
+          sessionIdRef.current = id
+        })
+      }
+
+      // Focus input
       requestAnimationFrame(() => {
         inputRef.current?.focus()
       })
-      
-      if (initialTopic && !hasInitialized.current) {
+
+      // Send initial message if provided - auto submit
+      if (initialMessage && !hasInitialized.current) {
         hasInitialized.current = true
-        // Small delay for smooth transition
-        setTimeout(() => handleTopic(initialTopic), 150)
-      } else if (initialCommand && !hasInitialized.current) {
-        hasInitialized.current = true
-        setTimeout(() => handleCommand(initialCommand), 150)
+        // Use append to directly send the message
+        append({ role: 'user', content: initialMessage })
       }
     } else {
+      // Only reset initialization flag, keep session for persistence
       hasInitialized.current = false
-      setMessages([])
-      setInput('')
     }
-  }, [showChat, initialTopic, initialCommand, handleTopic, handleCommand])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const trimmedInput = input.trim()
-    if (!trimmedInput) return
-    
-    // Clear input immediately for responsiveness
-    setInput('')
-    addMessage('user', trimmedInput)
-
-    requestAnimationFrame(() => {
-      showTypingIndicator()
-      setTimeout(() => {
-        hideTypingIndicator()
-        addMessage('amy', "Thanks for reaching out! Feel free to explore the suggestions below or ask me something specific about my work.")
-      }, 600 + Math.random() * 300)
-    })
-  }
+  }, [showChat, initialMessage, append])
 
   const suggestions = [
-    { cmd: 'proven', label: 'PROVEN' },
-    { cmd: 'durin', label: 'Durin' },
-    { cmd: 'noteworthy', label: 'Noteworthy' },
-    { cmd: 'technical', label: 'Technical' },
-    { cmd: 'contact_info', label: 'Contact' },
+    { message: 'Tell me about PROVEN', label: 'PROVEN' },
+    { message: 'Tell me about Durin', label: 'Durin' },
+    { message: 'Tell me about Noteworthy', label: 'Noteworthy' },
+    { message: "What's your technical background?", label: 'Technical' },
+    { message: 'How can I contact you?', label: 'Contact' },
   ]
+
+  const handleSuggestionClick = useCallback((message: string) => {
+    append({ role: 'user', content: message })
+  }, [append])
 
   return (
     <div
@@ -221,7 +86,7 @@ export default function ChatView({ showChat, onClose, initialTopic, initialComma
         showChat ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
       }`}
     >
-      {/* Header - minimal */}
+      {/* Header */}
       <header className="flex-none flex items-center justify-between px-5 py-4 border-b border-[var(--color-border)] max-md:px-4 max-md:py-3">
         <div className="flex items-center gap-3">
           <button
@@ -275,16 +140,15 @@ export default function ChatView({ showChat, onClose, initialTopic, initialComma
                     </div>
                   ) : (
                     <div className="max-w-[90%]">
-                      <div 
-                        className="chat-content text-[0.9rem] leading-[1.7] text-[var(--color-fg)] max-md:text-[0.85rem]"
-                        dangerouslySetInnerHTML={{ __html: message.content }}
-                      />
+                      <div className="text-[0.9rem] leading-[1.7] text-[var(--color-fg)] max-md:text-[0.85rem] whitespace-pre-wrap">
+                        {message.content}
+                      </div>
                     </div>
                   )}
                 </div>
               ))}
-              
-              {isTyping && (
+
+              {isLoading && (
                 <div className="flex justify-start" style={{ animation: 'fadeIn 0.15s ease-out' }}>
                   <div className="flex items-center gap-1 py-2">
                     <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '0.6s' }} />
@@ -299,15 +163,15 @@ export default function ChatView({ showChat, onClose, initialTopic, initialComma
         </div>
       </div>
 
-      {/* Input area - clean and responsive */}
+      {/* Input area */}
       <footer className="flex-none bg-[var(--color-bg)] border-t border-[var(--color-border)]">
         <div className="max-w-[640px] mx-auto px-5 py-4 max-md:px-4 max-md:py-3">
           {/* Suggestions */}
           <div className="flex flex-wrap gap-1.5 mb-3 max-md:mb-2.5">
-            {suggestions.map(({ cmd, label }) => (
+            {suggestions.map(({ message, label }) => (
               <button
-                key={cmd}
-                onClick={() => handleCommand(cmd)}
+                key={label}
+                onClick={() => handleSuggestionClick(message)}
                 className="px-3 py-1.5 border border-[var(--color-border)] rounded-full text-[0.8rem] text-[var(--color-muted)] transition-colors duration-100 hover:bg-[var(--color-surface)] hover:text-[var(--color-fg)] active:scale-[0.98] max-md:text-[0.75rem] max-md:px-2.5 max-md:py-1"
               >
                 {label}
@@ -327,7 +191,7 @@ export default function ChatView({ showChat, onClose, initialTopic, initialComma
               />
               <button
                 type="submit"
-                disabled={!input.trim()}
+                disabled={!input.trim() || isLoading}
                 className="w-7 h-7 bg-[var(--color-fg)] border-0 rounded-lg text-white flex items-center justify-center transition-all duration-100 flex-shrink-0 disabled:opacity-15 disabled:cursor-not-allowed hover:opacity-80 active:scale-90 max-md:w-6 max-md:h-6 max-md:rounded-md"
                 aria-label="Send"
               >

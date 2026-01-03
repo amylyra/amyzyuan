@@ -6,32 +6,34 @@ import ChatView from '@/components/ChatView'
 
 export default function Home() {
   const [showChat, setShowChat] = useState(false)
-  const [initialTopic, setInitialTopic] = useState<string | undefined>()
-  const [initialCommand, setInitialCommand] = useState<string | undefined>()
+  const [initialMessage, setInitialMessage] = useState<string | undefined>()
 
-  const handleOpenChat = (topic?: string, command?: string) => {
-    setInitialTopic(topic)
-    setInitialCommand(command)
+  const handleOpenChat = (message?: string) => {
+    setInitialMessage(message)
     setShowChat(true)
+  }
+
+  const handleCloseChat = () => {
+    setShowChat(false)
+    setInitialMessage(undefined)
   }
 
   return (
     <main className="relative min-h-screen">
       {/* Grid background */}
       <div className="grid-bg" />
-      
+
       {/* Landing View */}
-      <LandingView 
+      <LandingView
         showChat={showChat}
         onOpenChat={handleOpenChat}
       />
-      
+
       {/* Chat View (Full Screen) */}
-      <ChatView 
+      <ChatView
         showChat={showChat}
-        onClose={() => setShowChat(false)}
-        initialTopic={initialTopic}
-        initialCommand={initialCommand}
+        onClose={handleCloseChat}
+        initialMessage={initialMessage}
       />
     </main>
   )
