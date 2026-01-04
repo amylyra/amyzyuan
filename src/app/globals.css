@@ -1,12 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 :root {
-  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  
-  --color-bg: #FAFAFA;
+
+  --color-bg: #F8F7F4;
   --color-fg: #0F0F0F;
   --color-muted: #666666;
   --color-light-muted: #999999;
@@ -44,21 +43,21 @@ body {
   color: var(--color-bg);
 }
 
-/* Grid background */
+/* Lab-style grid background */
 .grid-bg {
   position: fixed;
   inset: 0;
-  background-image: 
-    linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
   z-index: 0;
   pointer-events: none;
 }
 
 @media (max-width: 640px) {
   .grid-bg {
-    background-size: 40px 40px;
+    background-size: 20px 20px;
   }
 }
 
