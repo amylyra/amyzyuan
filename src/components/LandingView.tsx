@@ -30,8 +30,12 @@ const autocompleteSuggestions = [
   "Tell me about PROVEN",
   "Tell me about Noteworthy",
   "Tell me about Durin",
-  "How did you scale to $150M?",
+  "What is Pawgress?",
+  "Tell me about your games and apps",
+  "Tell me about your exits",
+  "How did you scale to $150MM?",
   "What are your research interests?",
+  "Tell me about your world record simulation",
   "Tell me about your mountaineering",
   "Tell me about climbing Cotopaxi",
   "Tell me about climbing Mont Blanc",
@@ -39,7 +43,7 @@ const autocompleteSuggestions = [
   "How can I contact you?",
   "What patents do you have?",
   "Tell me about Stanford",
-  "What is Pawgress?",
+  "Tell me about MIT AI Idol",
 ]
 
 // Initialize Fuse for fuzzy search
@@ -413,9 +417,9 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               <div className="mb-6 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.85rem]">
                 <div className="mb-0.5">
                   <span className="text-[#555]">┌</span>
-                  <span className="text-[#999] ml-2">Stanford physics → built a </span>
-                  <span className="text-[#F59E0B]">$150M+</span>
-                  <span className="text-[#999]"> company.</span>
+                  <span className="text-[#999] ml-2">Computational physics → </span>
+                  <span className="text-[#F59E0B]">$150MM+</span>
+                  <span className="text-[#999]"> revenue. 2 patents. 3 companies.</span>
                 </div>
                 <div>
                   <span className="text-[#555]">└</span>
@@ -544,8 +548,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </p>
             <p className="text-[1.05rem] text-[var(--color-muted)] mt-5 leading-[1.7] max-md:text-[0.95rem]">
               In the past I&apos;ve scaled{' '}
-              <button onClick={() => onOpenChat('Tell me about PROVEN')} className="text-[var(--color-fg)] underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">PROVEN</button>
-              {' '}to $100M+ in revenue, built healthcare AI at Lyra and McKesson, and ran the world&apos;s largest atomistic simulation on 163,840 cores.
+              <button onClick={() => onOpenChat('Tell me about PROVEN')} className="text-[var(--color-fg)] underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">PROVEN & Noteworthy</button>
+              {' '}to $150MM+ in revenue with 2 patents, built clinical AI at Lyra and McKesson for high-stakes production systems, and ran a world record peta-flop scale simulation with 9 publications.
             </p>
           </div>
 
@@ -563,9 +567,9 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </h3>
               <div className="space-y-5">
                 {[
-                  { name: 'Durin', desc: 'Post-training infrastructure for LLMs.', query: 'Tell me about Durin', external: false },
-                  { name: 'Pawgress', desc: 'AI for family connection.', query: 'Tell me about Pawgress', external: false },
-                  { name: 'Noteworthy', desc: 'Fragrance personalization.', query: 'Tell me about Noteworthy', external: true },
+                  { name: 'Durin', desc: 'Market intelligence. Post-training infrastructure.', query: 'Tell me about Durin', external: false },
+                  { name: 'Pawgress', desc: 'Agentic family companion. Emotionally safe AI.', query: 'Tell me about Pawgress', external: false },
+                  { name: 'Several other fun AI stuff', desc: 'Agents. Reasoning. Research.', query: 'Tell me about your AI research', external: false },
                 ].map((item) => (
                   <div key={item.name}>
                     <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
@@ -582,17 +586,18 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </div>
             </div>
 
-            {/* PAST */}
+            {/* SHIPPED */}
             <div>
               <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
-                Past
+                Shipped
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
               </h3>
               <div className="space-y-5">
                 {[
-                  { name: 'PROVEN', desc: 'AI skincare. $100M+ revenue. 2 patents.', query: 'Tell me about PROVEN', external: true },
-                  { name: 'Lyra · McKesson', desc: 'Healthcare AI.', query: 'Tell me about your work at Lyra and McKesson', external: true },
-                  { name: 'Stanford · USC', desc: 'Computational physics. 10 papers.', query: 'Tell me about your research at Stanford and USC', external: false },
+                  { name: 'PROVEN & Noteworthy', desc: '$150MM+ revenue. 2 patents.', query: 'Tell me about PROVEN and Noteworthy', external: true },
+                  { name: 'Lyra · McKesson', desc: 'Clinical matching. Drug market prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
+                  { name: 'Stanford · USC', desc: 'Computational physics.', query: 'Tell me about your research at Stanford and USC', external: false },
+                  { name: 'Games & Apps', desc: '3 top-10 apps. 2 exits.', query: 'Tell me about your games and apps', external: false },
                 ].map((item) => (
                   <div key={item.name}>
                     <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
@@ -618,7 +623,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               <div className="space-y-5">
                 {[
                   { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
-                  { name: '2 US Patents', desc: 'Preference modeling.', clickable: false },
+                  { name: 'Two Exits Before 30', desc: 'CubicMan, DivineMight, Camera360.', clickable: false },
+                  { name: 'World Record Simulation', desc: 'Peta-flop scale. 9 publications.', clickable: false },
                   { name: '4 Continents', desc: 'Glaciated climbs.', query: 'Tell me about your mountaineering', clickable: true },
                 ].map((item) => (
                   <div key={item.name}>
@@ -720,9 +726,9 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </h3>
               <div className="space-y-5">
                 {[
-                  { name: 'PROVEN', desc: 'AI skincare. $100M+ revenue.', query: 'Tell me about PROVEN', external: true },
-                  { name: 'Lyra Health', desc: 'Healthcare AI.', query: 'Tell me about Lyra', external: true },
-                  { name: 'McKesson', desc: 'Supply chain optimization.', query: 'Tell me about McKesson', external: true },
+                  { name: 'PROVEN & Noteworthy', desc: '$150MM+ revenue. 2 patents.', query: 'Tell me about PROVEN and Noteworthy', external: true },
+                  { name: 'Lyra · McKesson', desc: 'Clinical matching. Drug market prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
+                  { name: 'Games & Apps', desc: '3 top-10 apps. 2 exits.', query: 'Tell me about your games and apps', external: false },
                 ].map((item) => (
                   <div key={item.name}>
                     <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">
@@ -747,8 +753,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </h3>
               <div className="space-y-5">
                 {[
-                  { name: 'Stanford', desc: 'Computational physics.', query: 'Tell me about Stanford' },
-                  { name: 'USC', desc: 'Ph.D. 10 papers.', query: 'Tell me about USC' },
+                  { name: 'Stanford · USC', desc: 'Computational physics.', query: 'Tell me about your research at Stanford and USC' },
+                  { name: 'World Record Simulation', desc: 'Peta-flop scale. 9 publications.', query: 'Tell me about your world record simulation' },
                   { name: '2 Patents', desc: 'Preference modeling.', query: 'Tell me about your patents' },
                 ].map((item) => (
                   <div key={item.name}>
