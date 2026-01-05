@@ -1,37 +1,81 @@
 'use client'
 
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
+import Fuse, { FuseResultMatch } from 'fuse.js'
 
 interface LandingViewProps {
   showChat: boolean
   onOpenChat: (message?: string) => void
 }
 
+// Slash commands for quick access
+const slashCommands = [
+  { cmd: '/proven', description: 'Learn about PROVEN skincare company', query: 'Tell me about PROVEN' },
+  { cmd: '/durin', description: 'Learn about Durin AI infrastructure', query: 'Tell me about Durin' },
+  { cmd: '/noteworthy', description: 'Learn about Noteworthy fragrance', query: 'Tell me about Noteworthy' },
+  { cmd: '/pawgress', description: 'Learn about Pawgress app', query: 'What is Pawgress?' },
+  { cmd: '/climbing', description: 'Mountaineering expeditions', query: 'Tell me about your mountaineering' },
+  { cmd: '/research', description: 'Research interests and papers', query: 'What are your research interests?' },
+  { cmd: '/patents', description: 'Patents and IP', query: 'What patents do you have?' },
+  { cmd: '/stanford', description: 'Stanford background', query: 'Tell me about Stanford' },
+  { cmd: '/contact', description: 'Get in touch', query: 'How can I contact you?' },
+  { cmd: '/background', description: 'Full background story', query: 'What is your background?' },
+  { cmd: '/projects', description: 'Current projects', query: 'What projects are you working on?' },
+  { cmd: '/tech', description: 'Tech stack and skills', query: "What's your tech stack?" },
+]
+
 const autocompleteSuggestions = [
   "What is your background?",
   "What projects are you working on?",
   "Tell me about PROVEN",
   "Tell me about Noteworthy",
+  "Tell me about Durin",
   "How did you scale to $150M?",
   "What are your research interests?",
   "Tell me about your mountaineering",
+  "Tell me about climbing Cotopaxi",
+  "Tell me about climbing Mont Blanc",
+  "What's your tech stack?",
   "How can I contact you?",
+  "What patents do you have?",
+  "Tell me about Stanford",
+  "What is Pawgress?",
 ]
+
+// Initialize Fuse for fuzzy search
+const fuse = new Fuse(autocompleteSuggestions, {
+  threshold: 0.4,
+  distance: 100,
+  includeScore: true,
+  includeMatches: true,
+})
+
+const slashFuse = new Fuse(slashCommands, {
+  keys: ['cmd', 'description'],
+  threshold: 0.3,
+  includeScore: true,
+  includeMatches: true,
+})
 
 const rotatingPlaceholders = [
   "Ask me anything...",
+  "Type / for commands...",
   "Ask about PROVEN...",
+  "Try /climbing...",
   "Ask about my research...",
-  "Ask about climbing...",
 ]
 
 export default function LandingView({ showChat, onOpenChat }: LandingViewProps) {
   const [input, setInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
+  const [selectedSuggestion, setSelectedSuggestion] = useState(-1)
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['philosophy', 'columns', 'now', 'climbing']))
   const [isScrolled, setIsScrolled] = useState(false)
+  const [commandHistory, setCommandHistory] = useState<string[]>([])
+  const [historyIndex, setHistoryIndex] = useState(-1)
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({})
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -80,21 +124,201 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
     return () => observer.disconnect()
   }, [])
 
+  // Determine if input is a slash command
+  const isSlashCommand = input.startsWith('/')
+
   const filteredSuggestions = useMemo(() => {
-    if (!input.trim() || input.length < 2) return []
-    const lower = input.toLowerCase()
-    return autocompleteSuggestions
-      .filter(s => s.toLowerCase().includes(lower))
-      .slice(0, 4)
+    const trimmed = input.trim()
+
+    // Show all slash commands when just "/" is typed
+    if (trimmed === '/') {
+      return slashCommands.map(cmd => ({
+        type: 'slash' as const,
+        text: cmd.cmd,
+        description: cmd.description,
+        query: cmd.query,
+        matches: undefined,
+      }))
+    }
+
+    // Search slash commands if starts with /
+    if (trimmed.startsWith('/')) {
+      const results = slashFuse.search(trimmed)
+      return results.slice(0, 8).map(result => ({
+        type: 'slash' as const,
+        text: result.item.cmd,
+        description: result.item.description,
+        query: result.item.query,
+        matches: result.matches,
+      }))
+    }
+
+    // Show default suggestions when input is empty but focused
+    if (!trimmed) {
+      return autocompleteSuggestions.slice(0, 5).map(text => ({
+        type: 'suggestion' as const,
+        text,
+        description: undefined,
+        query: text,
+        matches: undefined,
+      }))
+    }
+
+    // Fuzzy search regular suggestions
+    const results = fuse.search(trimmed)
+    return results.slice(0, 6).map(result => ({
+      type: 'suggestion' as const,
+      text: result.item,
+      description: undefined,
+      query: result.item,
+      matches: result.matches,
+    }))
   }, [input])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (input.trim()) {
-      onOpenChat(input.trim())
-      setInput('')
+  // Helper to highlight matched characters
+  const highlightMatch = useCallback((text: string, matches: readonly FuseResultMatch[] | undefined) => {
+    if (!matches || matches.length === 0) return text
+
+    const indices = matches[0]?.indices || []
+    if (indices.length === 0) return text
+
+    const parts: { text: string; highlight: boolean }[] = []
+    let lastIndex = 0
+
+    indices.forEach(([start, end]) => {
+      if (start > lastIndex) {
+        parts.push({ text: text.slice(lastIndex, start), highlight: false })
+      }
+      parts.push({ text: text.slice(start, end + 1), highlight: true })
+      lastIndex = end + 1
+    })
+
+    if (lastIndex < text.length) {
+      parts.push({ text: text.slice(lastIndex), highlight: false })
     }
-  }
+
+    return parts.map((part, i) =>
+      part.highlight
+        ? <span key={i} className="text-[#F59E0B]">{part.text}</span>
+        : <span key={i}>{part.text}</span>
+    )
+  }, [])
+
+  // Reset suggestion selection when filtered list changes
+  useEffect(() => {
+    setSelectedSuggestion(-1)
+  }, [filteredSuggestions.length])
+
+  const handleSubmit = useCallback((e?: React.FormEvent) => {
+    e?.preventDefault()
+    const trimmed = input.trim()
+    if (trimmed) {
+      // Add to command history
+      setCommandHistory(prev => [...prev.filter(cmd => cmd !== trimmed), trimmed])
+      setHistoryIndex(-1)
+      onOpenChat(trimmed)
+      setInput('')
+      setShowAutocomplete(false)
+    }
+  }, [input, onOpenChat])
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Tab completion - fills in the command/suggestion text
+    if (e.key === 'Tab') {
+      e.preventDefault()
+      if (filteredSuggestions.length > 0) {
+        const idx = selectedSuggestion >= 0 ? selectedSuggestion : 0
+        const suggestion = filteredSuggestions[idx]
+        // For slash commands, fill in the command; for suggestions, fill the text
+        setInput(suggestion.type === 'slash' ? suggestion.text : suggestion.text)
+        setShowAutocomplete(false)
+        setSelectedSuggestion(-1)
+      }
+      return
+    }
+
+    // Escape to close autocomplete
+    if (e.key === 'Escape') {
+      setShowAutocomplete(false)
+      setSelectedSuggestion(-1)
+      return
+    }
+
+    // Ctrl+C to clear
+    if (e.ctrlKey && e.key === 'c') {
+      e.preventDefault()
+      setInput('')
+      setShowAutocomplete(false)
+      return
+    }
+
+    // Ctrl+L to clear (common terminal shortcut)
+    if (e.ctrlKey && e.key === 'l') {
+      e.preventDefault()
+      setInput('')
+      return
+    }
+
+    // Ctrl+U to clear line (bash shortcut)
+    if (e.ctrlKey && e.key === 'u') {
+      e.preventDefault()
+      setInput('')
+      return
+    }
+
+    // Navigate autocomplete with arrow keys
+    if (showAutocomplete && filteredSuggestions.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setSelectedSuggestion(prev =>
+          prev < filteredSuggestions.length - 1 ? prev + 1 : 0
+        )
+        return
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setSelectedSuggestion(prev =>
+          prev > 0 ? prev - 1 : filteredSuggestions.length - 1
+        )
+        return
+      }
+      // Enter with selection submits that suggestion
+      if (e.key === 'Enter' && selectedSuggestion >= 0) {
+        e.preventDefault()
+        const suggestion = filteredSuggestions[selectedSuggestion]
+        const query = suggestion.query
+        setShowAutocomplete(false)
+        setSelectedSuggestion(-1)
+        onOpenChat(query)
+        setInput('')
+        setCommandHistory(prev => [...prev.filter(cmd => cmd !== query), query])
+        return
+      }
+    }
+
+    // Command history navigation (when no autocomplete visible)
+    if (!showAutocomplete || filteredSuggestions.length === 0) {
+      if (e.key === 'ArrowUp' && commandHistory.length > 0) {
+        e.preventDefault()
+        const newIndex = historyIndex < commandHistory.length - 1 ? historyIndex + 1 : historyIndex
+        setHistoryIndex(newIndex)
+        setInput(commandHistory[commandHistory.length - 1 - newIndex] || '')
+        return
+      }
+      if (e.key === 'ArrowDown' && historyIndex >= 0) {
+        e.preventDefault()
+        const newIndex = historyIndex > 0 ? historyIndex - 1 : -1
+        setHistoryIndex(newIndex)
+        setInput(newIndex >= 0 ? commandHistory[commandHistory.length - 1 - newIndex] : '')
+        return
+      }
+    }
+  }, [filteredSuggestions, selectedSuggestion, showAutocomplete, commandHistory, historyIndex, onOpenChat])
+
+  // Click terminal to focus input
+  const handleTerminalClick = useCallback(() => {
+    inputRef.current?.focus()
+  }, [])
 
   const topics = [
     { message: 'Tell me about PROVEN', label: 'proven', color: 'text-[#F59E0B]' },
@@ -112,7 +336,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       {/* Top Navigation - outside main container for proper fixed behavior */}
       {!showChat && (
         <nav
-          className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+          className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
           style={{
             backgroundColor: isScrolled ? 'rgba(252, 252, 251, 0.95)' : 'transparent',
             backdropFilter: isScrolled ? 'blur(12px)' : 'none',
@@ -168,7 +392,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
           {/* Terminal Window - Hero Element */}
           <div
-            className="rounded-2xl overflow-hidden shadow-2xl border border-[#2a2a2a]"
+            onClick={handleTerminalClick}
+            className="rounded-2xl overflow-hidden shadow-2xl border border-[#2a2a2a] cursor-text"
             style={{ animation: 'fadeInUp 0.5s ease-out 0.15s forwards', opacity: 0 }}
           >
             {/* Window Chrome */}
@@ -183,7 +408,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-6 max-md:p-5">
+            <div className="bg-[#0a0a0a] p-8 pb-10 max-md:p-5">
               {/* Welcome message */}
               <div className="mb-6 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.85rem]">
                 <div className="mb-0.5">
@@ -208,14 +433,17 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                   <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
                   <input
+                    ref={inputRef}
                     type="text"
                     value={input}
                     onChange={(e) => {
                       setInput(e.target.value)
                       setShowAutocomplete(true)
+                      setHistoryIndex(-1)
                     }}
                     onFocus={() => setShowAutocomplete(true)}
                     onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
+                    onKeyDown={handleKeyDown}
                     placeholder={rotatingPlaceholders[placeholderIndex]}
                     className="flex-1 bg-transparent border-0 text-[1rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.9rem]"
                   />
@@ -224,18 +452,43 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
                 {/* Autocomplete */}
                 {showAutocomplete && filteredSuggestions.length > 0 && (
-                  <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl">
+                  <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl max-h-[300px] overflow-y-auto">
+                    <div className="px-3 py-1.5 text-[0.6rem] text-[#444] border-b border-[#2a2a2a] flex items-center justify-between sticky top-0 bg-[#1a1a1a]">
+                      <span>{isSlashCommand ? 'Commands' : 'Suggestions'} · Tab complete · Enter send</span>
+                      <span className="text-[#555]">{filteredSuggestions.length}</span>
+                    </div>
                     {filteredSuggestions.map((suggestion, i) => (
                       <button
                         key={i}
                         type="button"
                         onClick={() => {
-                          setInput(suggestion)
+                          onOpenChat(suggestion.query)
+                          setInput('')
                           setShowAutocomplete(false)
+                          setCommandHistory(prev => [...prev.filter(cmd => cmd !== suggestion.query), suggestion.query])
                         }}
-                        className="w-full text-left px-4 py-2.5 text-[0.85rem] text-[#999] font-mono hover:bg-[#252525] hover:text-[#ccc] transition-colors"
+                        className={`w-full text-left px-3 py-2 text-[0.85rem] font-mono transition-colors ${
+                          selectedSuggestion === i
+                            ? 'bg-[#252525]'
+                            : 'hover:bg-[#1f1f1f]'
+                        }`}
                       >
-                        <span className="text-[#555] mr-2">→</span>{suggestion}
+                        <div className="flex items-center gap-2">
+                          <span className={selectedSuggestion === i ? 'text-[#8B5CF6]' : 'text-[#444]'}>
+                            {suggestion.type === 'slash' ? '/' : '❯'}
+                          </span>
+                          <span className={selectedSuggestion === i ? 'text-[#ccc]' : 'text-[#888]'}>
+                            {suggestion.type === 'slash'
+                              ? <span className="text-[#10B981]">{suggestion.text}</span>
+                              : highlightMatch(suggestion.text, suggestion.matches)
+                            }
+                          </span>
+                        </div>
+                        {suggestion.description && (
+                          <div className="ml-5 mt-0.5 text-[0.75rem] text-[#555]">
+                            {suggestion.description}
+                          </div>
+                        )}
                       </button>
                     ))}
                   </div>
