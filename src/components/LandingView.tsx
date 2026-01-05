@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 
 interface LandingViewProps {
   showChat: boolean
@@ -19,22 +19,65 @@ const autocompleteSuggestions = [
 ]
 
 const rotatingPlaceholders = [
-  "What would you like to know?",
+  "Ask me anything...",
   "Ask about PROVEN...",
   "Ask about my research...",
-  "Bounce an idea off me...",
+  "Ask about climbing...",
 ]
 
 export default function LandingView({ showChat, onOpenChat }: LandingViewProps) {
   const [input, setInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['philosophy', 'columns', 'now', 'climbing']))
+  const [isScrolled, setIsScrolled] = useState(false)
+  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({})
 
   useEffect(() => {
     const interval = setInterval(() => {
       setPlaceholderIndex((prev) => (prev + 1) % rotatingPlaceholders.length)
     }, 3000)
     return () => clearInterval(interval)
+  }, [])
+
+  // Track scroll position for header
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop
+      setIsScrolled(scrollTop > 80)
+    }
+    // Check initial scroll position
+    handleScroll()
+    // Listen on both window and document for better compatibility
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    document.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set([...prev, entry.target.id]))
+          }
+        })
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
+    )
+
+    // Small delay to ensure refs are set
+    setTimeout(() => {
+      Object.values(sectionRefs.current).forEach((ref) => {
+        if (ref) observer.observe(ref)
+      })
+    }, 100)
+
+    return () => observer.disconnect()
   }, [])
 
   const filteredSuggestions = useMemo(() => {
@@ -60,99 +103,109 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
     { message: 'Tell me about your mountaineering', label: 'climbing', color: 'text-[#10B981]' },
   ]
 
+  const setRef = (id: string) => (el: HTMLElement | null) => {
+    sectionRefs.current[id] = el
+  }
+
   return (
-    <div
-      className={`relative z-10 min-h-screen flex flex-col transition-all duration-500 ease-out ${
-        showChat ? 'opacity-0 -translate-y-6 pointer-events-none absolute w-full' : 'opacity-100 translate-y-0'
-      }`}
-    >
-      {/* Top Navigation */}
-      <nav className="flex-none border-b border-[var(--color-border)]">
-        <div className="max-w-[1200px] mx-auto px-8 py-4 flex items-center justify-between max-md:px-4 max-md:py-3">
-          <span className="text-[0.85rem] font-bold tracking-[0.2em] text-[var(--color-fg)] uppercase">
-            Amy Yuan
-          </span>
-          <div className="flex items-center gap-10 max-md:gap-4">
-            <button onClick={() => onOpenChat('Tell me about yourself')} className="text-[0.85rem] font-medium tracking-[0.05em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.75rem]">
-              About
-            </button>
-            <button onClick={() => onOpenChat('What projects are you working on?')} className="text-[0.85rem] font-medium tracking-[0.05em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.75rem]">
-              Projects
-            </button>
-            <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="text-[0.85rem] font-medium tracking-[0.05em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.75rem]">
-              Climbing
-            </button>
-            <button onClick={() => onOpenChat('How can I contact you?')} className="text-[0.85rem] font-medium tracking-[0.05em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.75rem]">
-              Contact
-            </button>
+    <>
+      {/* Top Navigation - outside main container for proper fixed behavior */}
+      {!showChat && (
+        <nav
+          className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+          style={{
+            backgroundColor: isScrolled ? 'rgba(252, 252, 251, 0.95)' : 'transparent',
+            backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+            borderBottom: isScrolled ? '1px solid var(--color-border)' : '1px solid transparent'
+          }}
+        >
+          <div className="max-w-[1100px] mx-auto px-8 py-4 flex items-center justify-between max-md:px-5 max-md:py-3">
+            <span
+              className="text-[0.8rem] font-semibold tracking-[0.2em] text-[var(--color-fg)] uppercase transition-opacity duration-300"
+              style={{ opacity: isScrolled ? 1 : 0 }}
+            >
+              Amy
+            </span>
+            <div className="flex items-center gap-8 max-md:gap-4">
+              {['About', 'Projects', 'Climbing', 'Contact'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => onOpenChat(
+                    item === 'About' ? 'Tell me about yourself' :
+                    item === 'Projects' ? 'What projects are you working on?' :
+                    item === 'Climbing' ? 'Tell me about your mountaineering' :
+                    'How can I contact you?'
+                  )}
+                  className="text-[0.75rem] font-medium tracking-[0.1em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.68rem]"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      )}
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col justify-center px-8 max-md:px-4 py-8 max-md:py-6">
-        <div className="w-full max-w-[900px] mx-auto">
+      <div
+        className={`relative z-10 transition-all duration-500 ease-out ${
+          showChat ? 'opacity-0 -translate-y-6 pointer-events-none absolute w-full' : 'opacity-100 translate-y-0'
+        }`}
+      >
 
-          {/* Name */}
-          <h1 className="text-[4.5rem] font-bold tracking-[-0.03em] leading-none mb-3 max-md:text-[2.5rem]">
-            Amy Yuan
-          </h1>
+      {/* ==================== FIRST FOLD ==================== */}
+      <section className="relative min-h-[100vh] flex flex-col justify-center px-8 max-md:px-5 py-24 max-md:py-20">
+        <div className="w-full max-w-[860px] mx-auto">
 
-          {/* Role Descriptors */}
-          <div className="flex items-center gap-3 mb-5 max-md:mb-4">
-            <span className="text-[0.8rem] font-medium tracking-[0.15em] text-[var(--color-muted)] uppercase">Founder</span>
-            <span className="text-[var(--color-border)]">·</span>
-            <span className="text-[0.8rem] font-medium tracking-[0.15em] text-[var(--color-muted)] uppercase">Researcher</span>
-            <span className="text-[var(--color-border)]">·</span>
-            <span className="text-[0.8rem] font-medium tracking-[0.15em] text-[var(--color-muted)] uppercase">Mountaineer</span>
+          {/* Title Section */}
+          <div className="mb-10 max-md:mb-8" style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}>
+            <h1 className="text-[2.8rem] font-bold tracking-[-0.02em] leading-[1.1] mb-4 max-md:text-[2rem] max-md:mb-3">
+              Amy Yuan
+            </h1>
+            <div className="text-[0.72rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.65rem]">
+              Founder · Researcher · Mountaineer
+            </div>
           </div>
 
-          {/* Credentials - compact single section */}
-          <div className="text-[0.82rem] text-[var(--color-muted)] mb-6 max-md:mb-5 font-mono leading-relaxed">
-            <span>Ph.D Computational Physics</span>
-            <span className="mx-2 text-[var(--color-border)]">·</span>
-            <span>2 Patents</span>
-            <span className="mx-2 text-[var(--color-border)]">·</span>
-            <span>10 Papers</span>
-            <span className="mx-2 text-[var(--color-border)]">·</span>
-            <span>Glaciers on 4 continents</span>
-          </div>
-
-          {/* Terminal Window - Claude Code Style */}
-          <div className="rounded-xl overflow-hidden shadow-xl mb-4 max-md:mb-3 border border-[#333]">
+          {/* Terminal Window - Hero Element */}
+          <div
+            className="rounded-2xl overflow-hidden shadow-2xl border border-[#2a2a2a]"
+            style={{ animation: 'fadeInUp 0.5s ease-out 0.15s forwards', opacity: 0 }}
+          >
             {/* Window Chrome */}
-            <div className="bg-[#1a1a1a] px-4 py-2.5 flex items-center gap-2 border-b border-[#333]">
-              <div className="flex items-center gap-1.5">
+            <div className="bg-[#1a1a1a] px-5 py-3 flex items-center border-b border-[#2a2a2a]">
+              <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
                 <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
                 <div className="w-3 h-3 rounded-full bg-[#27CA3F]" />
               </div>
-              <div className="flex-1 text-center">
-                <span className="text-[0.75rem] text-[#666] font-mono">amy — ask me anything</span>
-              </div>
-              <div className="w-[46px]" />
+              <span className="flex-1 text-center text-[0.75rem] text-[#555] font-mono">amy — ask me anything</span>
+              <div className="w-[44px]" />
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0d0d0d] p-5 max-md:p-4">
+            <div className="bg-[#0a0a0a] p-6 max-md:p-5">
               {/* Welcome message */}
-              <div className="mb-4 font-mono text-[0.9rem] leading-relaxed max-md:text-[0.8rem]">
-                <div className="flex items-start gap-2 mb-2">
-                  <span className="text-[#06B6D4]">╭─</span>
-                  <span className="text-[#888]">I built AI that scaled personalization to</span>
-                  <span className="text-[#F59E0B] font-semibold">$150M+</span>
+              <div className="mb-6 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.85rem]">
+                <div className="mb-0.5">
+                  <span className="text-[#555]">┌</span>
+                  <span className="text-[#999] ml-2">Stanford physics → built a </span>
+                  <span className="text-[#F59E0B]">$150M+</span>
+                  <span className="text-[#999]"> company.</span>
                 </div>
-                <div className="flex items-start gap-2 mb-3">
-                  <span className="text-[#06B6D4]">╰─</span>
-                  <span className="text-[#888]">This one knows everything I know. Ask away.</span>
+                <div>
+                  <span className="text-[#555]">└</span>
+                  <span className="text-[#666] ml-2">I trained this one on all of it. Try me.</span>
                 </div>
               </div>
 
+              {/* Divider */}
+              <div className="border-t border-[#222] mb-5" />
+
               {/* Input line */}
-              <form onSubmit={handleSubmit} className="relative">
-                <div className="flex items-center gap-2 font-mono">
+              <form onSubmit={handleSubmit} className="relative mb-4">
+                <div className="flex items-center gap-2 font-mono text-[1rem] max-md:text-[0.9rem]">
                   <span className="text-[#10B981] font-semibold">amy</span>
-                  <span className="text-[#666]">~</span>
+                  <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
                   <input
                     type="text"
@@ -164,13 +217,14 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                     onFocus={() => setShowAutocomplete(true)}
                     onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
                     placeholder={rotatingPlaceholders[placeholderIndex]}
-                    className="flex-1 bg-transparent border-0 text-[0.9rem] text-[#E0E0E0] placeholder:text-[#444] font-mono outline-none max-md:text-[0.85rem]"
+                    className="flex-1 bg-transparent border-0 text-[1rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.9rem]"
                   />
+                  <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
 
-                {/* Autocomplete dropdown */}
+                {/* Autocomplete */}
                 {showAutocomplete && filteredSuggestions.length > 0 && (
-                  <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10">
+                  <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl">
                     {filteredSuggestions.map((suggestion, i) => (
                       <button
                         key={i}
@@ -179,10 +233,9 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                           setInput(suggestion)
                           setShowAutocomplete(false)
                         }}
-                        className="w-full text-left px-4 py-2 text-[0.85rem] text-[#AAA] font-mono hover:bg-[#252525] transition-colors flex items-center gap-2"
+                        className="w-full text-left px-4 py-2.5 text-[0.85rem] text-[#999] font-mono hover:bg-[#252525] hover:text-[#ccc] transition-colors"
                       >
-                        <span className="text-[#666]">→</span>
-                        {suggestion}
+                        <span className="text-[#555] mr-2">→</span>{suggestion}
                       </button>
                     ))}
                   </div>
@@ -190,67 +243,308 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </form>
 
               {/* Topic chips */}
-              <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-[#222]">
+              <div className="flex flex-wrap gap-2 mt-1">
                 {topics.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => onOpenChat(item.message)}
-                    className={`px-3 py-1.5 bg-[#1a1a1a] border border-[#333] rounded-md text-[0.8rem] font-mono transition-all hover:border-[#444] hover:bg-[#222] flex items-center gap-1.5`}
+                    className="px-3 py-1.5 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.8rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1.5"
                   >
                     <span className={item.color}>/</span>
-                    <span className="text-[#888]">{item.label}</span>
+                    <span className="text-[#777]">{item.label}</span>
                   </button>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Helper text */}
-          <div className="text-[0.75rem] text-[var(--color-muted)] font-mono">
-            <kbd className="px-1.5 py-0.5 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded text-[0.7rem]">↵</kbd>
-            <span className="mx-1.5">send</span>
-            <span className="text-[var(--color-border)] mx-2">·</span>
-            <kbd className="px-1.5 py-0.5 bg-[var(--color-card-bg)] border border-[var(--color-border)] rounded text-[0.7rem]">tab</kbd>
-            <span className="mx-1.5">autocomplete</span>
+        </div>
+
+        {/* Scroll hint - integrated, subtle */}
+        <div
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-[0.7rem] text-[var(--color-light-muted)] transition-opacity duration-500 cursor-pointer hover:text-[var(--color-muted)]"
+          style={{ opacity: isScrolled ? 0 : 0.6 }}
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        >
+          <span className="tracking-wide">scroll</span>
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M7 13l5 5 5-5M7 6l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      </section>
+
+      {/* ==================== SECOND FOLD ==================== */}
+      <section className="px-8 max-md:px-5 pt-6 pb-12">
+        <div className="w-full max-w-[860px] mx-auto">
+
+          {/* Philosophy */}
+          <div
+            id="philosophy"
+            ref={setRef('philosophy')}
+            className={`mb-12 max-md:mb-10 transition-all duration-700 ${visibleSections.has('philosophy') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <p className="text-[1.35rem] leading-[1.6] max-md:text-[1.1rem]">
+              <span className="italic">Building AI where preference is the primitive.</span>{' '}
+              <span className="text-[var(--color-muted)]">
+                Not engagement metrics. Not popularity signals. Systems that make human preference legible, grounded, and trustworthy at scale.
+              </span>
+            </p>
+            <p className="text-[1.05rem] text-[var(--color-muted)] mt-5 leading-[1.7] max-md:text-[0.95rem]">
+              In the past I&apos;ve scaled{' '}
+              <button onClick={() => onOpenChat('Tell me about PROVEN')} className="text-[var(--color-fg)] underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">PROVEN</button>
+              {' '}to $100M+ in revenue, built healthcare AI at Lyra and McKesson, and ran the world&apos;s largest atomistic simulation on 163,840 cores.
+            </p>
+          </div>
+
+          {/* Three columns */}
+          <div
+            id="columns"
+            ref={setRef('columns')}
+            className={`grid grid-cols-3 gap-10 mb-12 max-md:grid-cols-1 max-md:gap-10 transition-all duration-700 delay-100 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            {/* BUILDING */}
+            <div>
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
+                Building
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { name: 'Durin', desc: 'Post-training infrastructure for LLMs.', query: 'Tell me about Durin', external: false },
+                  { name: 'Pawgress', desc: 'AI for family connection.', query: 'Tell me about Pawgress', external: false },
+                  { name: 'Noteworthy', desc: 'Fragrance personalization.', query: 'Tell me about Noteworthy', external: true },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
+                      {item.name}
+                      {item.external && (
+                        <svg className="w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </button>
+                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PAST */}
+            <div>
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
+                Past
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { name: 'PROVEN', desc: 'AI skincare. $100M+ revenue. 2 patents.', query: 'Tell me about PROVEN', external: true },
+                  { name: 'Lyra · McKesson', desc: 'Healthcare AI.', query: 'Tell me about your work at Lyra and McKesson', external: true },
+                  { name: 'Stanford · USC', desc: 'Computational physics. 10 papers.', query: 'Tell me about your research at Stanford and USC', external: false },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
+                      {item.name}
+                      {item.external && (
+                        <svg className="w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </button>
+                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* RECOGNITION */}
+            <div>
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
+                Recognition
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
+                  { name: '2 US Patents', desc: 'Preference modeling.', clickable: false },
+                  { name: '4 Continents', desc: 'Glaciated climbs.', query: 'Tell me about your mountaineering', clickable: true },
+                ].map((item) => (
+                  <div key={item.name}>
+                    {item.clickable ? (
+                      <button onClick={() => onOpenChat(item.query)} className="text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">{item.name}</button>
+                    ) : (
+                      <span className="text-[1rem] font-semibold">{item.name}</span>
+                    )}
+                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* NOW */}
+          <div
+            id="now"
+            ref={setRef('now')}
+            className={`border-t border-[var(--color-border)] pt-10 mb-10 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-4">
+              Now
+              <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
+            </h3>
+            <p className="text-[1.1rem] leading-[1.7] max-md:text-[1rem]">
+              Building AI systems above the model layer, where behavior is shaped by architecture rather than weights. Focused on making foundation models operable—not just capable.
+            </p>
+          </div>
+
+          {/* CLIMBING - Image #20 Style */}
+          <div
+            id="climbing"
+            ref={setRef('climbing')}
+            className={`border-t border-[var(--color-border)] pt-10 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <h3 className="flex items-center gap-2.5 text-[1.15rem] italic mb-8">
+              Expeditions.
+              <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+            </h3>
+            <div className="grid grid-cols-2 gap-x-12 gap-y-10 max-md:grid-cols-1 max-md:gap-y-8">
+              {[
+                {
+                  name: 'Cotopaxi',
+                  location: 'Ecuador',
+                  date: '2023',
+                  desc: 'Glaciated stratovolcano at 5,897m. Summit via the normal route through crevasse fields and ice walls.',
+                  query: 'Tell me about climbing Cotopaxi'
+                },
+                {
+                  name: 'Mont Blanc',
+                  location: 'France',
+                  date: '2022',
+                  desc: 'The roof of Western Europe at 4,808m. Traversed the Goûter Route through technical mixed terrain.',
+                  query: 'Tell me about climbing Mont Blanc'
+                },
+                {
+                  name: 'Rainier',
+                  location: 'Washington',
+                  date: '2021',
+                  desc: 'Heavily glaciated peak at 4,392m. Disappointment Cleaver route through Ingraham Glacier.',
+                  query: 'Tell me about climbing Rainier'
+                },
+                {
+                  name: 'Himalayas',
+                  location: 'Nepal',
+                  date: 'Ongoing',
+                  desc: 'High altitude mountaineering and glacier travel. Training for bigger objectives.',
+                  query: 'Tell me about your Himalayan expeditions'
+                },
+              ].map((item) => (
+                <button key={item.name} onClick={() => onOpenChat(item.query)} className="group text-left">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-[1rem] font-semibold group-hover:opacity-70 transition-opacity">{item.name},</span>
+                    <span className="text-[1rem] text-[var(--color-muted)]">{item.location}</span>
+                    <span className="flex-1 h-px bg-[var(--color-border)]" />
+                    <span className="text-[0.85rem] text-[var(--color-muted)]">{item.date}</span>
+                  </div>
+                  <p className="text-[0.9rem] text-[var(--color-muted)] leading-[1.7]">{item.desc}</p>
+                </button>
+              ))}
+            </div>
           </div>
 
         </div>
-      </div>
+      </section>
 
-      {/* Bottom Navigation Icons */}
-      <footer className="flex-none py-6 border-t border-[var(--color-border)] max-md:py-4">
-        <div className="flex items-center justify-center gap-12 max-md:gap-6">
-          <button onClick={() => onOpenChat('Tell me about yourself')} className="flex flex-col items-center gap-1.5 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
-            </svg>
-            <span className="text-[0.65rem] font-medium tracking-[0.1em] uppercase">About</span>
-          </button>
-          <button onClick={() => onOpenChat('What projects are you working on?')} className="flex flex-col items-center gap-1.5 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="3" y="3" width="7" height="7" rx="1" />
-              <rect x="14" y="3" width="7" height="7" rx="1" />
-              <rect x="3" y="14" width="7" height="7" rx="1" />
-              <rect x="14" y="14" width="7" height="7" rx="1" />
-            </svg>
-            <span className="text-[0.65rem] font-medium tracking-[0.1em] uppercase">Work</span>
-          </button>
-          <button onClick={() => onOpenChat('What are your research interests?')} className="flex flex-col items-center gap-1.5 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M12 6v12M6 12h12" strokeLinecap="round" />
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-            </svg>
-            <span className="text-[0.65rem] font-medium tracking-[0.1em] uppercase">Research</span>
-          </button>
-          <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="flex flex-col items-center gap-1.5 text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors">
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <polygon points="12,2 22,22 2,22" />
-            </svg>
-            <span className="text-[0.65rem] font-medium tracking-[0.1em] uppercase">Climbing</span>
-          </button>
+      {/* ==================== FOOTER ==================== */}
+      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-10 px-8 max-md:px-5">
+        <div className="max-w-[860px] mx-auto py-14 max-md:py-10">
+
+          {/* Three columns like Building/Past/Recognition */}
+          <div className="grid grid-cols-3 gap-10 mb-12 max-md:grid-cols-1 max-md:gap-10">
+            {/* Experience */}
+            <div>
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[#666] uppercase mb-5 pb-2 border-b border-[#333]">
+                Experience
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { name: 'PROVEN', desc: 'AI skincare. $100M+ revenue.', query: 'Tell me about PROVEN', external: true },
+                  { name: 'Lyra Health', desc: 'Healthcare AI.', query: 'Tell me about Lyra', external: true },
+                  { name: 'McKesson', desc: 'Supply chain optimization.', query: 'Tell me about McKesson', external: true },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">
+                      {item.name}
+                      {item.external && (
+                        <svg className="w-3.5 h-3.5 text-[#555]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </button>
+                    <p className="text-[0.85rem] text-[#666] mt-1 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Research */}
+            <div>
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[#666] uppercase mb-5 pb-2 border-b border-[#333]">
+                Research
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { name: 'Stanford', desc: 'Computational physics.', query: 'Tell me about Stanford' },
+                  { name: 'USC', desc: 'Ph.D. 10 papers.', query: 'Tell me about USC' },
+                  { name: '2 Patents', desc: 'Preference modeling.', query: 'Tell me about your patents' },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <button onClick={() => onOpenChat(item.query)} className="text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">{item.name}</button>
+                    <p className="text-[0.85rem] text-[#666] mt-1 leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[#666] uppercase mb-5 pb-2 border-b border-[#333]">
+                Connect
+                <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
+              </h3>
+              <div className="space-y-5">
+                {[
+                  { name: 'LinkedIn', url: '#' },
+                  { name: 'Twitter', url: '#' },
+                  { name: 'GitHub', url: '#' },
+                  { name: 'Email', url: '#' },
+                ].map((item) => (
+                  <div key={item.name}>
+                    <a href={item.url} className="inline-flex items-center gap-1 text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">
+                      {item.name}
+                      <svg className="w-3.5 h-3.5 text-[#555]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="flex items-center justify-between pt-8 border-t border-[#222] text-[0.75rem] text-[#555] max-md:flex-col max-md:gap-4">
+            <span>© {new Date().getFullYear()} Amy Yuan</span>
+            <div className="flex items-center gap-6">
+              <button onClick={() => onOpenChat('Tell me about yourself')} className="hover:text-[#999] transition-colors">About</button>
+              <button onClick={() => onOpenChat('What projects are you working on?')} className="hover:text-[#999] transition-colors">Work</button>
+              <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="hover:text-[#999] transition-colors">Climbing</button>
+              <button onClick={() => onOpenChat('How can I contact you?')} className="hover:text-[#999] transition-colors">Contact</button>
+            </div>
+          </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   )
 }

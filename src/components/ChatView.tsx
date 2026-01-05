@@ -17,7 +17,7 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
   const hasInitialized = useRef(false)
   const lastSavedMessageCount = useRef(0)
 
-  const { messages, input, setInput, handleSubmit, isLoading, setMessages, append } = useChat({
+  const { messages, input, setInput, handleSubmit, isLoading, setMessages, append, error, reload } = useChat({
     api: '/api/chat',
   })
 
@@ -154,6 +154,28 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
                     <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '0.6s' }} />
                     <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '100ms', animationDuration: '0.6s' }} />
                     <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '200ms', animationDuration: '0.6s' }} />
+                  </div>
+                </div>
+              )}
+
+              {error && (
+                <div className="flex justify-start" style={{ animation: 'fadeIn 0.15s ease-out' }}>
+                  <div className="flex items-center gap-2.5 px-4 py-3 bg-[#FEF2F2] border border-[#FECACA] rounded-xl">
+                    <span className="flex items-center justify-center w-5 h-5 bg-[#EF4444] rounded-full flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <path d="M12 9v4M12 17h.01" strokeLinecap="round" />
+                      </svg>
+                    </span>
+                    <div className="flex-1">
+                      <p className="text-[0.85rem] text-[#991B1B] font-medium">Something went wrong</p>
+                      <p className="text-[0.8rem] text-[#B91C1C]">{error.message || 'Failed to get a response. Please try again.'}</p>
+                    </div>
+                    <button
+                      onClick={() => reload()}
+                      className="px-3 py-1.5 bg-[#EF4444] text-white text-[0.8rem] font-medium rounded-lg hover:bg-[#DC2626] transition-colors"
+                    >
+                      Retry
+                    </button>
                   </div>
                 </div>
               )}
