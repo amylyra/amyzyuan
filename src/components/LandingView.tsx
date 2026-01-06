@@ -390,13 +390,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative min-h-[100vh] flex flex-col justify-center px-8 max-md:px-5 py-24 pb-32 max-md:py-20">
-        <div className="w-full max-w-[860px] mx-auto">
+      <section className="relative px-6 max-md:px-4 pt-6 pb-8 max-md:pt-4 max-md:pb-6">
+        <div className="w-full max-w-[800px] mx-auto">
 
-          {/* Title Section with Profile */}
-          <div className="flex items-center gap-6 mb-10 max-md:mb-8 max-md:gap-4" style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}>
+          {/* Title Section with Profile - Compact */}
+          <div className="flex items-center gap-4 mb-6 max-md:mb-4 max-md:gap-3" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
             {/* Profile Image */}
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-16 max-md:h-16">
+            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-12 max-md:h-12">
               <img
                 src="/profile.jpg"
                 alt="Amy Yuan"
@@ -404,55 +404,54 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               />
             </div>
             <div>
-              <h1 className="text-[2.8rem] font-bold tracking-[-0.02em] leading-[1.1] mb-2 max-md:text-[2rem] max-md:mb-1">
+              <h1 className="text-[2rem] font-bold tracking-[-0.02em] leading-[1.1] mb-1 max-md:text-[1.5rem]">
                 Amy Yuan
               </h1>
-              <div className="text-[0.72rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.65rem]">
+              <div className="text-[0.65rem] text-[var(--color-light-muted)] tracking-[0.15em] uppercase max-md:text-[0.6rem]">
                 Founder · Researcher · Mountaineer
               </div>
             </div>
           </div>
 
-          {/* Terminal Window - Hero Element */}
+          {/* Terminal Window - Compact */}
           <div
             onClick={handleTerminalClick}
-            className="rounded-2xl overflow-hidden shadow-2xl border border-[#2a2a2a] cursor-text"
-            style={{ animation: 'fadeInUp 0.5s ease-out 0.15s forwards', opacity: 0 }}
+            className="rounded-xl overflow-hidden shadow-xl border border-[#2a2a2a] cursor-text mb-6 max-md:mb-5"
+            style={{ animation: 'fadeInUp 0.4s ease-out 0.1s forwards', opacity: 0 }}
           >
             {/* Window Chrome */}
-            <div className="bg-[#1a1a1a] px-5 py-3 flex items-center border-b border-[#2a2a2a]">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
-                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-                <div className="w-3 h-3 rounded-full bg-[#27CA3F]" />
+            <div className="bg-[#1a1a1a] px-4 py-2.5 flex items-center border-b border-[#2a2a2a]">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#27CA3F]" />
               </div>
-              <span className="flex-1 text-center text-[0.75rem] text-[#555] font-mono">amy — ask me anything</span>
-              <div className="w-[44px]" />
+              <span className="flex-1 text-center text-[0.7rem] text-[#555] font-mono">amy — ask me anything</span>
+              <div className="w-[36px]" />
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-8 pb-6 max-md:p-4 max-md:pb-4 flex flex-col min-h-[320px] max-md:min-h-[280px]">
+            <div className="bg-[#0a0a0a] p-5 pb-4 max-md:p-3.5 max-md:pb-3 flex flex-col min-h-[200px] max-md:min-h-[180px]">
               {/* Welcome message */}
-              <div className="flex-1 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.75rem] max-md:leading-[1.7]">
+              <div className="flex-1 font-mono text-[0.85rem] leading-[1.7] max-md:text-[0.7rem] max-md:leading-[1.6]">
                 <div className="mb-0.5">
                   <span className="text-[#555]">┌</span>
                   <span className="text-[#999] ml-2">Computational physics → </span>
                   <span className="text-[#F59E0B]">$150MM+</span>
                   <span className="text-[#999]"> revenue.</span>
                 </div>
-                <div className="mb-4 max-md:mb-3">
+                <div className="mb-3 max-md:mb-2">
                   <span className="text-[#555]">└</span>
-                  <span className="text-[#666] ml-2">I trained this one on all of it.</span>
+                  <span className="text-[#666] ml-2">I trained this one on all of it. Try me.</span>
                 </div>
-                <div className="text-[#555] ml-4">Try me.</div>
               </div>
 
               {/* Divider */}
-              <div className="border-t border-[#222] mb-4 max-md:mb-3" />
+              <div className="border-t border-[#222] mb-3 max-md:mb-2" />
 
               {/* Input line */}
-              <form onSubmit={handleSubmit} className="relative mb-4 max-md:mb-3">
-                <div className="flex items-center gap-2 font-mono text-[0.9rem] max-md:text-[0.8rem]">
+              <form onSubmit={handleSubmit} className="relative mb-3 max-md:mb-2">
+                <div className="flex items-center gap-2 font-mono text-[0.8rem] max-md:text-[0.75rem]">
                   <span className="text-[#10B981] font-semibold">amy</span>
                   <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
@@ -535,12 +534,12 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </form>
 
               {/* Topic chips */}
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide max-md:gap-1.5">
+              <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide max-md:gap-1">
                 {topics.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => onOpenChat(item.message)}
-                    className="px-3 py-1.5 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.8rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 max-md:px-2.5 max-md:py-1 max-md:text-[0.7rem]"
+                    className="px-2.5 py-1 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.7rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1 whitespace-nowrap flex-shrink-0 max-md:px-2 max-md:py-0.5 max-md:text-[0.65rem]"
                   >
                     <span className={item.color}>/</span>
                     <span className="text-[#777]">{item.label}</span>
@@ -550,13 +549,37 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
           </div>
 
+          {/* Quick Links Preview - Visible on first fold */}
+          <div
+            className="grid grid-cols-3 gap-4 max-md:grid-cols-1 max-md:gap-3"
+            style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
+          >
+            {[
+              { title: 'Building', items: ['Durin — Market intelligence', 'Pawgress — Family AI companion'], color: '#10B981' },
+              { title: 'Shipped', items: ['PROVEN — $150MM+ revenue', 'Noteworthy — 2 patents'], color: '#8B5CF6' },
+              { title: 'Recognition', items: ['World record simulation', '9 publications'], color: '#F59E0B' },
+            ].map((section) => (
+              <div key={section.title} className="bg-[var(--color-surface)] rounded-lg p-4 max-md:p-3">
+                <h3 className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase mb-2 max-md:mb-1.5 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: section.color }} />
+                  {section.title}
+                </h3>
+                <ul className="space-y-1">
+                  {section.items.map((item) => (
+                    <li key={item} className="text-[0.75rem] text-[var(--color-muted)] max-md:text-[0.7rem]">{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
         </div>
 
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-8 max-md:px-5 pt-6 pb-12">
-        <div className="w-full max-w-[860px] mx-auto">
+      <section className="px-6 max-md:px-4 pt-8 pb-10 max-md:pt-6 max-md:pb-8">
+        <div className="w-full max-w-[800px] mx-auto">
 
           {/* Philosophy */}
           <div
@@ -737,7 +760,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-10 px-8 max-md:px-5">
+      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-8 px-6 max-md:px-4 max-md:mt-6">
         <div className="max-w-[860px] mx-auto py-14 max-md:py-10">
 
           {/* Three columns like Building/Past/Recognition */}
@@ -829,19 +852,6 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </footer>
       </div>
 
-      {/* Scroll indicator - fixed at bottom of viewport, outside main wrapper */}
-      {!isScrolled && !showChat && (
-        <div
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 text-[0.7rem] text-[var(--color-light-muted)] cursor-pointer hover:text-[var(--color-muted)] transition-all duration-300 max-md:bottom-6"
-          style={{ opacity: 0.8 }}
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-        >
-          <span className="tracking-wide uppercase">scroll</span>
-          <svg className="w-3.5 h-3.5 animate-bounce-slow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M19 14l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
-      )}
     </>
   )
 }
