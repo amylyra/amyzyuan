@@ -390,13 +390,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative px-6 max-md:px-4 pt-16 pb-10 max-md:pt-10 max-md:pb-6">
+      <section className="relative px-6 max-md:px-5 pt-16 pb-10 max-md:pt-14 max-md:pb-8">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* Title Section with Profile - Premium */}
-          <div className="flex items-center gap-6 mb-10 max-md:mb-6 max-md:gap-3" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
+          <div className="flex items-center gap-6 mb-12 max-md:mb-8 max-md:gap-4" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
             {/* Profile Image */}
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-12 max-md:h-12 shadow-sm">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-14 max-md:h-14 shadow-sm">
               <img
                 src="/profile.jpg"
                 alt="Amy Yuan"
@@ -404,34 +404,34 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               />
             </div>
             <div>
-              <h1 className="text-[2.25rem] font-bold tracking-[-0.03em] leading-[1.1] mb-1.5 max-md:text-[1.5rem] max-md:mb-1">
+              <h1 className="text-[2.25rem] font-bold tracking-[-0.03em] leading-[1.1] mb-1.5 max-md:text-[1.6rem] max-md:mb-1">
                 Amy Yuan
               </h1>
-              <div className="text-[0.7rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.55rem]">
+              <div className="text-[0.7rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.6rem]">
                 Founder · Researcher · Mountaineer
               </div>
             </div>
           </div>
 
-          {/* Terminal Window */}
+          {/* Terminal Window - iOS style */}
           <div
             onClick={handleTerminalClick}
-            className="rounded-xl overflow-hidden shadow-lg border border-[#2a2a2a] cursor-text mb-10 max-md:mb-6 max-md:rounded-lg"
+            className="rounded-2xl overflow-hidden shadow-lg border border-[#2a2a2a] cursor-text mb-12 max-md:mb-8"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.1s forwards', opacity: 0 }}
           >
             {/* Window Chrome */}
-            <div className="bg-[#1a1a1a] px-3 py-2 flex items-center border-b border-[#2a2a2a] max-md:px-2.5 max-md:py-1.5">
-              <div className="flex items-center gap-1.5 max-md:gap-1">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] max-md:w-2 max-md:h-2" />
-                <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] max-md:w-2 max-md:h-2" />
-                <div className="w-2.5 h-2.5 rounded-full bg-[#27CA3F] max-md:w-2 max-md:h-2" />
+            <div className="bg-[#1a1a1a] px-4 py-2.5 flex items-center border-b border-[#2a2a2a] max-md:px-3 max-md:py-2">
+              <div className="flex items-center gap-2 max-md:gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-[#FF5F56] max-md:w-2.5 max-md:h-2.5" />
+                <div className="w-3 h-3 rounded-full bg-[#FFBD2E] max-md:w-2.5 max-md:h-2.5" />
+                <div className="w-3 h-3 rounded-full bg-[#27CA3F] max-md:w-2.5 max-md:h-2.5" />
               </div>
-              <span className="flex-1 text-center text-[0.65rem] text-[#555] font-mono max-md:text-[0.6rem]">amy — ask me anything</span>
-              <div className="w-[36px] max-md:w-[24px]" />
+              <span className="flex-1 text-center text-[0.7rem] text-[#555] font-mono max-md:text-[0.6rem]">amy — ask me anything</span>
+              <div className="w-[44px] max-md:w-[32px]" />
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-4 pb-3 max-md:p-2.5 max-md:pb-2 flex flex-col min-h-[160px] max-md:min-h-[120px]">
+            <div className="bg-[#0a0a0a] p-5 pb-4 max-md:p-4 max-md:pb-3 flex flex-col min-h-[180px] max-md:min-h-[150px]">
               {/* Welcome message */}
               <div className="flex-1 font-mono text-[0.8rem] leading-[1.6] max-md:text-[0.7rem] max-md:leading-[1.5]">
                 <div className="mb-0.5">
@@ -551,7 +551,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
           {/* Philosophy - Brief intro */}
           <p
-            className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.85rem] max-w-[600px]"
+            className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.9rem] max-md:leading-[1.7] max-w-[600px]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
             <span className="text-[var(--color-fg)] italic">Building AI where preference is the primitive.</span>{' '}
@@ -563,7 +563,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-6 max-md:px-4 pt-2 pb-10 max-md:pt-0 max-md:pb-6">
+      <section className="px-6 max-md:px-5 pt-2 pb-10 max-md:pt-4 max-md:pb-8">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* Three columns */}
@@ -689,7 +689,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-6 px-6 max-md:px-4 max-md:mt-4">
+      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-6 px-6 max-md:px-5 max-md:mt-4">
         <div className="max-w-[800px] mx-auto py-10 max-md:py-8">
 
           {/* Two columns: Research & Connect */}
