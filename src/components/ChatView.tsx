@@ -324,9 +324,10 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
 
   return (
     <div
-      className={`fixed inset-0 bg-[var(--color-bg)] z-50 flex flex-col transition-all duration-300 ease-out ${
+      className={`fixed top-0 left-0 right-0 h-[100dvh] bg-[var(--color-bg)] z-50 flex flex-col transition-all duration-300 ease-out ${
         showChat ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
       }`}
+      style={{ height: '100dvh', maxHeight: '-webkit-fill-available' }}
     >
       {/* Terminal-style Header */}
       <header className="flex-none border-b border-[var(--color-border)] bg-[var(--color-surface)]">

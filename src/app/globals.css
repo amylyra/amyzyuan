@@ -25,6 +25,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  height: 100%;
+  height: -webkit-fill-available;
 }
 
 body {
@@ -32,11 +34,21 @@ body {
   background: var(--color-bg);
   color: var(--color-fg);
   min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+}
+
+/* Prevent iOS zoom on input focus */
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
 }
 
 ::selection {
