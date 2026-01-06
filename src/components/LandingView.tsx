@@ -549,85 +549,46 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
           </div>
 
-          {/* Quick Links Preview - Visible on first fold */}
-          <div
-            className="grid grid-cols-3 gap-4 max-md:grid-cols-1 max-md:gap-3"
+          {/* Philosophy - Brief intro */}
+          <p
+            className="text-[1rem] text-[var(--color-muted)] leading-[1.7] mt-5 max-md:mt-4 max-md:text-[0.9rem]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
-            {[
-              { title: 'Building', items: ['Durin — Market intelligence', 'Pawgress — Family AI companion'], color: '#10B981' },
-              { title: 'Shipped', items: ['PROVEN — $150MM+ revenue', 'Noteworthy — 2 patents'], color: '#8B5CF6' },
-              { title: 'Recognition', items: ['World record simulation', '9 publications'], color: '#F59E0B' },
-            ].map((section) => (
-              <div key={section.title} className="bg-[var(--color-surface)] rounded-lg p-4 max-md:p-3">
-                <h3 className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase mb-2 max-md:mb-1.5 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: section.color }} />
-                  {section.title}
-                </h3>
-                <ul className="space-y-1">
-                  {section.items.map((item) => (
-                    <li key={item} className="text-[0.75rem] text-[var(--color-muted)] max-md:text-[0.7rem]">{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+            <span className="text-[var(--color-fg)] italic">Building AI where preference is the primitive.</span>{' '}
+            Not engagement metrics. Not popularity signals.
+          </p>
 
         </div>
 
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-6 max-md:px-4 pt-8 pb-10 max-md:pt-6 max-md:pb-8">
+      <section className="px-6 max-md:px-4 pt-6 pb-8 max-md:pt-4 max-md:pb-6">
         <div className="w-full max-w-[800px] mx-auto">
-
-          {/* Philosophy */}
-          <div
-            id="philosophy"
-            ref={setRef('philosophy')}
-            className={`mb-12 max-md:mb-10 transition-all duration-700 ${visibleSections.has('philosophy') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          >
-            <p className="text-[1.35rem] leading-[1.6] max-md:text-[1.1rem]">
-              <span className="italic">Building AI where preference is the primitive.</span>{' '}
-              <span className="text-[var(--color-muted)]">
-                Not engagement metrics. Not popularity signals. Systems that make human preference legible, grounded, and trustworthy at scale.
-              </span>
-            </p>
-            <p className="text-[1.05rem] text-[var(--color-muted)] mt-5 leading-[1.7] max-md:text-[0.95rem]">
-              In the past I&apos;ve scaled{' '}
-              <button onClick={() => onOpenChat('Tell me about PROVEN')} className="text-[var(--color-fg)] underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">PROVEN & Noteworthy</button>
-              {' '}to $150MM+ in revenue.
-            </p>
-          </div>
 
           {/* Three columns */}
           <div
             id="columns"
             ref={setRef('columns')}
-            className={`grid grid-cols-3 gap-10 mb-12 max-md:grid-cols-1 max-md:gap-10 transition-all duration-700 delay-100 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`grid grid-cols-3 gap-6 mb-8 max-md:grid-cols-1 max-md:gap-6 transition-all duration-700 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {/* BUILDING */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
+              <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3 pb-1.5 border-b border-[var(--color-border)]">
                 Building
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-3">
                 {[
-                  { name: 'Durin', desc: 'Market intelligence. Post-training infrastructure.', query: 'Tell me about Durin', external: false },
-                  { name: 'Pawgress', desc: 'Agentic family companion. Emotionally safe AI.', query: 'Tell me about Pawgress', external: false },
-                  { name: 'Several other fun AI stuff', desc: 'Agents. Reasoning. Research.', query: 'Tell me about your AI research', external: false },
+                  { name: 'Durin', desc: 'Market intelligence. Post-training infra.', query: 'Tell me about Durin' },
+                  { name: 'Pawgress', desc: 'Agentic family companion.', query: 'Tell me about Pawgress' },
+                  { name: 'AI Research', desc: 'Agents. Reasoning. Tooling.', query: 'Tell me about your AI research' },
                 ].map((item) => (
                   <div key={item.name}>
-                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
+                    <button onClick={() => onOpenChat(item.query)} className="text-[0.9rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
                       {item.name}
-                      {item.external && (
-                        <svg className="w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
                     </button>
-                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1 leading-relaxed">{item.desc}</p>
+                    <p className="text-[0.8rem] text-[var(--color-muted)] mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -635,27 +596,21 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
             {/* SHIPPED */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
+              <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3 pb-1.5 border-b border-[var(--color-border)]">
                 Shipped
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-3">
                 {[
                   { name: 'PROVEN & Noteworthy', desc: '$150MM+ revenue. 2 patents.', query: 'Tell me about PROVEN and Noteworthy', external: true },
-                  { name: 'Lyra · McKesson', desc: 'Clinical matching. Drug market prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
-                  { name: 'Stanford · USC', desc: 'Computational physics.', query: 'Tell me about your research at Stanford and USC', external: false },
+                  { name: 'Lyra · McKesson', desc: 'Clinical AI. Drug prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
                   { name: 'Games & Apps', desc: '3 top-10 apps. 2 exits.', query: 'Tell me about your games and apps', external: false },
                 ].map((item) => (
                   <div key={item.name}>
-                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
+                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[0.9rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
                       {item.name}
-                      {item.external && (
-                        <svg className="w-3.5 h-3.5 text-[var(--color-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
                     </button>
-                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1 leading-relaxed">{item.desc}</p>
+                    <p className="text-[0.8rem] text-[var(--color-muted)] mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -663,24 +618,23 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
             {/* RECOGNITION */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-5 pb-2 border-b border-[var(--color-border)]">
+              <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3 pb-1.5 border-b border-[var(--color-border)]">
                 Recognition
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-3">
                 {[
                   { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
-                  { name: 'Two Exits Before 30', desc: 'CubicMan, DivineMight, Camera360.', clickable: false },
-                  { name: 'World Record Simulation', desc: 'Peta-flop scale. 9 publications.', clickable: false },
-                  { name: '4 Continents', desc: 'Glaciated climbs.', query: 'Tell me about your mountaineering', clickable: true },
+                  { name: 'World Record Simulation', desc: 'Peta-flop. 9 publications.', clickable: false },
+                  { name: '4 Continents', desc: 'Glaciated summits.', query: 'Tell me about your mountaineering', clickable: true },
                 ].map((item) => (
                   <div key={item.name}>
                     {item.clickable ? (
-                      <button onClick={() => onOpenChat(item.query)} className="text-[1rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">{item.name}</button>
+                      <button onClick={() => onOpenChat(item.query)} className="text-[0.9rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">{item.name}</button>
                     ) : (
-                      <span className="text-[1rem] font-semibold">{item.name}</span>
+                      <span className="text-[0.9rem] font-semibold">{item.name}</span>
                     )}
-                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1 leading-relaxed">{item.desc}</p>
+                    <p className="text-[0.8rem] text-[var(--color-muted)] mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -691,66 +645,41 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
           <div
             id="now"
             ref={setRef('now')}
-            className={`border-t border-[var(--color-border)] pt-10 mb-10 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-6 mb-6 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[var(--color-muted)] uppercase mb-4">
+            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3">
               Now
               <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
             </h3>
-            <p className="text-[1.1rem] leading-[1.7] max-md:text-[1rem]">
-              Building AI systems above the model layer, where behavior is shaped by architecture rather than weights. Focused on making foundation models operable—not just capable.
+            <p className="text-[1rem] leading-[1.7] max-md:text-[0.9rem]">
+              Building AI systems above the model layer, where behavior is shaped by architecture rather than weights.
             </p>
           </div>
 
-          {/* CLIMBING - Image #20 Style */}
+          {/* CLIMBING */}
           <div
             id="climbing"
             ref={setRef('climbing')}
-            className={`border-t border-[var(--color-border)] pt-10 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-6 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2.5 text-[1.15rem] italic mb-8">
-              Expeditions.
-              <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
+              Expeditions
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
             </h3>
-            <div className="grid grid-cols-2 gap-x-12 gap-y-10 max-md:grid-cols-1 max-md:gap-y-8">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
               {[
-                {
-                  name: 'Cotopaxi',
-                  location: 'Ecuador',
-                  date: '2023',
-                  desc: 'Glaciated stratovolcano at 5,897m. Summit via the normal route through crevasse fields and ice walls.',
-                  query: 'Tell me about climbing Cotopaxi'
-                },
-                {
-                  name: 'Mont Blanc',
-                  location: 'France',
-                  date: '2022',
-                  desc: 'The roof of Western Europe at 4,808m. Traversed the Goûter Route through technical mixed terrain.',
-                  query: 'Tell me about climbing Mont Blanc'
-                },
-                {
-                  name: 'Rainier',
-                  location: 'Washington',
-                  date: '2021',
-                  desc: 'Heavily glaciated peak at 4,392m. Disappointment Cleaver route through Ingraham Glacier.',
-                  query: 'Tell me about climbing Rainier'
-                },
-                {
-                  name: 'Himalayas',
-                  location: 'Nepal',
-                  date: 'Ongoing',
-                  desc: 'High altitude mountaineering and glacier travel. Training for bigger objectives.',
-                  query: 'Tell me about your Himalayan expeditions'
-                },
+                { name: 'Cotopaxi', location: 'Ecuador', date: '2023', desc: '5,897m glaciated stratovolcano.', query: 'Tell me about climbing Cotopaxi' },
+                { name: 'Mont Blanc', location: 'France', date: '2022', desc: '4,808m. Goûter Route.', query: 'Tell me about climbing Mont Blanc' },
+                { name: 'Rainier', location: 'Washington', date: '2021', desc: '4,392m. Disappointment Cleaver.', query: 'Tell me about climbing Rainier' },
+                { name: 'Himalayas', location: 'Nepal', date: 'Ongoing', desc: 'High altitude training.', query: 'Tell me about your Himalayan expeditions' },
               ].map((item) => (
                 <button key={item.name} onClick={() => onOpenChat(item.query)} className="group text-left">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-[1rem] font-semibold group-hover:opacity-70 transition-opacity">{item.name},</span>
-                    <span className="text-[1rem] text-[var(--color-muted)]">{item.location}</span>
-                    <span className="flex-1 h-px bg-[var(--color-border)]" />
-                    <span className="text-[0.85rem] text-[var(--color-muted)]">{item.date}</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[0.9rem] font-semibold group-hover:opacity-70 transition-opacity">{item.name}</span>
+                    <span className="text-[0.8rem] text-[var(--color-muted)]">· {item.location}</span>
+                    <span className="text-[0.75rem] text-[var(--color-light-muted)] ml-auto">{item.date}</span>
                   </div>
-                  <p className="text-[0.9rem] text-[var(--color-muted)] leading-[1.7]">{item.desc}</p>
+                  <p className="text-[0.8rem] text-[var(--color-muted)] leading-relaxed">{item.desc}</p>
                 </button>
               ))}
             </div>
@@ -760,92 +689,57 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-8 px-6 max-md:px-4 max-md:mt-6">
-        <div className="max-w-[860px] mx-auto py-14 max-md:py-10">
+      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-6 px-6 max-md:px-4">
+        <div className="max-w-[800px] mx-auto py-10 max-md:py-8">
 
-          {/* Three columns like Building/Past/Recognition */}
-          <div className="grid grid-cols-3 gap-10 mb-12 max-md:grid-cols-1 max-md:gap-10">
-            {/* Experience */}
-            <div>
-              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[#666] uppercase mb-5 pb-2 border-b border-[#333]">
-                Experience
-                <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
-              </h3>
-              <div className="space-y-5">
-                {[
-                  { name: 'PROVEN & Noteworthy', desc: '$150MM+ revenue. 2 patents.', query: 'Tell me about PROVEN and Noteworthy', external: true },
-                  { name: 'Lyra · McKesson', desc: 'Clinical matching. Drug market prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
-                  { name: 'Games & Apps', desc: '3 top-10 apps. 2 exits.', query: 'Tell me about your games and apps', external: false },
-                ].map((item) => (
-                  <div key={item.name}>
-                    <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">
-                      {item.name}
-                      {item.external && (
-                        <svg className="w-3.5 h-3.5 text-[#555]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
-                    </button>
-                    <p className="text-[0.85rem] text-[#666] mt-1 leading-relaxed">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+          {/* Two columns: Research & Connect */}
+          <div className="grid grid-cols-2 gap-10 mb-8 max-md:grid-cols-1 max-md:gap-6">
             {/* Research */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[#666] uppercase mb-5 pb-2 border-b border-[#333]">
+              <h3 className="text-[0.65rem] font-semibold tracking-[0.15em] text-[#555] uppercase mb-3 pb-1.5 border-b border-[#333]">
                 Research
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-2">
                 {[
-                  { name: 'Stanford · USC', desc: 'Computational physics.', query: 'Tell me about your research at Stanford and USC' },
-                  { name: 'World Record Simulation', desc: 'Peta-flop scale. 9 publications.', query: 'Tell me about your world record simulation' },
-                  { name: '2 Patents', desc: 'Preference modeling.', query: 'Tell me about your patents' },
+                  { name: 'Stanford · USC', query: 'Tell me about your research at Stanford and USC' },
+                  { name: '9 Publications', query: 'Tell me about your publications' },
+                  { name: '2 Patents', query: 'Tell me about your patents' },
                 ].map((item) => (
-                  <div key={item.name}>
-                    <button onClick={() => onOpenChat(item.query)} className="text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">{item.name}</button>
-                    <p className="text-[0.85rem] text-[#666] mt-1 leading-relaxed">{item.desc}</p>
-                  </div>
+                  <button key={item.name} onClick={() => onOpenChat(item.query)} className="block text-[0.85rem] text-[#888] hover:text-[#ccc] transition-colors">
+                    {item.name}
+                  </button>
                 ))}
               </div>
             </div>
 
             {/* Connect */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.2em] text-[#666] uppercase mb-5 pb-2 border-b border-[#333]">
+              <h3 className="text-[0.65rem] font-semibold tracking-[0.15em] text-[#555] uppercase mb-3 pb-1.5 border-b border-[#333]">
                 Connect
-                <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
               </h3>
-              <div className="space-y-5">
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
                 {[
                   { name: 'LinkedIn', url: '#' },
                   { name: 'Twitter', url: '#' },
                   { name: 'GitHub', url: '#' },
                   { name: 'Email', url: '#' },
                 ].map((item) => (
-                  <div key={item.name}>
-                    <a href={item.url} className="inline-flex items-center gap-1 text-[1rem] font-semibold text-[#e5e5e5] underline underline-offset-2 decoration-[#444] hover:decoration-[#888] transition-colors">
-                      {item.name}
-                      <svg className="w-3.5 h-3.5 text-[#555]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </a>
-                  </div>
+                  <a key={item.name} href={item.url} className="text-[0.85rem] text-[#888] hover:text-[#ccc] transition-colors">
+                    {item.name}
+                  </a>
                 ))}
               </div>
             </div>
           </div>
 
           {/* Bottom bar */}
-          <div className="flex items-center justify-between pt-8 border-t border-[#222] text-[0.75rem] text-[#555] max-md:flex-col max-md:gap-4">
+          <div className="flex items-center justify-between pt-6 border-t border-[#222] text-[0.7rem] text-[#444] max-md:flex-col max-md:gap-3">
             <span>© {new Date().getFullYear()} Amy Yuan</span>
-            <div className="flex items-center gap-6">
-              <button onClick={() => onOpenChat('Tell me about yourself')} className="hover:text-[#999] transition-colors">About</button>
-              <button onClick={() => onOpenChat('What projects are you working on?')} className="hover:text-[#999] transition-colors">Work</button>
-              <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="hover:text-[#999] transition-colors">Climbing</button>
-              <button onClick={() => onOpenChat('How can I contact you?')} className="hover:text-[#999] transition-colors">Contact</button>
+            <div className="flex items-center gap-5">
+              <button onClick={() => onOpenChat('Tell me about yourself')} className="hover:text-[#888] transition-colors">About</button>
+              <button onClick={() => onOpenChat('What projects are you working on?')} className="hover:text-[#888] transition-colors">Work</button>
+              <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="hover:text-[#888] transition-colors">Climbing</button>
+              <button onClick={() => onOpenChat('How can I contact you?')} className="hover:text-[#888] transition-colors">Contact</button>
             </div>
           </div>
         </div>
