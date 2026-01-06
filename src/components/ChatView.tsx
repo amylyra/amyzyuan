@@ -381,7 +381,15 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
                       <p className="text-[0.9rem] leading-relaxed max-md:text-[0.85rem]">{message.content}</p>
                     </div>
                   ) : (
-                    <div className="max-w-[90%]">
+                    <div className="flex gap-3 max-w-[90%]">
+                      {/* Amy's avatar */}
+                      <div className="w-8 h-8 rounded-full overflow-hidden border border-[var(--color-border)] flex-shrink-0 mt-0.5">
+                        <img
+                          src="/profile.jpg"
+                          alt="Amy"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                       <div className="prose prose-sm max-w-none text-[var(--color-fg)] prose-p:leading-[1.7] prose-p:my-2 prose-headings:text-[var(--color-fg)] prose-headings:font-semibold prose-strong:text-[var(--color-fg)] prose-a:text-[var(--color-fg)] prose-a:underline prose-a:underline-offset-2 prose-ul:my-2 prose-li:my-0.5 prose-code:text-[0.85em] prose-code:bg-[var(--color-surface)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none max-md:text-[0.85rem]">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {message.content}
@@ -394,10 +402,15 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
 
               {isLoading && (
                 <div className="flex justify-start" style={{ animation: 'fadeIn 0.15s ease-out' }}>
-                  <div className="flex items-center gap-1 py-2">
-                    <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '0.6s' }} />
-                    <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '100ms', animationDuration: '0.6s' }} />
-                    <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '200ms', animationDuration: '0.6s' }} />
+                  <div className="flex gap-3 items-start">
+                    <div className="w-8 h-8 rounded-full overflow-hidden border border-[var(--color-border)] flex-shrink-0">
+                      <img src="/profile.jpg" alt="Amy" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex items-center gap-1 py-2">
+                      <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '0.6s' }} />
+                      <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '100ms', animationDuration: '0.6s' }} />
+                      <span className="w-1.5 h-1.5 bg-[var(--color-light-muted)] rounded-full animate-bounce" style={{ animationDelay: '200ms', animationDuration: '0.6s' }} />
+                    </div>
                   </div>
                 </div>
               )}

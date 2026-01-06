@@ -384,13 +384,23 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       <section className="relative min-h-[100vh] flex flex-col justify-center px-8 max-md:px-5 py-24 pb-32 max-md:py-20">
         <div className="w-full max-w-[860px] mx-auto">
 
-          {/* Title Section */}
-          <div className="mb-10 max-md:mb-8" style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}>
-            <h1 className="text-[2.8rem] font-bold tracking-[-0.02em] leading-[1.1] mb-4 max-md:text-[2rem] max-md:mb-3">
-              Amy Yuan
-            </h1>
-            <div className="text-[0.72rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.65rem]">
-              Founder · Researcher · Mountaineer
+          {/* Title Section with Profile */}
+          <div className="flex items-center gap-6 mb-10 max-md:mb-8 max-md:gap-4" style={{ animation: 'fadeInUp 0.5s ease-out forwards' }}>
+            {/* Profile Image */}
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-16 max-md:h-16">
+              <img
+                src="/profile.jpg"
+                alt="Amy Yuan"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h1 className="text-[2.8rem] font-bold tracking-[-0.02em] leading-[1.1] mb-2 max-md:text-[2rem] max-md:mb-1">
+                Amy Yuan
+              </h1>
+              <div className="text-[0.72rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.65rem]">
+                Founder · Researcher · Mountaineer
+              </div>
             </div>
           </div>
 
