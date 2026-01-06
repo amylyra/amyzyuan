@@ -422,7 +422,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-8 pb-6 max-md:p-4 max-md:pb-4 flex flex-col min-h-[320px] max-md:min-h-[280px] overflow-hidden">
+            <div className="bg-[#0a0a0a] p-8 pb-6 max-md:p-4 max-md:pb-4 flex flex-col min-h-[320px] max-md:min-h-[280px]">
               {/* Welcome message */}
               <div className="flex-1 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.75rem] max-md:leading-[1.7]">
                 <div className="mb-0.5">
@@ -467,9 +467,9 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
                 {/* Autocomplete */}
                 {showAutocomplete && filteredSuggestions.length > 0 && (
-                  <div className="absolute left-0 right-0 bottom-full mb-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl max-h-[200px] overflow-y-auto">
+                  <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl max-h-[300px] overflow-y-auto">
                     <div className="px-3 py-1.5 text-[0.6rem] text-[#444] border-b border-[#2a2a2a] flex items-center justify-between sticky top-0 bg-[#1a1a1a]">
-                      <span>{isSlashCommand ? 'Commands' : 'Suggestions'} · Tab · Enter</span>
+                      <span>{isSlashCommand ? 'Commands' : 'Suggestions'} · Tab complete · Enter send</span>
                       <span className="text-[#555]">{filteredSuggestions.length}</span>
                     </div>
                     {filteredSuggestions.map((suggestion, i) => (
