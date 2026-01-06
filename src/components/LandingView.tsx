@@ -390,11 +390,11 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative px-6 max-md:px-4 pt-6 pb-8 max-md:pt-4 max-md:pb-6">
+      <section className="relative px-6 max-md:px-5 pt-10 pb-8 max-md:pt-8 max-md:pb-6">
         <div className="w-full max-w-[800px] mx-auto">
 
-          {/* Title Section with Profile - Compact */}
-          <div className="flex items-center gap-4 mb-6 max-md:mb-4 max-md:gap-3" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
+          {/* Title Section with Profile */}
+          <div className="flex items-center gap-5 mb-8 max-md:mb-6 max-md:gap-4" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
             {/* Profile Image */}
             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-12 max-md:h-12">
               <img
@@ -413,45 +413,45 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
           </div>
 
-          {/* Terminal Window - Compact */}
+          {/* Terminal Window */}
           <div
             onClick={handleTerminalClick}
-            className="rounded-xl overflow-hidden shadow-xl border border-[#2a2a2a] cursor-text mb-6 max-md:mb-5"
+            className="rounded-xl overflow-hidden shadow-xl border border-[#2a2a2a] cursor-text mb-8 max-md:mb-6"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.1s forwards', opacity: 0 }}
           >
             {/* Window Chrome */}
-            <div className="bg-[#1a1a1a] px-4 py-2.5 flex items-center border-b border-[#2a2a2a]">
+            <div className="bg-[#1a1a1a] px-3 py-2 flex items-center border-b border-[#2a2a2a]">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#27CA3F]" />
               </div>
-              <span className="flex-1 text-center text-[0.7rem] text-[#555] font-mono">amy — ask me anything</span>
+              <span className="flex-1 text-center text-[0.65rem] text-[#555] font-mono">amy — ask me anything</span>
               <div className="w-[36px]" />
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-5 pb-4 max-md:p-3.5 max-md:pb-3 flex flex-col min-h-[200px] max-md:min-h-[180px]">
+            <div className="bg-[#0a0a0a] p-4 pb-3 max-md:p-3 max-md:pb-2.5 flex flex-col min-h-[160px] max-md:min-h-[140px]">
               {/* Welcome message */}
-              <div className="flex-1 font-mono text-[0.85rem] leading-[1.7] max-md:text-[0.7rem] max-md:leading-[1.6]">
+              <div className="flex-1 font-mono text-[0.8rem] leading-[1.6] max-md:text-[0.7rem] max-md:leading-[1.5]">
                 <div className="mb-0.5">
                   <span className="text-[#555]">┌</span>
                   <span className="text-[#999] ml-2">Computational physics → </span>
                   <span className="text-[#F59E0B]">$150MM+</span>
                   <span className="text-[#999]"> revenue.</span>
                 </div>
-                <div className="mb-3 max-md:mb-2">
+                <div className="mb-2 max-md:mb-1.5">
                   <span className="text-[#555]">└</span>
                   <span className="text-[#666] ml-2">I trained this one on all of it. Try me.</span>
                 </div>
               </div>
 
               {/* Divider */}
-              <div className="border-t border-[#222] mb-3 max-md:mb-2" />
+              <div className="border-t border-[#222] mb-2 max-md:mb-1.5" />
 
               {/* Input line */}
-              <form onSubmit={handleSubmit} className="relative mb-3 max-md:mb-2">
-                <div className="flex items-center gap-2 font-mono text-[0.8rem] max-md:text-[0.75rem]">
+              <form onSubmit={handleSubmit} className="relative mb-2 max-md:mb-1.5">
+                <div className="flex items-center gap-2 font-mono text-[0.75rem] max-md:text-[0.7rem]">
                   <span className="text-[#10B981] font-semibold">amy</span>
                   <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
@@ -483,7 +483,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                     readOnly={isMobile}
                     onKeyDown={handleKeyDown}
                     placeholder={rotatingPlaceholders[placeholderIndex]}
-                    className="flex-1 bg-transparent border-0 text-[0.9rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.8rem]"
+                    className="flex-1 bg-transparent border-0 text-[0.8rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.75rem]"
                   />
                   <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
@@ -534,12 +534,12 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </form>
 
               {/* Topic chips */}
-              <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide max-md:gap-1">
+              <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide max-md:gap-1">
                 {topics.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => onOpenChat(item.message)}
-                    className="px-2.5 py-1 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.7rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1 whitespace-nowrap flex-shrink-0 max-md:px-2 max-md:py-0.5 max-md:text-[0.65rem]"
+                    className="px-2 py-0.5 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.65rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1 whitespace-nowrap flex-shrink-0 max-md:px-1.5 max-md:text-[0.6rem]"
                   >
                     <span className={item.color}>/</span>
                     <span className="text-[#777]">{item.label}</span>
@@ -551,7 +551,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
           {/* Philosophy - Brief intro */}
           <p
-            className="text-[1rem] text-[var(--color-muted)] leading-[1.7] mt-5 max-md:mt-4 max-md:text-[0.9rem]"
+            className="text-[1rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.85rem]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
             <span className="text-[var(--color-fg)] italic">Building AI where preference is the primitive.</span>{' '}
@@ -563,14 +563,14 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-6 max-md:px-4 pt-6 pb-8 max-md:pt-4 max-md:pb-6">
+      <section className="px-6 max-md:px-5 pt-4 pb-8 max-md:pt-2 max-md:pb-6">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* Three columns */}
           <div
             id="columns"
             ref={setRef('columns')}
-            className={`grid grid-cols-3 gap-6 mb-8 max-md:grid-cols-1 max-md:gap-6 transition-all duration-700 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`grid grid-cols-3 gap-8 mb-8 max-md:grid-cols-1 max-md:gap-5 transition-all duration-700 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {/* BUILDING */}
             <div>
@@ -645,13 +645,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
           <div
             id="now"
             ref={setRef('now')}
-            className={`border-t border-[var(--color-border)] pt-6 mb-6 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-6 mb-6 max-md:pt-5 max-md:mb-5 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3">
+            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-2">
               Now
               <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
             </h3>
-            <p className="text-[1rem] leading-[1.7] max-md:text-[0.9rem]">
+            <p className="text-[0.95rem] leading-[1.7] max-md:text-[0.85rem]">
               Building AI systems above the model layer, where behavior is shaped by architecture rather than weights.
             </p>
           </div>
@@ -660,13 +660,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
           <div
             id="climbing"
             ref={setRef('climbing')}
-            className={`border-t border-[var(--color-border)] pt-6 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-6 max-md:pt-5 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
+            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3">
               Expeditions
               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
             </h3>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-md:grid-cols-1 max-md:gap-y-3">
               {[
                 { name: 'Cotopaxi', location: 'Ecuador', date: '2023', desc: '5,897m glaciated stratovolcano.', query: 'Tell me about climbing Cotopaxi' },
                 { name: 'Mont Blanc', location: 'France', date: '2022', desc: '4,808m. Goûter Route.', query: 'Tell me about climbing Mont Blanc' },
@@ -674,12 +674,12 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                 { name: 'Himalayas', location: 'Nepal', date: 'Ongoing', desc: 'High altitude training.', query: 'Tell me about your Himalayan expeditions' },
               ].map((item) => (
                 <button key={item.name} onClick={() => onOpenChat(item.query)} className="group text-left">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[0.9rem] font-semibold group-hover:opacity-70 transition-opacity">{item.name}</span>
-                    <span className="text-[0.8rem] text-[var(--color-muted)]">· {item.location}</span>
-                    <span className="text-[0.75rem] text-[var(--color-light-muted)] ml-auto">{item.date}</span>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-[0.85rem] font-semibold group-hover:opacity-70 transition-opacity max-md:text-[0.8rem]">{item.name}</span>
+                    <span className="text-[0.75rem] text-[var(--color-muted)] max-md:text-[0.7rem]">· {item.location}</span>
+                    <span className="text-[0.7rem] text-[var(--color-light-muted)] ml-auto max-md:text-[0.65rem]">{item.date}</span>
                   </div>
-                  <p className="text-[0.8rem] text-[var(--color-muted)] leading-relaxed">{item.desc}</p>
+                  <p className="text-[0.75rem] text-[var(--color-muted)] leading-relaxed max-md:text-[0.7rem]">{item.desc}</p>
                 </button>
               ))}
             </div>
@@ -689,7 +689,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-6 px-6 max-md:px-4">
+      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-6 px-6 max-md:px-5 max-md:mt-4">
         <div className="max-w-[800px] mx-auto py-10 max-md:py-8">
 
           {/* Two columns: Research & Connect */}
