@@ -381,7 +381,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative min-h-[100vh] flex flex-col justify-center px-8 max-md:px-5 py-24 max-md:py-20">
+      <section className="relative min-h-[100vh] flex flex-col justify-center px-8 max-md:px-5 py-24 pb-32 max-md:py-20">
         <div className="w-full max-w-[860px] mx-auto">
 
           {/* Title Section */}
@@ -412,27 +412,28 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-8 pb-10 max-md:p-5">
+            <div className="bg-[#0a0a0a] p-8 pb-6 max-md:p-4 max-md:pb-4 flex flex-col min-h-[320px] max-md:min-h-[280px]">
               {/* Welcome message */}
-              <div className="mb-6 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.85rem]">
+              <div className="flex-1 font-mono text-[0.95rem] leading-[1.8] max-md:text-[0.75rem] max-md:leading-[1.7]">
                 <div className="mb-0.5">
                   <span className="text-[#555]">┌</span>
                   <span className="text-[#999] ml-2">Computational physics → </span>
                   <span className="text-[#F59E0B]">$150MM+</span>
-                  <span className="text-[#999]"> revenue. 2 patents. 3 companies.</span>
+                  <span className="text-[#999]"> revenue.</span>
                 </div>
-                <div>
+                <div className="mb-4 max-md:mb-3">
                   <span className="text-[#555]">└</span>
-                  <span className="text-[#666] ml-2">I trained this one on all of it. Try me.</span>
+                  <span className="text-[#666] ml-2">I trained this one on all of it.</span>
                 </div>
+                <div className="text-[#555] ml-4">Try me.</div>
               </div>
 
               {/* Divider */}
-              <div className="border-t border-[#222] mb-5" />
+              <div className="border-t border-[#222] mb-4 max-md:mb-3" />
 
               {/* Input line */}
-              <form onSubmit={handleSubmit} className="relative mb-4">
-                <div className="flex items-center gap-2 font-mono text-[1rem] max-md:text-[0.9rem]">
+              <form onSubmit={handleSubmit} className="relative mb-4 max-md:mb-3">
+                <div className="flex items-center gap-2 font-mono text-[0.9rem] max-md:text-[0.8rem]">
                   <span className="text-[#10B981] font-semibold">amy</span>
                   <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
@@ -449,7 +450,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                     onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
                     onKeyDown={handleKeyDown}
                     placeholder={rotatingPlaceholders[placeholderIndex]}
-                    className="flex-1 bg-transparent border-0 text-[1rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.9rem]"
+                    className="flex-1 bg-transparent border-0 text-[0.9rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.8rem]"
                   />
                   <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
@@ -500,12 +501,12 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </form>
 
               {/* Topic chips */}
-              <div className="flex flex-wrap gap-2 mt-1">
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide max-md:gap-1.5">
                 {topics.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => onOpenChat(item.message)}
-                    className="px-3 py-1.5 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.8rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1.5"
+                    className="px-3 py-1.5 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.8rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 max-md:px-2.5 max-md:py-1 max-md:text-[0.7rem]"
                   >
                     <span className={item.color}>/</span>
                     <span className="text-[#777]">{item.label}</span>
@@ -517,17 +518,6 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
         </div>
 
-        {/* Scroll hint - integrated, subtle */}
-        <div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-[0.7rem] text-[var(--color-light-muted)] transition-opacity duration-500 cursor-pointer hover:text-[var(--color-muted)]"
-          style={{ opacity: isScrolled ? 0 : 0.6 }}
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-        >
-          <span className="tracking-wide">scroll</span>
-          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M7 13l5 5 5-5M7 6l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
@@ -549,7 +539,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             <p className="text-[1.05rem] text-[var(--color-muted)] mt-5 leading-[1.7] max-md:text-[0.95rem]">
               In the past I&apos;ve scaled{' '}
               <button onClick={() => onOpenChat('Tell me about PROVEN')} className="text-[var(--color-fg)] underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">PROVEN & Noteworthy</button>
-              {' '}to $150MM+ in revenue with 2 patents, built clinical AI at Lyra and McKesson for high-stakes production systems, and ran a world record peta-flop scale simulation with 9 publications.
+              {' '}to $150MM+ in revenue.
             </p>
           </div>
 
@@ -804,6 +794,20 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
         </div>
       </footer>
       </div>
+
+      {/* Scroll indicator - fixed at bottom of viewport, outside main wrapper */}
+      {!isScrolled && !showChat && (
+        <div
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 text-[0.7rem] text-[var(--color-light-muted)] cursor-pointer hover:text-[var(--color-muted)] transition-all duration-300 max-md:bottom-6"
+          style={{ opacity: 0.8 }}
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        >
+          <span className="tracking-wide uppercase">scroll</span>
+          <svg className="w-3.5 h-3.5 animate-bounce-slow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M19 14l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      )}
     </>
   )
 }
