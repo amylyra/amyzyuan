@@ -390,13 +390,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative px-6 max-md:px-5 pt-10 pb-8 max-md:pt-8 max-md:pb-6">
+      <section className="relative px-6 max-md:px-5 pt-16 pb-10 max-md:pt-12 max-md:pb-8">
         <div className="w-full max-w-[800px] mx-auto">
 
-          {/* Title Section with Profile */}
-          <div className="flex items-center gap-5 mb-8 max-md:mb-6 max-md:gap-4" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
+          {/* Title Section with Profile - Premium */}
+          <div className="flex items-center gap-6 mb-10 max-md:mb-8 max-md:gap-4" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
             {/* Profile Image */}
-            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-12 max-md:h-12">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-14 max-md:h-14 shadow-sm">
               <img
                 src="/profile.jpg"
                 alt="Amy Yuan"
@@ -404,10 +404,10 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               />
             </div>
             <div>
-              <h1 className="text-[2rem] font-bold tracking-[-0.02em] leading-[1.1] mb-1 max-md:text-[1.5rem]">
+              <h1 className="text-[2.25rem] font-bold tracking-[-0.03em] leading-[1.1] mb-1.5 max-md:text-[1.75rem]">
                 Amy Yuan
               </h1>
-              <div className="text-[0.65rem] text-[var(--color-light-muted)] tracking-[0.15em] uppercase max-md:text-[0.6rem]">
+              <div className="text-[0.7rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.6rem]">
                 Founder · Researcher · Mountaineer
               </div>
             </div>
@@ -416,7 +416,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
           {/* Terminal Window */}
           <div
             onClick={handleTerminalClick}
-            className="rounded-xl overflow-hidden shadow-xl border border-[#2a2a2a] cursor-text mb-8 max-md:mb-6"
+            className="rounded-xl overflow-hidden shadow-lg border border-[#2a2a2a] cursor-text mb-10 max-md:mb-8"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.1s forwards', opacity: 0 }}
           >
             {/* Window Chrome */}
@@ -551,7 +551,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
           {/* Philosophy - Brief intro */}
           <p
-            className="text-[1rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.85rem]"
+            className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.9rem] max-w-[600px]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
             <span className="text-[var(--color-fg)] italic">Building AI where preference is the primitive.</span>{' '}
@@ -563,22 +563,22 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-6 max-md:px-5 pt-4 pb-8 max-md:pt-2 max-md:pb-6">
+      <section className="px-6 max-md:px-5 pt-2 pb-10 max-md:pt-0 max-md:pb-8">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* Three columns */}
           <div
             id="columns"
             ref={setRef('columns')}
-            className={`grid grid-cols-3 gap-8 mb-8 max-md:grid-cols-1 max-md:gap-5 transition-all duration-700 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`grid grid-cols-3 gap-10 mb-10 max-md:grid-cols-1 max-md:gap-6 transition-all duration-700 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {/* BUILDING */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3 pb-1.5 border-b border-[var(--color-border)]">
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4 pb-2 border-b border-[var(--color-border)]">
                 Building
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
                   { name: 'Durin', desc: 'Market intelligence. Post-training infra.', query: 'Tell me about Durin' },
                   { name: 'Pawgress', desc: 'Agentic family companion.', query: 'Tell me about Pawgress' },
@@ -596,11 +596,11 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
             {/* SHIPPED */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3 pb-1.5 border-b border-[var(--color-border)]">
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4 pb-2 border-b border-[var(--color-border)]">
                 Shipped
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
                   { name: 'PROVEN & Noteworthy', desc: '$150MM+ revenue. 2 patents.', query: 'Tell me about PROVEN and Noteworthy', external: true },
                   { name: 'Lyra · McKesson', desc: 'Clinical AI. Drug prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
@@ -618,11 +618,11 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
 
             {/* RECOGNITION */}
             <div>
-              <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3 pb-1.5 border-b border-[var(--color-border)]">
+              <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4 pb-2 border-b border-[var(--color-border)]">
                 Recognition
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
                   { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
                   { name: 'World Record Simulation', desc: 'Peta-flop. 9 publications.', clickable: false },
@@ -645,13 +645,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
           <div
             id="now"
             ref={setRef('now')}
-            className={`border-t border-[var(--color-border)] pt-6 mb-6 max-md:pt-5 max-md:mb-5 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-8 mb-8 max-md:pt-6 max-md:mb-6 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-2">
+            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3">
               Now
               <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
             </h3>
-            <p className="text-[0.95rem] leading-[1.7] max-md:text-[0.85rem]">
+            <p className="text-[1rem] leading-[1.8] max-md:text-[0.9rem]">
               Building AI systems above the model layer, where behavior is shaped by architecture rather than weights.
             </p>
           </div>
@@ -660,13 +660,13 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
           <div
             id="climbing"
             ref={setRef('climbing')}
-            className={`border-t border-[var(--color-border)] pt-6 max-md:pt-5 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-8 max-md:pt-6 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3">
+            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
               Expeditions
               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
             </h3>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-md:grid-cols-1 max-md:gap-y-3">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
               {[
                 { name: 'Cotopaxi', location: 'Ecuador', date: '2023', desc: '5,897m glaciated stratovolcano.', query: 'Tell me about climbing Cotopaxi' },
                 { name: 'Mont Blanc', location: 'France', date: '2022', desc: '4,808m. Goûter Route.', query: 'Tell me about climbing Mont Blanc' },
