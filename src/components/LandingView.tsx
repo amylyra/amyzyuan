@@ -461,19 +461,27 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                     type="text"
                     value={input}
                     onChange={(e) => {
-                      setInput(e.target.value)
-                      setShowAutocomplete(true)
-                      setHistoryIndex(-1)
+                      if (!isMobile) {
+                        setInput(e.target.value)
+                        setShowAutocomplete(true)
+                        setHistoryIndex(-1)
+                      }
                     }}
                     onFocus={() => {
                       if (isMobile) {
+                        // Immediately blur and open chat on mobile
                         inputRef.current?.blur()
                         onOpenChat()
                       } else {
                         setShowAutocomplete(true)
                       }
                     }}
-                    onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
+                    onBlur={() => {
+                      if (!isMobile) {
+                        setTimeout(() => setShowAutocomplete(false), 150)
+                      }
+                    }}
+                    readOnly={isMobile}
                     onKeyDown={handleKeyDown}
                     placeholder={rotatingPlaceholders[placeholderIndex]}
                     className="flex-1 bg-transparent border-0 text-[0.9rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.8rem]"
@@ -481,8 +489,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                   <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
 
-                {/* Autocomplete - Desktop only */}
-                {!isMobile && showAutocomplete && filteredSuggestions.length > 0 && (
+                {/* Autocomplete - Desktop only, never on mobile */}
+                {!isMobile && showAutocomplete && filteredSuggestions.length > 0 && !showChat && (
                   <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl max-h-[300px] overflow-y-auto">
                     <div className="px-3 py-1.5 text-[0.6rem] text-[#444] border-b border-[#2a2a2a] flex items-center justify-between sticky top-0 bg-[#1a1a1a]">
                       <span>{isSlashCommand ? 'Commands' : 'Suggestions'} · Tab complete · Enter send</span>
