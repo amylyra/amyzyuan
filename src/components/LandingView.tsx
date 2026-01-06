@@ -78,8 +78,19 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
   const [isScrolled, setIsScrolled] = useState(false)
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({})
   const inputRef = useRef<HTMLInputElement>(null)
+  const mobileInputRef = useRef<HTMLInputElement>(null)
+
+  // Check if mobile
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -456,7 +467,14 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                       setShowAutocomplete(true)
                       setHistoryIndex(-1)
                     }}
-                    onFocus={() => setShowAutocomplete(true)}
+                    onFocus={() => {
+                      if (isMobile) {
+                        setMobileSearchOpen(true)
+                        inputRef.current?.blur()
+                      } else {
+                        setShowAutocomplete(true)
+                      }
+                    }}
                     onBlur={() => setTimeout(() => setShowAutocomplete(false), 150)}
                     onKeyDown={handleKeyDown}
                     placeholder={rotatingPlaceholders[placeholderIndex]}
@@ -465,8 +483,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                   <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
 
-                {/* Autocomplete */}
-                {showAutocomplete && filteredSuggestions.length > 0 && (
+                {/* Autocomplete - Desktop only */}
+                {!isMobile && showAutocomplete && filteredSuggestions.length > 0 && (
                   <div className="absolute left-0 right-0 top-full mt-2 bg-[#1a1a1a] border border-[#333] rounded-lg overflow-hidden z-10 shadow-xl max-h-[300px] overflow-y-auto">
                     <div className="px-3 py-1.5 text-[0.6rem] text-[#444] border-b border-[#2a2a2a] flex items-center justify-between sticky top-0 bg-[#1a1a1a]">
                       <span>{isSlashCommand ? 'Commands' : 'Suggestions'} · Tab complete · Enter send</span>
@@ -805,8 +823,130 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       </footer>
       </div>
 
+      {/* Mobile Full-Screen Search Overlay */}
+      {mobileSearchOpen && (
+        <div className="fixed inset-0 z-[100] bg-[#0a0a0a] flex flex-col">
+          {/* Header */}
+          <div className="flex items-center gap-3 p-4 border-b border-[#222]">
+            <button
+              onClick={() => {
+                setMobileSearchOpen(false)
+                setInput('')
+              }}
+              className="p-2 -ml-2 text-[#666] hover:text-[#999]"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="flex-1 flex items-center gap-2 bg-[#151515] rounded-lg px-3 py-2.5">
+              <span className="text-[#8B5CF6]">❯</span>
+              <input
+                ref={mobileInputRef}
+                type="text"
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value)
+                  setSelectedSuggestion(-1)
+                }}
+                placeholder="Type / for commands..."
+                className="flex-1 bg-transparent text-[1rem] text-[#E5E5E5] placeholder:text-[#444] font-mono outline-none"
+                autoFocus
+              />
+              {input && (
+                <button
+                  onClick={() => setInput('')}
+                  className="text-[#555] hover:text-[#888]"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Suggestions */}
+          <div className="flex-1 overflow-y-auto">
+            {filteredSuggestions.length > 0 ? (
+              <div className="py-2">
+                {filteredSuggestions.map((suggestion, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      onOpenChat(suggestion.query)
+                      setMobileSearchOpen(false)
+                      setInput('')
+                    }}
+                    className={`w-full text-left px-5 py-3.5 font-mono transition-colors ${
+                      selectedSuggestion === i ? 'bg-[#1a1a1a]' : ''
+                    } active:bg-[#1a1a1a]`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-[#8B5CF6]">
+                        {suggestion.type === 'slash' ? '/' : '❯'}
+                      </span>
+                      <span className="text-[#ccc]">
+                        {suggestion.type === 'slash'
+                          ? <span className="text-[#10B981]">{suggestion.text}</span>
+                          : suggestion.text
+                        }
+                      </span>
+                    </div>
+                    {suggestion.description && (
+                      <div className="ml-8 mt-1 text-[0.8rem] text-[#555]">
+                        {suggestion.description}
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            ) : input.trim() ? (
+              <div className="p-5 text-center text-[#555] font-mono">
+                No matches found
+              </div>
+            ) : (
+              <div className="p-4">
+                <div className="text-[0.7rem] text-[#444] uppercase tracking-wider mb-3 px-1">Quick commands</div>
+                <div className="flex flex-wrap gap-2">
+                  {slashCommands.slice(0, 6).map((cmd) => (
+                    <button
+                      key={cmd.cmd}
+                      onClick={() => {
+                        onOpenChat(cmd.query)
+                        setMobileSearchOpen(false)
+                        setInput('')
+                      }}
+                      className="px-3 py-2 bg-[#151515] border border-[#2a2a2a] rounded-lg text-[0.85rem] font-mono text-[#888] active:bg-[#1a1a1a]"
+                    >
+                      <span className="text-[#10B981]">/</span>{cmd.cmd.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Send button when there's input */}
+          {input.trim() && (
+            <div className="p-4 border-t border-[#222]">
+              <button
+                onClick={() => {
+                  onOpenChat(input.trim())
+                  setMobileSearchOpen(false)
+                  setInput('')
+                }}
+                className="w-full py-3 bg-[#E5E5E5] text-[#0a0a0a] rounded-lg font-semibold text-[0.95rem]"
+              >
+                Ask Amy
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Scroll indicator - fixed at bottom of viewport, outside main wrapper */}
-      {!isScrolled && !showChat && (
+      {!isScrolled && !showChat && !mobileSearchOpen && (
         <div
           className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 text-[0.7rem] text-[var(--color-light-muted)] cursor-pointer hover:text-[var(--color-muted)] transition-all duration-300 max-md:bottom-6"
           style={{ opacity: 0.8 }}
