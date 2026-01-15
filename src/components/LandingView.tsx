@@ -328,10 +328,10 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
     }
   }, [filteredSuggestions, selectedSuggestion, showAutocomplete, commandHistory, historyIndex, onOpenChat])
 
-  // Click terminal to focus input
+  // Click terminal to open full chat
   const handleTerminalClick = useCallback(() => {
-    inputRef.current?.focus()
-  }, [])
+    onOpenChat()
+  }, [onOpenChat])
 
   const topics = [
     { message: 'Tell me about PROVEN', label: 'proven', color: 'text-[#F59E0B]' },
@@ -463,29 +463,12 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                     ref={inputRef}
                     type="text"
                     value={input}
-                    onChange={(e) => {
-                      if (!isMobile) {
-                        setInput(e.target.value)
-                        setShowAutocomplete(true)
-                        setHistoryIndex(-1)
-                      }
-                    }}
                     onFocus={() => {
-                      if (isMobile) {
-                        // Immediately blur and open chat on mobile
-                        inputRef.current?.blur()
-                        onOpenChat()
-                      } else {
-                        setShowAutocomplete(true)
-                      }
+                      // Open full chat on any focus
+                      inputRef.current?.blur()
+                      onOpenChat()
                     }}
-                    onBlur={() => {
-                      if (!isMobile) {
-                        setTimeout(() => setShowAutocomplete(false), 150)
-                      }
-                    }}
-                    readOnly={isMobile}
-                    onKeyDown={handleKeyDown}
+                    readOnly
                     placeholder={rotatingPlaceholders[placeholderIndex]}
                     className="flex-1 bg-transparent border-0 text-[0.8rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.75rem]"
                   />
