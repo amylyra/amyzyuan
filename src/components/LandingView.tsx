@@ -408,7 +408,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                 Amy Yuan
               </h1>
               <div className="text-[0.7rem] text-[var(--color-light-muted)] tracking-[0.2em] uppercase max-md:text-[0.6rem]">
-                Founder · Researcher · Mountaineer
+                Founder · ex-Physicist · Mountaineer
               </div>
             </div>
           </div>
@@ -436,13 +436,17 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               <div className="flex-1 font-mono text-[0.8rem] leading-[1.6] max-md:text-[0.7rem] max-md:leading-[1.5]">
                 <div className="mb-0.5">
                   <span className="text-[#555]">┌</span>
-                  <span className="text-[#999] ml-2">Computational physics → </span>
-                  <span className="text-[#F59E0B]">$150MM+</span>
-                  <span className="text-[#999]"> revenue.</span>
+                  <span className="text-[#999] ml-2">Physics PhD → healthcare AI → </span>
+                  <span className="text-[#F59E0B]">$150MM</span>
+                  <span className="text-[#999]"> in consumer goods.</span>
+                </div>
+                <div className="mb-0.5">
+                  <span className="text-[#555]">│</span>
+                  <span className="text-[#666] ml-2">The domains change. The convergence doesn't.</span>
                 </div>
                 <div className="mb-2 max-md:mb-1.5">
                   <span className="text-[#555]">└</span>
-                  <span className="text-[#666] ml-2">I trained this one on all of it. Try me.</span>
+                  <span className="text-[#666] ml-2">I built this to know what I know. Try me.</span>
                 </div>
               </div>
 
@@ -554,8 +558,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.9rem] max-md:leading-[1.7] max-w-[600px]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
-            <span className="text-[var(--color-fg)] italic">Building AI where preference is the primitive.</span>{' '}
-            Not engagement metrics. Not popularity signals.
+            <span className="text-[var(--color-fg)] italic">The work I care about happens where they meet.</span>{' '}
+            Real products. Systems that compound.
           </p>
 
         </div>
@@ -580,8 +584,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </h3>
               <div className="space-y-4">
                 {[
-                  { name: 'Durin', desc: 'Market intelligence. Post-training infra.', query: 'Tell me about Durin' },
-                  { name: 'Pawgress', desc: 'Agentic family companion.', query: 'Tell me about Pawgress' },
+                  { name: 'Durin', desc: 'What market intelligence looks like when LLMs stop hallucinating.', query: 'Tell me about Durin' },
+                  { name: 'Pawgress', desc: 'Family AI that knows when to step back.', query: 'Tell me about Pawgress' },
                   { name: 'AI Research', desc: 'Agents. Reasoning. Tooling.', query: 'Tell me about your AI research' },
                 ].map((item) => (
                   <div key={item.name}>
@@ -604,7 +608,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                 {[
                   { name: 'PROVEN & Noteworthy', desc: '$150MM+ revenue. 2 patents.', query: 'Tell me about PROVEN and Noteworthy', external: true },
                   { name: 'Lyra · McKesson', desc: 'Clinical AI. Drug prediction.', query: 'Tell me about your work at Lyra and McKesson', external: true },
-                  { name: 'Games & Apps', desc: '3 top-10 apps. 2 exits.', query: 'Tell me about your games and apps', external: false },
+                  { name: 'Top-10 Apps', desc: 'CubicMan. Camera360. Divine Might. 2 exits.', query: 'Tell me about your games and apps', external: false },
                 ].map((item) => (
                   <div key={item.name}>
                     <button onClick={() => onOpenChat(item.query)} className="inline-flex items-center gap-1 text-[0.9rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">
@@ -625,8 +629,8 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               <div className="space-y-4">
                 {[
                   { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
-                  { name: 'World Record Simulation', desc: 'Peta-flop. 9 publications.', clickable: false },
-                  { name: '4 Continents', desc: 'Glaciated summits.', query: 'Tell me about your mountaineering', clickable: true },
+                  { name: 'World Record Simulations', desc: 'Peta-flop computing. 9 papers.', clickable: false },
+                  { name: 'Glaciers on Four Continents', desc: '', query: 'Tell me about your mountaineering', clickable: true },
                 ].map((item) => (
                   <div key={item.name}>
                     {item.clickable ? (
