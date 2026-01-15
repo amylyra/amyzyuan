@@ -584,7 +584,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </h3>
               <div className="space-y-4">
                 {[
-                  { name: 'Durin', desc: 'What market intelligence looks like when LLMs stop hallucinating.', query: 'Tell me about Durin' },
+                  { name: 'Durin', desc: 'Truthfulness in market intelligence.', query: 'Tell me about Durin' },
                   { name: 'Pawgress', desc: 'Family AI that knows when to step back.', query: 'Tell me about Pawgress' },
                   { name: 'AI Research', desc: 'Agents. Reasoning. Tooling.', query: 'Tell me about your AI research' },
                 ].map((item) => (
