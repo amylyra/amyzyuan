@@ -668,18 +668,18 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </h3>
             <div className="grid grid-cols-2 gap-x-10 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
               {[
-                { name: 'Cotopaxi', location: 'Ecuador', date: '2023', desc: '5,897m glaciated stratovolcano.', query: 'Tell me about climbing Cotopaxi' },
-                { name: 'Mont Blanc', location: 'France', date: '2022', desc: '4,808m. Goûter Route.', query: 'Tell me about climbing Mont Blanc' },
-                { name: 'Rainier', location: 'Washington', date: '2021', desc: '4,392m. Disappointment Cleaver.', query: 'Tell me about climbing Rainier' },
-                { name: 'Himalayas', location: 'Nepal', date: 'Ongoing', desc: 'High altitude training.', query: 'Tell me about your Himalayan expeditions' },
+                { name: 'Cotopaxi', location: 'Ecuador', date: '2023', desc: 'Glaciated stratovolcano at 5,897m. Summit via the normal route through crevasse fields and ice walls.', query: 'Tell me about climbing Cotopaxi' },
+                { name: 'Mont Blanc', location: 'France', date: '2022', desc: 'The roof of Western Europe at 4,808m. Traversed the Goûter Route through technical mixed terrain.', query: 'Tell me about climbing Mont Blanc' },
+                { name: 'Rainier', location: 'Washington', date: '2021', desc: 'Heavily glaciated peak at 4,392m. Disappointment Cleaver route through Ingraham Glacier.', query: 'Tell me about climbing Rainier' },
+                { name: 'Himalayas', location: 'Nepal', date: 'Ongoing', desc: 'High altitude mountaineering and glacier travel. Training for bigger objectives.', query: 'Tell me about your Himalayan expeditions' },
               ].map((item) => (
                 <button key={item.name} onClick={() => onOpenChat(item.query)} className="group text-left">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[0.85rem] font-semibold group-hover:opacity-70 transition-opacity max-md:text-[0.8rem]">{item.name}</span>
-                    <span className="text-[0.75rem] text-[var(--color-muted)] max-md:text-[0.7rem]">· {item.location}</span>
-                    <span className="text-[0.7rem] text-[var(--color-light-muted)] ml-auto max-md:text-[0.65rem]">{item.date}</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[0.9rem] font-semibold group-hover:opacity-70 transition-opacity max-md:text-[0.85rem]">{item.name}</span>
+                    <span className="text-[0.8rem] text-[var(--color-muted)] max-md:text-[0.75rem]">· {item.location}</span>
+                    <span className="text-[0.75rem] text-[var(--color-light-muted)] ml-auto max-md:text-[0.7rem]">{item.date}</span>
                   </div>
-                  <p className="text-[0.75rem] text-[var(--color-muted)] leading-relaxed max-md:text-[0.7rem]">{item.desc}</p>
+                  <p className="text-[0.8rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.75rem]">{item.desc}</p>
                 </button>
               ))}
             </div>
