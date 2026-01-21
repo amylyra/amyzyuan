@@ -603,17 +603,17 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </div>
             </div>
 
-            {/* RECOGNITION */}
+            {/* HIGHLIGHTS */}
             <div>
               <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4 pb-2 border-b border-[var(--color-border)]">
-                Recognition
+                Highlights
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
               </h3>
               <div className="space-y-4">
                 {[
+                  { name: 'Stanford / USC', desc: '10 papers. 2 PRL covers.', clickable: false },
                   { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
-                  { name: 'World Record Simulations', desc: 'Peta-flop computing. 9 papers.', clickable: false },
-                  { name: 'Glaciers on Four Continents', desc: '', query: 'Tell me about your mountaineering', clickable: true },
+                  { name: 'World Record Simulations', desc: 'Peta-flop computing.', clickable: false },
                 ].map((item) => (
                   <div key={item.name}>
                     {item.clickable ? (
