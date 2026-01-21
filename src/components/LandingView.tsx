@@ -611,16 +611,12 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
               </h3>
               <div className="space-y-4">
                 {[
-                  { name: 'Stanford / USC', desc: '10 papers. 2 PRL covers.', clickable: false },
-                  { name: 'MIT AI Idol', desc: 'AI personalization.', clickable: false },
-                  { name: 'World Record Simulations', desc: 'Peta-flop computing.', clickable: false },
+                  { name: 'Stanford / USC', desc: '10 papers. 2 PRL covers.' },
+                  { name: 'MIT AI Idol', desc: 'AI personalization.' },
+                  { name: 'World Record Simulations', desc: 'Peta-flop computing.' },
                 ].map((item) => (
                   <div key={item.name}>
-                    {item.clickable ? (
-                      <button onClick={() => onOpenChat(item.query)} className="text-[0.9rem] font-semibold underline underline-offset-2 decoration-[var(--color-border)] hover:decoration-[var(--color-fg)] transition-colors">{item.name}</button>
-                    ) : (
-                      <span className="text-[0.9rem] font-semibold">{item.name}</span>
-                    )}
+                    <span className="text-[0.9rem] font-semibold">{item.name}</span>
                     <p className="text-[0.8rem] text-[var(--color-muted)] mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
