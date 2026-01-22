@@ -63,7 +63,7 @@ export default function ProjectsContent() {
   const paragraphsComplete = useRef(0)
 
   const paragraphs = [
-    "PROVEN — Co-founded with Ming. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.",
+    "PROVEN — Co-founder and Operater. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.",
     "Physics research — World's largest peta-flop simulation on 163,840 cores. 10 papers, 2 PRL covers. PhD at USC, postdoc at Stanford.",
     "Earlier — Camera360 (top-10 Android, acquired), Divine Might (top-10 MMORPG globally), Cubicman (top-10 iOS, acquired).",
     "Side projects — Durin (market intelligence infra), Pawgress (family AI)."
