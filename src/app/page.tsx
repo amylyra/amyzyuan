@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import LandingView from '@/components/LandingView'
 import ChatView from '@/components/ChatView'
 
@@ -71,38 +72,61 @@ Glaciers on four continents. Main lesson: optimize for durability, not speed.
 
 **Contact:** amy@durinlab.com`
 
-export default function Home() {
+function HomeContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
   const [showChat, setShowChat] = useState(false)
   const [initialMessage, setInitialMessage] = useState<string | undefined>()
   const [initialResponse, setInitialResponse] = useState<string | undefined>()
   const [isAbout, setIsAbout] = useState(false)
 
-  const handleOpenChat = (message?: string, response?: string) => {
+  // Handle URL params on mount and changes
+  useEffect(() => {
+    const view = searchParams.get('view')
+    if (view === 'about') {
+      setInitialMessage(undefined)
+      setInitialResponse(ABOUT_CONTENT)
+      setIsAbout(true)
+      setShowChat(true)
+    } else if (view === 'chat') {
+      setIsAbout(false)
+      setShowChat(true)
+    } else {
+      // No view param means landing page
+      setShowChat(false)
+      setInitialMessage(undefined)
+      setInitialResponse(undefined)
+      setIsAbout(false)
+    }
+  }, [searchParams])
+
+  const handleOpenChat = useCallback((message?: string, response?: string) => {
     setInitialMessage(message)
     setInitialResponse(response)
     setIsAbout(false)
     setShowChat(true)
-  }
+    router.push('/?view=chat', { scroll: false })
+  }, [router])
 
-  const handleCloseChat = () => {
+  const handleCloseChat = useCallback(() => {
     setShowChat(false)
     setInitialMessage(undefined)
     setInitialResponse(undefined)
     setIsAbout(false)
-  }
+    router.push('/', { scroll: false })
+  }, [router])
 
-  const handleOpenAbout = () => {
+  const handleOpenAbout = useCallback(() => {
     setInitialMessage(undefined)
     setInitialResponse(ABOUT_CONTENT)
     setIsAbout(true)
     setShowChat(true)
-  }
+    router.push('/?view=about', { scroll: false })
+  }, [router])
 
   return (
-    <main className="relative min-h-screen">
-      {/* Grid background */}
-      <div className="grid-bg" />
-
+    <>
       {/* Landing View */}
       <LandingView
         showChat={showChat}
@@ -118,6 +142,19 @@ export default function Home() {
         initialResponse={initialResponse}
         isAbout={isAbout}
       />
+    </>
+  )
+}
+
+export default function Home() {
+  return (
+    <main className="relative min-h-screen">
+      {/* Grid background */}
+      <div className="grid-bg" />
+
+      <Suspense fallback={null}>
+        <HomeContent />
+      </Suspense>
     </main>
   )
 }
