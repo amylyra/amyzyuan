@@ -63,10 +63,10 @@ export default function ProjectsContent() {
   const paragraphsComplete = useRef(0)
 
   const paragraphs = [
-    "PROVEN — Co-founder and Operater. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.",
-    "Physics research — World's largest peta-flop simulation on 163,840 cores. 10 papers, 2 PRL covers. PhD at USC, postdoc at Stanford.",
-    "Earlier — Camera360 (top-10 Android, acquired), Divine Might (top-10 MMORPG globally), Cubicman (top-10 iOS, acquired).",
-    "Side projects — Durin (market intelligence infra), Pawgress (family AI)."
+    "Durin — Market intelligence infra. Tinkering with semantic grounding for preference data.",
+    "Pawgress — Family AI that knows when to step back. Exploring what happens when you don't optimize for engagement.",
+    "PROVEN — Co-founded with Ming. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.",
+    "Noteworthy — AI fragrance personalization, same thesis as PROVEN."
   ]
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function ProjectsContent() {
         setVisibleAccordions(1)
         const accordionTimer = setInterval(() => {
           setVisibleAccordions(prev => {
-            if (prev >= 5) {
+            if (prev >= 4) {
               clearInterval(accordionTimer)
               return prev
             }
@@ -112,39 +112,33 @@ export default function ProjectsContent() {
       </div>
 
       {/* Expandable sections */}
-      <Accordion title="PROVEN — The Full Story" visible={visibleAccordions >= 1}>
-        <p>Started PROVEN with my co-founder Ming. The idea came from personal frustration—I've had eczema my whole life, so has my mom, so do my kids. Every season it's the same thing: stand in a skincare aisle, read a bunch of reviews, try to find patterns in what worked for people with similar skin and climate.</p>
-        <p className="mt-3">That pattern-matching process is pretty obviously automatable. So we built it. YC W18. Scaled to $150M+ revenue. Got 2 patents, won MIT AI Idol, did the whole press circuit (Shark Tank, Today Show, etc).</p>
-        <p className="mt-3">The technical stuff worked. We built end-to-end ML pipelines—data ingestion, human-in-the-loop labeling, model training, real-time inference, personalization. Millions of users. The system actually learned and adapted, which is harder than it sounds when you're dealing with physical products and supply chains.</p>
-        <p className="mt-3"><strong>The hard parts were human:</strong></p>
-        <p className="mt-3">Culture nearly killed us. We hired a COO, promoted him to CEO, and slowly watched the company turn into something unrecognizable. Everything became consensus-driven. Planning cycles stretched to 6 months. The fast iteration loops died. It's hard to notice while it's happening—feels like "professionalizing." Took 2 years to fully see it and fight our way out.</p>
-        <p className="mt-3">Ming burned out and left. Co-founder relationships are weird—more intense than most marriages in some ways. Losing her was harder than the CEO situation, harder than the near-death experiences. Still processing that one.</p>
-        <p className="mt-3">What I actually learned: trust your instincts earlier. I knew something was wrong for months before I acted. Kept telling myself I was being paranoid. I wasn't.</p>
+      <Accordion title="Lyra Health & McKesson" visible={visibleAccordions >= 1}>
+        <p><strong>Lyra Health</strong> — Employee #28. Clinical ML for therapist matching. Joined at 18 people, left at 200+.</p>
+        <p className="mt-3"><strong>McKesson</strong> — Drug pricing and supply chain ML. The data here is what got me into healthcare—#2 and #3 most distributed generics were antidepressants and antipsychotics.</p>
       </Accordion>
 
-      <Accordion title="Physics Research" visible={visibleAccordions >= 2}>
-        <p>Ph.D. Computational Physics (USC, Mork Fellow) · M.S. Computer Science (USC) · Postdoc (Stanford, Ignite Fellow)</p>
-        <p className="mt-3">Ran the world's largest peta-flop atomistic simulation at the time. 163,840 cores on Blue Gene/P. Wrote parallel algorithms in Fortran and C++ with openMPI. Published 10 papers, got 2 Physics Review Letter covers.</p>
-        <p className="mt-3">The physics training was mostly about learning to think in systems and respect constraints. Also learned that chasing scale and difficulty can become a proxy for meaning—took a while to untangle that one.</p>
+      <Accordion title="Early Apps & Games" visible={visibleAccordions >= 2}>
+        <p>Built during grad school, while doing the physics PhD.</p>
+        <p className="mt-3"><strong>Camera360</strong> — top-10 Android app, acquired</p>
+        <p className="mt-3"><strong>Divine Might</strong> — top-10 MMORPG globally</p>
+        <p className="mt-3"><strong>Cubicman</strong> — top-10 iOS game, acquired</p>
       </Accordion>
 
-      <Accordion title="Earlier Projects" visible={visibleAccordions >= 3}>
-        <p><strong>Camera360</strong> — Top-10 Android app. Photo editing with real-time filters before Instagram made it mainstream. Acquired.</p>
-        <p className="mt-3"><strong>Divine Might</strong> — Top-10 MMORPG globally. Built the core systems and scaled to millions of concurrent players.</p>
-        <p className="mt-3"><strong>Cubicman</strong> — Top-10 iOS game. Minimalist puzzle game that hit the charts. Acquired.</p>
-        <p className="mt-3">These were the side projects I kept escaping into while doing physics research. Eventually admitted to myself that making things people actually use was what I wanted.</p>
+      <Accordion title="Research" visible={visibleAccordions >= 3}>
+        <p>PhD at USC, postdoc at Stanford. World's largest peta-flop simulation on 163,840 cores. 10 papers, 2 PRL covers.</p>
+        <p className="mt-3"><strong>Stronger and smarter materials</strong> — sulfur-induced embrittlement in metals, Ni-Cu-P/CNT composite coatings. Explains how tiny impurities lead to metal failures; helps design safer alloys.</p>
+        <p className="mt-3"><strong>Nanoscale structures for electronics</strong> — stacking faults in GaAs nanowires, twin superlattice formation, exciton transport. Practical guidelines for defect-free nanowire fabrication.</p>
+        <p className="mt-3"><strong>Clean energy with AI</strong> — ML-driven perovskite solar cell optimization (reached 18.5% efficiency in &lt;100 trials), DeepSolar mapping (all U.S. rooftop solar panels using satellite imagery).</p>
       </Accordion>
 
-      <Accordion title="Durin" visible={visibleAccordions >= 4}>
-        <p>Market intelligence infra. Current approaches are broken: surveys are slow, LLMs hallucinate, embeddings are black boxes.</p>
-        <p className="mt-3">The underlying thesis is that preference data already exists at scale, the problem is making it semantically coherent and grounded. Building the infrastructure layer for that.</p>
-        <p className="mt-3">Early stage. Figuring out if it's real.</p>
-      </Accordion>
-
-      <Accordion title="Pawgress" visible={visibleAccordions >= 5}>
-        <p>Family AI that optimizes for something other than engagement.</p>
-        <p className="mt-3">Most consumer AI is designed to maximize time-on-device, which is pretty much the opposite of what's good for families. Exploring what it looks like when the AI knows when to step back.</p>
-        <p className="mt-3">Early stage. Figuring out if it's real.</p>
+      <Accordion title="Recognition" visible={visibleAccordions >= 4}>
+        <ul className="space-y-1">
+          <li>MIT AI Idol — AI personalization</li>
+          <li>2 U.S. Patents — AI personalization systems</li>
+          <li>World Record Simulations — 163,840-core peta-flop computing</li>
+          <li>10 Publications — 2 PRL covers, Nano Letters</li>
+        </ul>
+        <p className="mt-3 italic">Press: Shark Tank, Today Show, TechCrunch, WSJ</p>
       </Accordion>
 
       {/* Contact */}
