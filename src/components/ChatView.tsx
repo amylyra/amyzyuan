@@ -6,6 +6,7 @@ import { createChatSession, saveChatMessage } from '@/lib/supabase'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Fuse, { FuseResultMatch } from 'fuse.js'
+import AboutContent from './AboutContent'
 
 // Slash commands for quick access
 const slashCommands = [
@@ -59,9 +60,11 @@ interface ChatViewProps {
   showChat: boolean
   onClose: () => void
   initialMessage?: string
+  initialResponse?: string
+  isAbout?: boolean
 }
 
-export default function ChatView({ showChat, onClose, initialMessage }: ChatViewProps) {
+export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout }: ChatViewProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sessionIdRef = useRef<string | null>(null)
@@ -107,15 +110,9 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
       }))
     }
 
-    // Show default suggestions when empty
+    // Don't show suggestions when input is empty
     if (!trimmed) {
-      return chatSuggestions.slice(0, 4).map(text => ({
-        type: 'suggestion' as const,
-        text,
-        description: undefined,
-        query: text,
-        matches: undefined,
-      }))
+      return []
     }
 
     // Fuzzy search regular suggestions
@@ -281,8 +278,28 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
         inputRef.current?.focus()
       })
 
-      // Send initial message if provided and it's a new message
-      if (initialMessage && initialMessage !== lastInitialMessage.current) {
+      // Handle initial response only (no user message) - like About page
+      if (initialResponse && !initialMessage && initialResponse !== lastInitialMessage.current) {
+        lastInitialMessage.current = initialResponse
+
+        // Clear previous messages and start fresh conversation
+        setMessages([])
+        lastSavedMessageCount.current = 0
+
+        // Create a new chat session
+        createChatSession().then((id) => {
+          sessionIdRef.current = id
+        })
+
+        // Set only the assistant message
+        setTimeout(() => {
+          setMessages([
+            { id: `assistant-${Date.now()}`, role: 'assistant' as const, content: initialResponse },
+          ])
+        }, 50)
+      }
+      // Handle initial message with optional response
+      else if (initialMessage && initialMessage !== lastInitialMessage.current) {
         lastInitialMessage.current = initialMessage
 
         // Clear previous messages and start fresh conversation
@@ -294,11 +311,21 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
           sessionIdRef.current = id
         })
 
-        // Small delay to ensure state is cleared before appending
-        setTimeout(() => {
-          append({ role: 'user', content: initialMessage })
-        }, 50)
-      } else if (!initialMessage && !sessionIdRef.current) {
+        // If we have a pre-written response, set messages directly
+        if (initialResponse) {
+          setTimeout(() => {
+            setMessages([
+              { id: `user-${Date.now()}`, role: 'user' as const, content: initialMessage },
+              { id: `assistant-${Date.now()}`, role: 'assistant' as const, content: initialResponse },
+            ])
+          }, 50)
+        } else {
+          // Small delay to ensure state is cleared before appending
+          setTimeout(() => {
+            append({ role: 'user', content: initialMessage })
+          }, 50)
+        }
+      } else if (!initialMessage && !initialResponse && !sessionIdRef.current) {
         // No initial message, just opening chat - create session if needed
         createChatSession().then((id) => {
           sessionIdRef.current = id
@@ -308,7 +335,7 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
       // Reset when chat closes
       lastInitialMessage.current = undefined
     }
-  }, [showChat, initialMessage, append, setMessages])
+  }, [showChat, initialMessage, initialResponse, append, setMessages])
 
   const suggestions = [
     { message: 'Tell me about PROVEN', label: 'PROVEN' },
@@ -386,9 +413,13 @@ export default function ChatView({ showChat, onClose, initialMessage }: ChatView
                         />
                       </div>
                       <div className="prose prose-sm max-w-none text-[var(--color-fg)] prose-p:leading-[1.7] prose-p:my-2 prose-headings:text-[var(--color-fg)] prose-headings:font-semibold prose-strong:text-[var(--color-fg)] prose-a:text-[var(--color-fg)] prose-a:underline prose-a:underline-offset-2 prose-ul:my-2 prose-li:my-0.5 prose-code:text-[0.85em] prose-code:bg-[var(--color-surface)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none max-md:text-[0.85rem]">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {message.content}
-                        </ReactMarkdown>
+                        {isAbout && message.id?.startsWith('assistant-') ? (
+                          <AboutContent />
+                        ) : (
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {message.content}
+                          </ReactMarkdown>
+                        )}
                       </div>
                     </div>
                   )}

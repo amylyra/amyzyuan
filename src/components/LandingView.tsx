@@ -6,6 +6,7 @@ import Fuse, { FuseResultMatch } from 'fuse.js'
 interface LandingViewProps {
   showChat: boolean
   onOpenChat: (message?: string) => void
+  onOpenAbout: () => void
 }
 
 // Slash commands for quick access
@@ -69,7 +70,7 @@ const rotatingPlaceholders = [
   "Ask about my research...",
 ]
 
-export default function LandingView({ showChat, onOpenChat }: LandingViewProps) {
+export default function LandingView({ showChat, onOpenChat, onOpenAbout }: LandingViewProps) {
   const [input, setInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1)
@@ -356,24 +357,29 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             borderBottom: isScrolled ? '1px solid var(--color-border)' : '1px solid transparent'
           }}
         >
-          <div className="max-w-[1100px] mx-auto px-8 py-4 flex items-center justify-between max-md:px-5 max-md:py-3">
+          <div className="max-w-[1100px] mx-auto px-8 py-4 flex items-center justify-between max-md:px-4 max-md:py-3">
             <span
               className="text-[0.8rem] font-semibold tracking-[0.2em] text-[var(--color-fg)] uppercase transition-opacity duration-300"
               style={{ opacity: isScrolled ? 1 : 0 }}
             >
               Amy
             </span>
-            <div className="flex items-center gap-8 max-md:gap-4">
-              {['About', 'Projects', 'Climbing', 'Contact'].map((item) => (
+            <div className="flex items-center gap-8 max-md:gap-3">
+              {['About', 'Projects', 'Thoughts', 'Contact'].map((item) => (
                 <button
                   key={item}
-                  onClick={() => onOpenChat(
-                    item === 'About' ? 'Tell me about yourself' :
-                    item === 'Projects' ? 'What projects are you working on?' :
-                    item === 'Climbing' ? 'Tell me about your mountaineering' :
-                    'How can I contact you?'
-                  )}
-                  className="text-[0.75rem] font-medium tracking-[0.1em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.68rem]"
+                  onClick={() => {
+                    if (item === 'About') {
+                      onOpenAbout()
+                    } else {
+                      onOpenChat(
+                        item === 'Projects' ? 'What projects are you working on?' :
+                        item === 'Thoughts' ? 'What are you thinking about lately?' :
+                        'How can I contact you?'
+                      )
+                    }
+                  }}
+                  className="text-[0.75rem] font-medium tracking-[0.1em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.65rem] max-md:tracking-[0.05em]"
                 >
                   {item}
                 </button>
@@ -390,7 +396,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative px-6 max-md:px-5 pt-16 pb-10 max-md:pt-14 max-md:pb-8">
+      <section className="relative px-6 max-md:px-3 pt-16 pb-10 max-md:pt-14 max-md:pb-8">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* Title Section with Profile - Premium */}
@@ -431,31 +437,18 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
             </div>
 
             {/* Terminal Content */}
-            <div className="bg-[#0a0a0a] p-5 pb-4 max-md:p-4 max-md:pb-3 flex flex-col min-h-[180px] max-md:min-h-[150px]">
-              {/* Welcome message */}
-              <div className="flex-1 font-mono text-[0.8rem] leading-[1.6] max-md:text-[0.7rem] max-md:leading-[1.5]">
-                <div className="mb-0.5">
-                  <span className="text-[#555]">┌</span>
-                  <span className="text-[#999] ml-2">Physics PhD → healthcare AI → </span>
-                  <span className="text-[#F59E0B]">$150MM</span>
-                  <span className="text-[#999]"> in consumer goods.</span>
-                </div>
-                <div className="mb-0.5">
-                  <span className="text-[#555]">│</span>
-                  <span className="text-[#666] ml-2">The domains change. The convergence doesn't.</span>
-                </div>
-                <div className="mb-2 max-md:mb-1.5">
-                  <span className="text-[#555]">└</span>
-                  <span className="text-[#666] ml-2">I built this to know what I know. Try me.</span>
-                </div>
+            <div className="bg-[#0a0a0a] p-5 pb-4 max-md:p-4 max-md:pb-3 flex flex-col min-h-[160px] max-md:min-h-[140px]">
+              {/* Welcome message - cleaner */}
+              <div className="flex-1 font-mono text-[0.85rem] leading-[1.7] max-md:text-[0.75rem] mb-4 max-md:mb-3">
+                <p className="text-[#888]">
+                  Physics PhD → healthcare AI → <span className="text-[#F59E0B]">$150MM</span> in consumer goods.
+                </p>
+                <p className="text-[#555] mt-1">Ask me anything.</p>
               </div>
 
-              {/* Divider */}
-              <div className="border-t border-[#222] mb-2 max-md:mb-1.5" />
-
               {/* Input line */}
-              <form onSubmit={handleSubmit} className="relative mb-2 max-md:mb-1.5">
-                <div className="flex items-center gap-2 font-mono text-[0.75rem] max-md:text-[0.7rem]">
+              <form onSubmit={handleSubmit} className="relative">
+                <div className="flex items-center gap-2 font-mono text-[0.85rem] max-md:text-[0.8rem]">
                   <span className="text-[#10B981] font-semibold">amy</span>
                   <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
@@ -470,7 +463,7 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                     }}
                     readOnly
                     placeholder={rotatingPlaceholders[placeholderIndex]}
-                    className="flex-1 bg-transparent border-0 text-[0.8rem] text-[#E5E5E5] placeholder:text-[#3a3a3a] font-mono outline-none max-md:text-[0.75rem]"
+                    className="flex-1 bg-transparent border-0 text-[0.9rem] text-[#E5E5E5] placeholder:text-[#444] font-mono outline-none max-md:text-[0.85rem]"
                   />
                   <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
@@ -519,20 +512,6 @@ export default function LandingView({ showChat, onOpenChat }: LandingViewProps) 
                   </div>
                 )}
               </form>
-
-              {/* Topic chips */}
-              <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide max-md:gap-1">
-                {topics.map((item) => (
-                  <button
-                    key={item.label}
-                    onClick={() => onOpenChat(item.message)}
-                    className="px-2 py-0.5 bg-[#151515] border border-[#2a2a2a] rounded-full text-[0.65rem] font-mono transition-all hover:border-[#444] hover:bg-[#1a1a1a] flex items-center gap-1 whitespace-nowrap flex-shrink-0 max-md:px-1.5 max-md:text-[0.6rem]"
-                  >
-                    <span className={item.color}>/</span>
-                    <span className="text-[#777]">{item.label}</span>
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
 

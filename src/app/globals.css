@@ -112,6 +112,10 @@ body {
   }
 }
 
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -466,4 +470,53 @@ button:focus-visible {
 /* Input focus handled by parent container styling */
 input:focus-visible {
   outline: none;
+}
+
+/* Collapsible details/summary styling */
+details {
+  margin: 0.75rem 0;
+  border-left: 2px solid var(--color-border);
+  padding-left: 1rem;
+}
+
+details summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  padding: 0.25rem 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::before {
+  content: '▸';
+  font-size: 0.7rem;
+  transition: transform 0.2s;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details summary:hover {
+  color: var(--color-fg);
+}
+
+details > *:not(summary) {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+details p {
+  margin: 0.5rem 0;
 }
