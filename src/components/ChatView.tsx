@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Fuse, { FuseResultMatch } from 'fuse.js'
 import AboutContent from './AboutContent'
+import ProjectsContent from './ProjectsContent'
 
 // Slash commands for quick access
 const slashCommands = [
@@ -62,9 +63,10 @@ interface ChatViewProps {
   initialMessage?: string
   initialResponse?: string
   isAbout?: boolean
+  isProjects?: boolean
 }
 
-export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout }: ChatViewProps) {
+export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects }: ChatViewProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sessionIdRef = useRef<string | null>(null)
@@ -415,6 +417,8 @@ export default function ChatView({ showChat, onClose, initialMessage, initialRes
                       <div className="prose prose-sm max-w-none text-[var(--color-fg)] prose-p:leading-[1.7] prose-p:my-2 prose-headings:text-[var(--color-fg)] prose-headings:font-semibold prose-strong:text-[var(--color-fg)] prose-a:text-[var(--color-fg)] prose-a:underline prose-a:underline-offset-2 prose-ul:my-2 prose-li:my-0.5 prose-code:text-[0.85em] prose-code:bg-[var(--color-surface)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none max-md:text-[0.85rem]">
                         {isAbout && message.id?.startsWith('assistant-') ? (
                           <AboutContent />
+                        ) : isProjects && message.id?.startsWith('assistant-') ? (
+                          <ProjectsContent />
                         ) : (
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {message.content}

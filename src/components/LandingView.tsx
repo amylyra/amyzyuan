@@ -7,6 +7,7 @@ interface LandingViewProps {
   showChat: boolean
   onOpenChat: (message?: string) => void
   onOpenAbout: () => void
+  onOpenProjects?: () => void
 }
 
 // Slash commands for quick access
@@ -70,7 +71,7 @@ const rotatingPlaceholders = [
   "Ask about my research...",
 ]
 
-export default function LandingView({ showChat, onOpenChat, onOpenAbout }: LandingViewProps) {
+export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenProjects }: LandingViewProps) {
   const [input, setInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1)
@@ -371,9 +372,10 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout }: Landi
                   onClick={() => {
                     if (item === 'About') {
                       onOpenAbout()
+                    } else if (item === 'Projects' && onOpenProjects) {
+                      onOpenProjects()
                     } else {
                       onOpenChat(
-                        item === 'Projects' ? 'What projects are you working on?' :
                         item === 'Thoughts' ? 'What are you thinking about lately?' :
                         'How can I contact you?'
                       )
