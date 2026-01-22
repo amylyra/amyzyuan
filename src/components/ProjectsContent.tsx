@@ -63,10 +63,10 @@ export default function ProjectsContent() {
   const paragraphsComplete = useRef(0)
 
   const paragraphs = [
-    "Durin — Market intelligence infra. Tinkering with semantic grounding for preference data.",
-    "Pawgress — Family AI that knows when to step back. Exploring what happens when you don't optimize for engagement.",
-    "PROVEN — Co-founded with Ming. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.",
-    "Noteworthy — AI fragrance personalization, same thesis as PROVEN."
+    "PROVEN — Co-founder and Operator. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.",
+    "Physics research — World's largest peta-flop simulation on 163,840 cores. 10 papers, 2 PRL covers. PhD at USC, postdoc at Stanford.",
+    "Earlier — Camera360 (top-10 Android, acquired), Divine Might (top-10 MMORPG globally), Cubicman (top-10 iOS, acquired).",
+    "Side projects — Durin (market intelligence infra), Pawgress (family AI)."
   ]
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function ProjectsContent() {
         setVisibleAccordions(1)
         const accordionTimer = setInterval(() => {
           setVisibleAccordions(prev => {
-            if (prev >= 4) {
+            if (prev >= 7) {
               clearInterval(accordionTimer)
               return prev
             }
@@ -112,33 +112,49 @@ export default function ProjectsContent() {
       </div>
 
       {/* Expandable sections */}
-      <Accordion title="Lyra Health & McKesson" visible={visibleAccordions >= 1}>
-        <p><strong>Lyra Health</strong> — Employee #28. Clinical ML for therapist matching. Joined at 18 people, left at 200+.</p>
-        <p className="mt-3"><strong>McKesson</strong> — Drug pricing and supply chain ML. The data here is what got me into healthcare—#2 and #3 most distributed generics were antidepressants and antipsychotics.</p>
+      <Accordion title="Durin" visible={visibleAccordions >= 1}>
+        <p>Market intelligence infra. Tinkering with semantic grounding for preference data.</p>
       </Accordion>
 
-      <Accordion title="Early Apps & Games" visible={visibleAccordions >= 2}>
+      <Accordion title="Pawgress" visible={visibleAccordions >= 2}>
+        <p>Family AI that knows when to step back. Exploring what happens when you don't optimize for engagement.</p>
+      </Accordion>
+
+      <Accordion title="PROVEN" visible={visibleAccordions >= 3}>
+        <p>Co-founded with Ming. AI personalization that learns what works for each person and improves with every interaction—not a static quiz. Started with skincare, expanded to other categories, scaled to $150M+. The same approach applies anywhere there's high variance in preference and high cost of trial-and-error. YC W18, 2 patents, MIT AI Idol.</p>
+        <p className="mt-3 ml-4">• <strong>Noteworthy</strong> — AI fragrance personalization, same thesis as PROVEN.</p>
+      </Accordion>
+
+      <Accordion title="Lyra Health" visible={visibleAccordions >= 4}>
+        <p>Employee #28. Clinical ML for therapist matching.</p>
+        <p className="mt-1">Joined at 18 people, left at 200+.</p>
+      </Accordion>
+
+      <Accordion title="McKesson" visible={visibleAccordions >= 5}>
+        <p>Drug pricing and supply chain ML.</p>
+        <p className="mt-1">The data here is what got me into healthcare—#2 and #3 most distributed generics were antidepressants and antipsychotics.</p>
+      </Accordion>
+
+      <Accordion title="Early Apps & Games" visible={visibleAccordions >= 6}>
         <p>Built during grad school, while doing the physics PhD.</p>
-        <p className="mt-3"><strong>Camera360</strong> — top-10 Android app, acquired</p>
-        <p className="mt-3"><strong>Divine Might</strong> — top-10 MMORPG globally</p>
-        <p className="mt-3"><strong>Cubicman</strong> — top-10 iOS game, acquired</p>
-      </Accordion>
-
-      <Accordion title="Research" visible={visibleAccordions >= 3}>
-        <p>PhD at USC, postdoc at Stanford. World's largest peta-flop simulation on 163,840 cores. 10 papers, 2 PRL covers.</p>
-        <p className="mt-3"><strong>Stronger and smarter materials</strong> — sulfur-induced embrittlement in metals, Ni-Cu-P/CNT composite coatings. Explains how tiny impurities lead to metal failures; helps design safer alloys.</p>
-        <p className="mt-3"><strong>Nanoscale structures for electronics</strong> — stacking faults in GaAs nanowires, twin superlattice formation, exciton transport. Practical guidelines for defect-free nanowire fabrication.</p>
-        <p className="mt-3"><strong>Clean energy with AI</strong> — ML-driven perovskite solar cell optimization (reached 18.5% efficiency in &lt;100 trials), DeepSolar mapping (all U.S. rooftop solar panels using satellite imagery).</p>
-      </Accordion>
-
-      <Accordion title="Recognition" visible={visibleAccordions >= 4}>
-        <ul className="space-y-1">
-          <li>MIT AI Idol — AI personalization</li>
-          <li>2 U.S. Patents — AI personalization systems</li>
-          <li>World Record Simulations — 163,840-core peta-flop computing</li>
-          <li>10 Publications — 2 PRL covers, Nano Letters</li>
+        <ul className="mt-3 space-y-1 ml-4">
+          <li>• <strong>Camera360</strong> — top-10 Android app, acquired</li>
+          <li>• <strong>Divine Might</strong> — top-10 MMORPG globally</li>
+          <li>• <strong>Cubicman</strong> — top-10 iOS game, acquired</li>
         </ul>
-        <p className="mt-3 italic">Press: Shark Tank, Today Show, TechCrunch, WSJ</p>
+      </Accordion>
+
+      <Accordion title="Research" visible={visibleAccordions >= 7}>
+        <p>PhD at USC, postdoc at Stanford. World's largest peta-flop simulation on 163,840 cores. 10 papers, 2 PRL covers.</p>
+
+        <p className="mt-4 font-medium text-[var(--color-fg)]">Stronger and smarter materials</p>
+        <p className="mt-1">Sulfur-induced embrittlement in metals, Ni-Cu-P/CNT composite coatings. Explains how tiny impurities lead to metal failures; helps design safer alloys.</p>
+
+        <p className="mt-4 font-medium text-[var(--color-fg)]">Nanoscale structures for electronics</p>
+        <p className="mt-1">Stacking faults in GaAs nanowires, twin superlattice formation, exciton transport. Practical guidelines for defect-free nanowire fabrication.</p>
+
+        <p className="mt-4 font-medium text-[var(--color-fg)]">Clean energy with AI</p>
+        <p className="mt-1">ML-driven perovskite solar cell optimization (reached 18.5% efficiency in &lt;100 trials), DeepSolar mapping (all U.S. rooftop solar panels using satellite imagery).</p>
       </Accordion>
 
       {/* Contact */}
