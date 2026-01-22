@@ -16,6 +16,7 @@ export default function ProjectsPage() {
       <ChatView
         showChat={true}
         onClose={handleClose}
+        initialMessage="What are your projects?"
         initialResponse="projects"
         isProjects={true}
       />

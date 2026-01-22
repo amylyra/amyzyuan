@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation'
 import ChatView from '@/components/ChatView'
 
-const ABOUT_CONTENT = `about` // Marker for AboutContent component
-
 export default function AboutPage() {
   const router = useRouter()
 
@@ -18,7 +16,8 @@ export default function AboutPage() {
       <ChatView
         showChat={true}
         onClose={handleClose}
-        initialResponse={ABOUT_CONTENT}
+        initialMessage="Tell me about yourself"
+        initialResponse="about"
         isAbout={true}
       />
     </main>
