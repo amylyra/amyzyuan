@@ -27,6 +27,14 @@ export default function Home() {
     router.push('/thoughts')
   }, [router])
 
+  const handleOpenEssay = useCallback((slug: string) => {
+    router.push(`/thoughts/${slug}`)
+  }, [router])
+
+  const handleOpenContact = useCallback(() => {
+    router.push('/contact')
+  }, [router])
+
   return (
     <main className="relative min-h-screen">
       <div className="grid-bg" />
@@ -36,6 +44,8 @@ export default function Home() {
         onOpenAbout={handleOpenAbout}
         onOpenProjects={handleOpenProjects}
         onOpenThoughts={handleOpenThoughts}
+        onOpenEssay={handleOpenEssay}
+        onOpenContact={handleOpenContact}
       />
     </main>
   )

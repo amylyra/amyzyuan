@@ -9,6 +9,7 @@ import Fuse, { FuseResultMatch } from 'fuse.js'
 import AboutContent from './AboutContent'
 import ProjectsContent from './ProjectsContent'
 import ThoughtsContent from './ThoughtsContent'
+import ContactContent from './ContactContent'
 
 // Slash commands for quick access
 const slashCommands = [
@@ -66,9 +67,11 @@ interface ChatViewProps {
   isAbout?: boolean
   isProjects?: boolean
   isThoughts?: boolean
+  isContact?: boolean
+  essaySlug?: string
 }
 
-export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects, isThoughts }: ChatViewProps) {
+export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects, isThoughts, isContact, essaySlug }: ChatViewProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sessionIdRef = useRef<string | null>(null)
@@ -422,7 +425,9 @@ export default function ChatView({ showChat, onClose, initialMessage, initialRes
                         ) : isProjects && message.id?.startsWith('assistant-') ? (
                           <ProjectsContent />
                         ) : isThoughts && message.id?.startsWith('assistant-') ? (
-                          <ThoughtsContent />
+                          <ThoughtsContent initialEssaySlug={essaySlug} />
+                        ) : isContact && message.id?.startsWith('assistant-') ? (
+                          <ContactContent />
                         ) : (
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {message.content}

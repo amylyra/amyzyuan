@@ -9,6 +9,8 @@ interface LandingViewProps {
   onOpenAbout: () => void
   onOpenProjects?: () => void
   onOpenThoughts?: () => void
+  onOpenEssay?: (slug: string) => void
+  onOpenContact?: () => void
 }
 
 // Slash commands for quick access
@@ -72,7 +74,7 @@ const rotatingPlaceholders = [
   "Ask about my research...",
 ]
 
-export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenProjects, onOpenThoughts }: LandingViewProps) {
+export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenProjects, onOpenThoughts, onOpenEssay, onOpenContact }: LandingViewProps) {
   const [input, setInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1)
@@ -377,8 +379,8 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
                       onOpenProjects()
                     } else if (item === 'Thoughts' && onOpenThoughts) {
                       onOpenThoughts()
-                    } else {
-                      onOpenChat('How can I contact you?')
+                    } else if (item === 'Contact' && onOpenContact) {
+                      onOpenContact()
                     }
                   }}
                   className="text-[0.75rem] font-medium tracking-[0.1em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.65rem] max-md:tracking-[0.05em]"
@@ -530,24 +532,19 @@ I build systems rooted in research, proven in practice, and designed to compound
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-6 max-md:px-5 pt-2 pb-10 max-md:pt-4 max-md:pb-8">
+      <section className="px-6 max-md:px-5 pt-2 pb-6 max-md:pt-4 max-md:pb-4">
         <div className="w-full max-w-[800px] mx-auto">
 
-          {/* WORK SECTION */}
+          {/* PROJECTS SECTION */}
           <div
-            id="work"
+            id="projects"
             ref={setRef('work')}
             className={`mb-10 max-md:mb-8 transition-all duration-700 ${visibleSections.has('work') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
-              Work
+              Projects
               <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
             </h3>
-
-            {/* Intro */}
-            <p className="text-[0.95rem] leading-[1.8] mb-8 max-md:text-[0.875rem] max-md:mb-6">
-              I build systems rooted in research, proven in practice, and designed to compound value. Currently focused on AI above the model layer—where architecture, constraints, and feedback shape behavior more than weights.
-            </p>
 
             {/* Three columns */}
             <div
@@ -630,7 +627,7 @@ I build systems rooted in research, proven in practice, and designed to compound
               Mountaineering
               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
               <span className="text-[var(--color-light-muted)]">·</span>
-              <button onClick={() => onOpenThoughts?.()} className="text-[0.7rem] font-medium tracking-[0.1em] normal-case hover:text-[var(--color-fg)] transition-colors underline underline-offset-2">
+              <button onClick={() => onOpenEssay?.('on-being-drawn-upward')} className="text-[0.7rem] font-medium tracking-[0.1em] normal-case hover:text-[var(--color-fg)] transition-colors underline underline-offset-2">
                 Why I Climb
               </button>
             </h3>
@@ -684,7 +681,7 @@ I build systems rooted in research, proven in practice, and designed to compound
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-6 px-6 max-md:px-5 max-md:mt-4">
+      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-0 px-6 max-md:px-5">
         <div className="max-w-[800px] mx-auto py-10 max-md:py-8">
 
           {/* Two columns: Research & Connect */}
@@ -734,7 +731,7 @@ I build systems rooted in research, proven in practice, and designed to compound
               <button onClick={() => onOpenChat('Tell me about yourself')} className="hover:text-[#888] transition-colors">About</button>
               <button onClick={() => onOpenChat('What projects are you working on?')} className="hover:text-[#888] transition-colors">Work</button>
               <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="hover:text-[#888] transition-colors">Climbing</button>
-              <button onClick={() => onOpenChat('How can I contact you?')} className="hover:text-[#888] transition-colors">Contact</button>
+              <button onClick={() => onOpenContact?.()} className="hover:text-[#888] transition-colors">Contact</button>
             </div>
           </div>
         </div>

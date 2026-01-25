@@ -58,8 +58,17 @@ const essays: Essay[] = [
   }
 ]
 
-export default function ThoughtsContent() {
-  const [selectedEssay, setSelectedEssay] = useState<Essay | null>(null)
+interface ThoughtsContentProps {
+  initialEssaySlug?: string
+}
+
+export default function ThoughtsContent({ initialEssaySlug }: ThoughtsContentProps) {
+  const [selectedEssay, setSelectedEssay] = useState<Essay | null>(() => {
+    if (initialEssaySlug) {
+      return essays.find(e => e.id === initialEssaySlug) || null
+    }
+    return null
+  })
   const [visibleParagraphs, setVisibleParagraphs] = useState(0)
   const [headerVisible, setHeaderVisible] = useState(false)
   const paragraphsComplete = useRef(0)
