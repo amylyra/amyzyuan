@@ -636,7 +636,7 @@ I build systems rooted in research, proven in practice, and designed to compound
             </p>
 
             {/* Expeditions */}
-            <div className="space-y-5 max-md:space-y-4">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
               <div>
                 <h4 className="text-[0.9rem] font-semibold mb-0.5 max-md:text-[0.85rem]">Colorado High Peaks & Ouray Backcountry</h4>
                 <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.8rem]">
