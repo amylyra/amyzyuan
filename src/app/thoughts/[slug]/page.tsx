@@ -1,10 +1,12 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import ChatView from '@/components/ChatView'
 
-export default function EssayPage({ params }: { params: { slug: string } }) {
+export default function EssayPage() {
   const router = useRouter()
+  const params = useParams()
+  const slug = params.slug as string
 
   const handleClose = () => {
     router.push('/')
@@ -19,7 +21,7 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
         initialMessage="Read essay"
         initialResponse="thoughts"
         isThoughts={true}
-        essaySlug={params.slug}
+        essaySlug={slug}
       />
     </main>
   )
