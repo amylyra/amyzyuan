@@ -626,26 +626,54 @@ I build systems rooted in research, proven in practice, and designed to compound
             className={`border-t border-[var(--color-border)] pt-8 max-md:pt-6 transition-all duration-700 delay-200 ${visibleSections.has('climbing') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
-              Expeditions
+              Mountaineering
               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
             </h3>
-            <div className="grid grid-cols-2 gap-x-10 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
-              {[
-                { name: 'Cotopaxi', location: 'Ecuador', date: '2023', desc: 'Glaciated stratovolcano at 5,897m. Summit via the normal route through crevasse fields and ice walls.', query: 'Tell me about climbing Cotopaxi' },
-                { name: 'Mont Blanc', location: 'France', date: '2022', desc: 'The roof of Western Europe at 4,808m. Traversed the Goûter Route through technical mixed terrain.', query: 'Tell me about climbing Mont Blanc' },
-                { name: 'Rainier', location: 'Washington', date: '2021', desc: 'Heavily glaciated peak at 4,392m. Disappointment Cleaver route through Ingraham Glacier.', query: 'Tell me about climbing Rainier' },
-                { name: 'Himalayas', location: 'Nepal', date: 'Ongoing', desc: 'High altitude mountaineering and glacier travel. Training for bigger objectives.', query: 'Tell me about your Himalayan expeditions' },
-              ].map((item) => (
-                <button key={item.name} onClick={() => onOpenChat(item.query)} className="group text-left">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[0.9rem] font-semibold group-hover:opacity-70 transition-opacity max-md:text-[0.85rem]">{item.name}</span>
-                    <span className="text-[0.8rem] text-[var(--color-muted)] max-md:text-[0.75rem]">· {item.location}</span>
-                    <span className="text-[0.75rem] text-[var(--color-light-muted)] ml-auto max-md:text-[0.7rem]">{item.date}</span>
-                  </div>
-                  <p className="text-[0.8rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.75rem]">{item.desc}</p>
-                </button>
-              ))}
+
+            {/* Intro */}
+            <p className="text-[0.95rem] leading-[1.8] mb-8 max-md:text-[0.875rem] max-md:mb-6">
+              Snow teaches impermanence. Ice demands honesty. Rock invites dialogue. The mountains strip away everything I am not—and what remains is enough.
+            </p>
+
+            {/* Expeditions */}
+            <div className="space-y-6 max-md:space-y-5">
+              <div>
+                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">Colorado High Peaks & Ouray Backcountry</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">Fourteeners, snow, ice</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
+                  Repeated movement above treeline. Long days on familiar ground. In winter, the Ouray backcountry demanded precision—ice does not reward approximation. Repetition builds judgment.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">The Cascades & Canadian Rockies</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">Mount Baker, Glacier Peak, Mount Rainier, Banff region peaks, Mount St. Helens</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
+                  Glaciated volcanoes and complex mountain systems. Rope travel, weather windows, terrain that shifts underfoot. Progress depended on process more than strength. Speed narrows margin. Consistency keeps you safe.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">Kilimanjaro · Tanzania</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">High altitude, sustained ascent</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
+                  A long, uninterrupted climb. Few technical decisions, but nowhere to hide from fatigue or impatience. Breath and rhythm mattered more than ambition. Simplicity reveals limits.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">What Comes Next</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">Cotopaxi · Chimborazo · Aconcagua</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
+                  Larger mountains, broader scale. Objectives chosen not for conquest—but for what they demand in preparation, patience, and humility. Planning is part of the ascent. Readiness is quiet.
+                </p>
+              </div>
             </div>
+
+            {/* Closing */}
+            <p className="text-[0.9rem] text-[var(--color-muted)] leading-[1.8] mt-8 pt-6 border-t border-[var(--color-border)] max-md:text-[0.85rem] max-md:mt-6 max-md:pt-5">
+              Glaciers stood before the first of us. They will remain after the last. Against that scale, confidence moves carefully. Insecurity rushes. I climb to learn where the limits are—and to move freely within them.
+            </p>
           </div>
 
         </div>
