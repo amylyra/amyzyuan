@@ -481,7 +481,8 @@ export default function ChatView({ showChat, onClose, initialMessage, initialRes
         </div>
       </div>
 
-      {/* Input area */}
+      {/* Input area - hide for contact page */}
+      {!isContact && (
       <footer className="flex-none bg-[var(--color-surface)] border-t border-[var(--color-border)]">
         <div className="max-w-[640px] mx-auto px-5 py-4 max-md:px-4 max-md:py-3">
           {/* Suggestions - Terminal style chips */}
@@ -577,6 +578,7 @@ export default function ChatView({ showChat, onClose, initialMessage, initialRes
           <p className="text-[0.7rem] text-[var(--color-light-muted)] text-center mt-2.5">Amy can make mistakes. Consider checking important information.</p>
         </div>
       </footer>
+      )}
     </div>
   )
 }

@@ -400,11 +400,11 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
       >
 
       {/* ==================== FIRST FOLD ==================== */}
-      <section className="relative px-6 max-md:px-3 pt-16 pb-10 max-md:pt-14 max-md:pb-8">
+      <section className="relative px-6 max-md:px-3 pt-16 pb-4 max-md:pt-14 max-md:pb-2">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* Title Section with Profile - Premium */}
-          <div className="flex items-center gap-6 mb-12 max-md:mb-8 max-md:gap-4" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
+          <div className="flex items-center gap-6 mb-10 max-md:mb-6 max-md:gap-4" style={{ animation: 'fadeInUp 0.4s ease-out forwards' }}>
             {/* Profile Image */}
             <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[var(--color-border)] flex-shrink-0 max-md:w-14 max-md:h-14 shadow-sm">
               <img
@@ -426,7 +426,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
           {/* Terminal Window - iOS style */}
           <div
             onClick={handleTerminalClick}
-            className="rounded-2xl overflow-hidden shadow-lg border border-[#2a2a2a] cursor-text mb-12 max-md:mb-8"
+            className="rounded-2xl overflow-hidden shadow-lg border border-[#2a2a2a] cursor-text"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.1s forwards', opacity: 0 }}
           >
             {/* Window Chrome */}
@@ -524,14 +524,14 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
       </section>
 
       {/* ==================== SECOND FOLD ==================== */}
-      <section className="px-6 max-md:px-5 pt-2 pb-16 max-md:pt-4 max-md:pb-12">
+      <section className="px-6 max-md:px-5 pt-0 pb-20 max-md:pt-0 max-md:pb-12">
         <div className="w-full max-w-[800px] mx-auto">
 
           {/* TRAJECTORIES SECTION */}
           <div
             id="trajectories"
             ref={setRef('work')}
-            className={`mb-10 max-md:mb-8 transition-all duration-700 ${visibleSections.has('work') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`border-t border-[var(--color-border)] pt-10 mb-10 max-md:pt-8 max-md:mb-8 transition-all duration-700 ${visibleSections.has('work') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
               Trajectories
@@ -669,7 +669,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
             </div>
 
             {/* Closing */}
-            <p className="text-[0.9rem] text-[var(--color-muted)] leading-[1.8] mt-8 pt-6 border-t border-[var(--color-border)] max-md:text-[0.85rem] max-md:mt-6 max-md:pt-5">
+            <p className="text-[0.9rem] text-[var(--color-muted)] leading-[1.8] mt-8 max-md:text-[0.85rem] max-md:mt-6">
               Glaciers stood before the first of us. They will remain after the last. Against that scale, confidence moves carefully. Insecurity rushes. I climb to learn where the limits are—and to move freely within them.
             </p>
           </div>
@@ -678,58 +678,19 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="bg-[#0f0f0f] text-[#e5e5e5] mt-0 px-6 max-md:px-5">
-        <div className="max-w-[800px] mx-auto py-10 max-md:py-8">
-
-          {/* Two columns: Research & Connect */}
-          <div className="grid grid-cols-2 gap-10 mb-8 max-md:grid-cols-1 max-md:gap-6">
-            {/* Research */}
-            <div>
-              <h3 className="text-[0.65rem] font-semibold tracking-[0.15em] text-[#555] uppercase mb-3 pb-1.5 border-b border-[#333]">
-                Research
-              </h3>
-              <div className="space-y-2">
-                {[
-                  { name: 'Stanford · USC', query: 'Tell me about your research at Stanford and USC' },
-                  { name: '9 Publications', query: 'Tell me about your publications' },
-                  { name: '2 Patents', query: 'Tell me about your patents' },
-                ].map((item) => (
-                  <button key={item.name} onClick={() => onOpenChat(item.query)} className="block text-[0.85rem] text-[#888] hover:text-[#ccc] transition-colors">
-                    {item.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Connect */}
-            <div>
-              <h3 className="text-[0.65rem] font-semibold tracking-[0.15em] text-[#555] uppercase mb-3 pb-1.5 border-b border-[#333]">
-                Connect
-              </h3>
-              <div className="flex flex-wrap gap-x-4 gap-y-2">
-                {[
-                  { name: 'LinkedIn', url: '#' },
-                  { name: 'Twitter', url: '#' },
-                  { name: 'GitHub', url: '#' },
-                  { name: 'Email', url: '#' },
-                ].map((item) => (
-                  <a key={item.name} href={item.url} className="text-[0.85rem] text-[#888] hover:text-[#ccc] transition-colors">
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-            </div>
+      <footer className="bg-[#0a0a0a] text-[#e5e5e5] mt-0 px-6 max-md:px-5">
+        <div className="max-w-[800px] mx-auto py-16 max-md:py-12">
+          {/* Links row */}
+          <div className="flex items-center justify-center gap-8 mb-10 max-md:gap-6 max-md:mb-8">
+            <a href="https://scholar.google.com/citations?user=2hzkufcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="text-[0.8rem] text-[#777] hover:text-[#fff] transition-colors">Scholar</a>
+            <a href="https://www.linkedin.com/in/amy-zaoshi-yuan-b482707/" target="_blank" rel="noopener noreferrer" className="text-[0.8rem] text-[#777] hover:text-[#fff] transition-colors">LinkedIn</a>
+            <a href="https://github.com/amylyra" target="_blank" rel="noopener noreferrer" className="text-[0.8rem] text-[#777] hover:text-[#fff] transition-colors">GitHub</a>
+            <a href="mailto:amy@durinlab.com" className="text-[0.8rem] text-[#777] hover:text-[#fff] transition-colors">Email</a>
           </div>
 
-          {/* Bottom bar */}
-          <div className="flex items-center justify-between pt-6 border-t border-[#222] text-[0.7rem] text-[#444] max-md:flex-col max-md:gap-3">
-            <span>© {new Date().getFullYear()} Amy Yuan</span>
-            <div className="flex items-center gap-5">
-              <button onClick={() => onOpenChat('Tell me about yourself')} className="hover:text-[#888] transition-colors">About</button>
-              <button onClick={() => onOpenChat('What projects are you working on?')} className="hover:text-[#888] transition-colors">Work</button>
-              <button onClick={() => onOpenChat('Tell me about your mountaineering')} className="hover:text-[#888] transition-colors">Climbing</button>
-              <button onClick={() => onOpenContact?.()} className="hover:text-[#888] transition-colors">Contact</button>
-            </div>
+          {/* Copyright */}
+          <div className="text-center">
+            <span className="text-[0.7rem] text-[#444] tracking-wide">© {new Date().getFullYear()} Amy Zaoshi Yuan</span>
           </div>
         </div>
       </footer>
