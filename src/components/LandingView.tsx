@@ -636,36 +636,35 @@ I build systems rooted in research, proven in practice, and designed to compound
             </p>
 
             {/* Expeditions */}
-            <div className="space-y-6 max-md:space-y-5">
+            <div className="space-y-5 max-md:space-y-4">
               <div>
-                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">Colorado High Peaks & Ouray Backcountry</h4>
-                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">Fourteeners, snow, ice</p>
-                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
-                  Repeated movement above treeline. Long days on familiar ground. In winter, the Ouray backcountry demanded precision—ice does not reward approximation. Repetition builds judgment.
+                <h4 className="text-[0.9rem] font-semibold mb-0.5 max-md:text-[0.85rem]">Colorado High Peaks & Ouray Backcountry</h4>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.8rem]">
+                  Multi-season climbing above treeline. Ice and mixed routes in the Ouray backcountry.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">The Cascades & Canadian Rockies</h4>
-                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">Mount Baker, Glacier Peak, Mount Rainier, Banff region peaks, Mount St. Helens</p>
-                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
-                  Glaciated volcanoes and complex mountain systems. Rope travel, weather windows, terrain that shifts underfoot. Progress depended on process more than strength. Speed narrows margin. Consistency keeps you safe.
+                <h4 className="text-[0.9rem] font-semibold mb-0.5 max-md:text-[0.85rem]">The Cascades & Canadian Rockies</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] mb-1">Mount Baker, Glacier Peak, Mount Rainier, Banff region peaks, Mount St. Helens</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.8rem]">
+                  Glaciated volcanoes. Crevasse rescue, rope travel, alpine starts.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">Kilimanjaro · Tanzania</h4>
-                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">High altitude, sustained ascent</p>
-                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
-                  A long, uninterrupted climb. Few technical decisions, but nowhere to hide from fatigue or impatience. Breath and rhythm mattered more than ambition. Simplicity reveals limits.
+                <h4 className="text-[0.9rem] font-semibold mb-0.5 max-md:text-[0.85rem]">Kilimanjaro · Tanzania</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] mb-1">High altitude, sustained ascent</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.8rem]">
+                  Summit via Machame. Six days, 19,341 feet.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-[0.9rem] font-semibold mb-1 max-md:text-[0.85rem]">What Comes Next</h4>
-                <p className="text-[0.75rem] text-[var(--color-light-muted)] italic mb-2">Cotopaxi · Chimborazo · Aconcagua</p>
-                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.7] max-md:text-[0.8rem]">
-                  Larger mountains, broader scale. Objectives chosen not for conquest—but for what they demand in preparation, patience, and humility. Planning is part of the ascent. Readiness is quiet.
+                <h4 className="text-[0.9rem] font-semibold mb-0.5 max-md:text-[0.85rem]">What Comes Next</h4>
+                <p className="text-[0.75rem] text-[var(--color-light-muted)] mb-1">Cotopaxi · Chimborazo · Aconcagua</p>
+                <p className="text-[0.85rem] text-[var(--color-muted)] leading-[1.6] max-md:text-[0.8rem]">
+                  High-altitude objectives. Ecuador and Argentina.
                 </p>
               </div>
             </div>
