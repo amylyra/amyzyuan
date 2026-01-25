@@ -77,7 +77,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1)
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['philosophy', 'columns', 'now', 'climbing']))
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['philosophy', 'work', 'columns', 'climbing']))
   const [isScrolled, setIsScrolled] = useState(false)
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
@@ -533,12 +533,27 @@ I build systems rooted in research, proven in practice, and designed to compound
       <section className="px-6 max-md:px-5 pt-2 pb-10 max-md:pt-4 max-md:pb-8">
         <div className="w-full max-w-[800px] mx-auto">
 
-          {/* Three columns */}
+          {/* WORK SECTION */}
           <div
-            id="columns"
-            ref={setRef('columns')}
-            className={`grid grid-cols-3 gap-10 mb-10 max-md:grid-cols-1 max-md:gap-6 transition-all duration-700 ${visibleSections.has('columns') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            id="work"
+            ref={setRef('work')}
+            className={`mb-10 max-md:mb-8 transition-all duration-700 ${visibleSections.has('work') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
+            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
+              Work
+              <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
+            </h3>
+
+            {/* Intro */}
+            <p className="text-[0.95rem] leading-[1.8] mb-8 max-md:text-[0.875rem] max-md:mb-6">
+              I build systems rooted in research, proven in practice, and designed to compound value. Currently focused on AI above the model layer—where architecture, constraints, and feedback shape behavior more than weights.
+            </p>
+
+            {/* Three columns */}
+            <div
+              id="columns"
+              className="grid grid-cols-3 gap-10 max-md:grid-cols-1 max-md:gap-6"
+            >
             {/* BUILDING */}
             <div>
               <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4 pb-2 border-b border-[var(--color-border)]">
@@ -602,21 +617,7 @@ I build systems rooted in research, proven in practice, and designed to compound
                 ))}
               </div>
             </div>
-          </div>
-
-          {/* NOW */}
-          <div
-            id="now"
-            ref={setRef('now')}
-            className={`border-t border-[var(--color-border)] pt-8 mb-8 max-md:pt-6 max-md:mb-6 transition-all duration-700 delay-150 ${visibleSections.has('now') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          >
-            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-3">
-              Now
-              <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
-            </h3>
-            <p className="text-[1rem] leading-[1.8] max-md:text-[0.9rem]">
-              Building AI systems above the model layer, focusing on how architecture, constraints, and feedback shape behavior in practice.
-            </p>
+            </div>
           </div>
 
           {/* CLIMBING */}
@@ -628,6 +629,10 @@ I build systems rooted in research, proven in practice, and designed to compound
             <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
               Mountaineering
               <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+              <span className="text-[var(--color-light-muted)]">·</span>
+              <button onClick={() => onOpenThoughts?.()} className="text-[0.7rem] font-medium tracking-[0.1em] normal-case hover:text-[var(--color-fg)] transition-colors underline underline-offset-2">
+                Why I Climb
+              </button>
             </h3>
 
             {/* Intro */}
