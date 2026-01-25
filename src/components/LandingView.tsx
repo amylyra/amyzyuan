@@ -535,16 +535,21 @@ I build systems rooted in research, proven in practice, and designed to compound
       <section className="px-6 max-md:px-5 pt-2 pb-6 max-md:pt-4 max-md:pb-4">
         <div className="w-full max-w-[800px] mx-auto">
 
-          {/* PROJECTS SECTION */}
+          {/* TRAJECTORIES SECTION */}
           <div
-            id="projects"
+            id="trajectories"
             ref={setRef('work')}
             className={`mb-10 max-md:mb-8 transition-all duration-700 ${visibleSections.has('work') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
-              Projects
+              Trajectories
               <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
             </h3>
+
+            {/* Intro */}
+            <p className="text-[0.95rem] leading-[1.8] mb-8 max-md:text-[0.875rem] max-md:mb-6">
+              I build systems rooted in research, proven in practice, and designed to compound value.
+            </p>
 
             {/* Three columns */}
             <div
