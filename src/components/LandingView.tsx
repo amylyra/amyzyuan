@@ -522,9 +522,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
             className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.9rem] max-md:leading-[1.7] max-w-[600px]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
-            I care about work at the intersection of research and practice—<br />
-            building real products, designing systems that compound,<br />
-            and learning what actually holds up in the wild.
+I build systems rooted in research, proven in practice, and designed to compound value.
           </p>
 
         </div>
