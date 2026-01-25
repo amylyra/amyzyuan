@@ -519,14 +519,6 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
             </div>
           </div>
 
-          {/* Philosophy - Brief intro */}
-          <p
-            className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.9rem] max-md:leading-[1.7] max-w-[600px]"
-            style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
-          >
-I build systems rooted in research, proven in practice, and designed to compound value.
-          </p>
-
         </div>
 
       </section>
@@ -541,10 +533,15 @@ I build systems rooted in research, proven in practice, and designed to compound
             ref={setRef('work')}
             className={`mb-10 max-md:mb-8 transition-all duration-700 ${visibleSections.has('work') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-6">
+            <h3 className="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.15em] text-[var(--color-muted)] uppercase mb-4">
               Trajectories
               <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
             </h3>
+
+            {/* Intro */}
+            <p className="text-[0.95rem] leading-[1.8] mb-8 max-md:text-[0.875rem] max-md:mb-6">
+              Systems rooted in research, proven in practice, designed to compound. Currently building above the model layer—where architecture, constraints, and feedback shape behavior more than weights.
+            </p>
 
             {/* Three columns */}
             <div
