@@ -23,6 +23,10 @@ export default function Home() {
     router.push('/projects')
   }, [router])
 
+  const handleOpenThoughts = useCallback(() => {
+    router.push('/thoughts')
+  }, [router])
+
   return (
     <main className="relative min-h-screen">
       <div className="grid-bg" />
@@ -31,6 +35,7 @@ export default function Home() {
         onOpenChat={handleOpenChat}
         onOpenAbout={handleOpenAbout}
         onOpenProjects={handleOpenProjects}
+        onOpenThoughts={handleOpenThoughts}
       />
     </main>
   )

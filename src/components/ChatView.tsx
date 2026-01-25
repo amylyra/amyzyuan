@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm'
 import Fuse, { FuseResultMatch } from 'fuse.js'
 import AboutContent from './AboutContent'
 import ProjectsContent from './ProjectsContent'
+import ThoughtsContent from './ThoughtsContent'
 
 // Slash commands for quick access
 const slashCommands = [
@@ -64,9 +65,10 @@ interface ChatViewProps {
   initialResponse?: string
   isAbout?: boolean
   isProjects?: boolean
+  isThoughts?: boolean
 }
 
-export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects }: ChatViewProps) {
+export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects, isThoughts }: ChatViewProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sessionIdRef = useRef<string | null>(null)
@@ -419,6 +421,8 @@ export default function ChatView({ showChat, onClose, initialMessage, initialRes
                           <AboutContent />
                         ) : isProjects && message.id?.startsWith('assistant-') ? (
                           <ProjectsContent />
+                        ) : isThoughts && message.id?.startsWith('assistant-') ? (
+                          <ThoughtsContent />
                         ) : (
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {message.content}

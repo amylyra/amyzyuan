@@ -8,6 +8,7 @@ interface LandingViewProps {
   onOpenChat: (message?: string) => void
   onOpenAbout: () => void
   onOpenProjects?: () => void
+  onOpenThoughts?: () => void
 }
 
 // Slash commands for quick access
@@ -71,7 +72,7 @@ const rotatingPlaceholders = [
   "Ask about my research...",
 ]
 
-export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenProjects }: LandingViewProps) {
+export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenProjects, onOpenThoughts }: LandingViewProps) {
   const [input, setInput] = useState('')
   const [showAutocomplete, setShowAutocomplete] = useState(false)
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1)
@@ -374,11 +375,10 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
                       onOpenAbout()
                     } else if (item === 'Projects' && onOpenProjects) {
                       onOpenProjects()
+                    } else if (item === 'Thoughts' && onOpenThoughts) {
+                      onOpenThoughts()
                     } else {
-                      onOpenChat(
-                        item === 'Thoughts' ? 'What are you thinking about lately?' :
-                        'How can I contact you?'
-                      )
+                      onOpenChat('How can I contact you?')
                     }
                   }}
                   className="text-[0.75rem] font-medium tracking-[0.1em] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors uppercase max-md:text-[0.65rem] max-md:tracking-[0.05em]"
@@ -443,7 +443,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
               {/* Welcome message - cleaner */}
               <div className="flex-1 font-mono text-[0.85rem] leading-[1.7] max-md:text-[0.75rem] mb-4 max-md:mb-3">
                 <p className="text-[#888]">
-                  Physics PhD → healthcare AI → <span className="text-[#F59E0B]">$150MM</span> in consumer goods.
+                  Physics PhD → production AI → <span className="text-[#F59E0B]">$150M+</span> shipped.
                 </p>
                 <p className="text-[#555] mt-1">Ask me anything.</p>
               </div>
@@ -454,6 +454,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
                   <span className="text-[#10B981] font-semibold">amy</span>
                   <span className="text-[#444]">~</span>
                   <span className="text-[#8B5CF6]">❯</span>
+                  <span className="text-[#E5E5E5] cursor-blink">▌</span>
                   <input
                     ref={inputRef}
                     type="text"
@@ -467,7 +468,6 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
                     placeholder={rotatingPlaceholders[placeholderIndex]}
                     className="flex-1 bg-transparent border-0 text-[0.9rem] text-[#E5E5E5] placeholder:text-[#444] font-mono outline-none max-md:text-[0.85rem]"
                   />
-                  <span className="text-[#E5E5E5] cursor-blink">▌</span>
                 </div>
 
                 {/* Autocomplete - Desktop only, never on mobile */}
@@ -522,8 +522,9 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
             className="text-[1.05rem] text-[var(--color-muted)] leading-[1.8] max-md:text-[0.9rem] max-md:leading-[1.7] max-w-[600px]"
             style={{ animation: 'fadeInUp 0.4s ease-out 0.2s forwards', opacity: 0 }}
           >
-            <span className="text-[var(--color-fg)] italic">The work I care about happens where they meet.</span>{' '}
-            Real products. Systems that compound.
+            I care about work at the intersection of research and practice—<br />
+            building real products, designing systems that compound,<br />
+            and learning what actually holds up in the wild.
           </p>
 
         </div>
@@ -616,7 +617,7 @@ export default function LandingView({ showChat, onOpenChat, onOpenAbout, onOpenP
               <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
             </h3>
             <p className="text-[1rem] leading-[1.8] max-md:text-[0.9rem]">
-              Building AI systems above the model layer, where behavior is shaped by architecture rather than weights.
+              Building AI systems above the model layer, focusing on how architecture, constraints, and feedback shape behavior in practice.
             </p>
           </div>
 
