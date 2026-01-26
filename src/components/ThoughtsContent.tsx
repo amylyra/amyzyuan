@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { essays, type Essay } from '@/data/essays'
 
 // Re-export for backward compatibility
@@ -38,6 +39,7 @@ interface ThoughtsContentProps {
 }
 
 export default function ThoughtsContent({ initialEssaySlug }: ThoughtsContentProps) {
+  const router = useRouter()
   const [selectedEssay, setSelectedEssay] = useState<Essay | null>(() => {
     if (initialEssaySlug) {
       return essays.find(e => e.id === initialEssaySlug) || null
@@ -76,6 +78,16 @@ export default function ThoughtsContent({ initialEssaySlug }: ThoughtsContentPro
     }
   }
 
+  // Navigate to essay page (updates URL)
+  const handleEssayClick = (essay: Essay) => {
+    router.push(`/thoughts/${essay.id}`)
+  }
+
+  // Navigate back to thoughts list (updates URL)
+  const handleBackClick = () => {
+    router.push('/thoughts')
+  }
+
   // Show essay list
   if (!selectedEssay) {
     return (
@@ -88,7 +100,7 @@ export default function ThoughtsContent({ initialEssaySlug }: ThoughtsContentPro
           {essays.map((essay) => (
             <button
               key={essay.id}
-              onClick={() => setSelectedEssay(essay)}
+              onClick={() => handleEssayClick(essay)}
               className="block w-full text-left group"
             >
               <div className="flex items-baseline justify-between gap-4 mb-1">
@@ -114,7 +126,7 @@ export default function ThoughtsContent({ initialEssaySlug }: ThoughtsContentPro
     <div className="text-[var(--color-fg)]">
       {/* Back link */}
       <button
-        onClick={() => setSelectedEssay(null)}
+        onClick={handleBackClick}
         className="text-[0.8rem] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors mb-6 flex items-center gap-1.5"
       >
         <span>←</span>
@@ -147,7 +159,7 @@ export default function ThoughtsContent({ initialEssaySlug }: ThoughtsContentPro
       {visibleParagraphs >= selectedEssay.paragraphs.length && (
         <div className="mt-10 max-md:mt-8 pt-6 border-t border-[var(--color-border)] animate-fadeIn">
           <button
-            onClick={() => setSelectedEssay(null)}
+            onClick={handleBackClick}
             className="text-[0.8rem] text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"
           >
             ← Back to essays

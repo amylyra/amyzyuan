@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import ChatView from '@/components/ChatView'
+import { ThoughtsSeoContent } from '@/components/SeoContent'
+import { BreadcrumbJsonLd } from '@/components/JsonLd'
 
 export default function ThoughtsPage() {
   const router = useRouter()
@@ -13,6 +15,13 @@ export default function ThoughtsPage() {
   return (
     <main className="relative min-h-screen">
       <div className="grid-bg" />
+      <ThoughtsSeoContent />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: 'https://amyzyuan.com' },
+          { name: 'Thoughts', url: 'https://amyzyuan.com/thoughts' },
+        ]}
+      />
       <ChatView
         showChat={true}
         onClose={handleClose}

@@ -82,6 +82,33 @@ export function ProjectsSeoContent() {
   )
 }
 
+export function ThoughtsSeoContent() {
+  return (
+    <div className="sr-only">
+      <h1>Thoughts by Amy Yuan</h1>
+      <article>
+        <p>Essays and reflections by Amy Yuan on AI, building, climbing, and what holds up in the world.</p>
+        
+        <h2>Essays</h2>
+        <ul>
+          <li>
+            <h3>On Being Drawn Upward — Why I Climb</h3>
+            <p>A reflection on what remains when ambition falls away and only attention, discipline, and limits endure. Published March 2024.</p>
+          </li>
+        </ul>
+        
+        <h2>Topics</h2>
+        <ul>
+          <li>Artificial Intelligence and Machine Learning</li>
+          <li>Building products and companies</li>
+          <li>Mountaineering and climbing</li>
+          <li>What holds up in the world</li>
+        </ul>
+      </article>
+    </div>
+  )
+}
+
 export function EssaySeoContent({ title, date, paragraphs }: { title: string; date: string; paragraphs: string[] }) {
   return (
     <div className="sr-only">
