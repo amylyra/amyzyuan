@@ -3,6 +3,9 @@
 import { useRouter } from 'next/navigation'
 import ChatView from '@/components/ChatView'
 
+// Note: metadata export not supported in client components
+// Metadata is handled in layout or via generateMetadata in a wrapper
+
 export default function AboutPage() {
   const router = useRouter()
 
