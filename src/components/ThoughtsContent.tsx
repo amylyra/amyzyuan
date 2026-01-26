@@ -29,7 +29,7 @@ function TypewriterText({ text, onComplete }: { text: string; onComplete?: () =>
   return <>{displayedText}</>
 }
 
-interface Essay {
+export interface Essay {
   id: string
   title: string
   date: string
@@ -37,7 +37,7 @@ interface Essay {
   paragraphs: string[]
 }
 
-const essays: Essay[] = [
+export const essays: Essay[] = [
   {
     id: 'on-being-drawn-upward',
     title: "On Being Drawn Upward — Why I Climb",
