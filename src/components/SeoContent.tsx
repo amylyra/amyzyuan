@@ -3,7 +3,7 @@
 
 export function AboutSeoContent() {
   return (
-    <div className="sr-only" aria-hidden="true">
+    <div className="sr-only">
       <h1>About Amy Yuan - Founder, Researcher, Mountaineer</h1>
       <article>
         <p>I spent years doing computational physics—PhD at USC, postdoc at Stanford, ran simulations on 163,840 cores. I was good at it, but I kept escaping into side projects, building apps that hit top-10 charts while I was supposed to be doing research. Eventually I admitted to myself that I wanted to make things people actually use.</p>
@@ -41,7 +41,7 @@ export function AboutSeoContent() {
 
 export function ProjectsSeoContent() {
   return (
-    <div className="sr-only" aria-hidden="true">
+    <div className="sr-only">
       <h1>Projects by Amy Yuan</h1>
       <article>
         <h2>PROVEN</h2>
@@ -84,7 +84,7 @@ export function ProjectsSeoContent() {
 
 export function EssaySeoContent({ title, date, paragraphs }: { title: string; date: string; paragraphs: string[] }) {
   return (
-    <div className="sr-only" aria-hidden="true">
+    <div className="sr-only">
       <article>
         <h1>{title}</h1>
         <time dateTime={date}>{date}</time>

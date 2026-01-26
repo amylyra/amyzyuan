@@ -1,17 +1,9 @@
 import { Metadata } from 'next'
-
-// Essay data for metadata
-const essays: Record<string, { title: string; description: string; date: string }> = {
-  'on-being-drawn-upward': {
-    title: 'On Being Drawn Upward — Why I Climb',
-    description: 'A reflection on what remains when ambition falls away and only attention, discipline, and limits endure. Snow teaches impermanence. Ice demands honesty. Rock invites dialogue.',
-    date: '2024-03-01',
-  },
-}
+import { getEssayBySlug } from '@/data/essays'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const essay = essays[slug]
+  const essay = getEssayBySlug(slug)
 
   if (!essay) {
     return {
@@ -21,18 +13,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   return {
     title: essay.title,
-    description: essay.description,
+    description: essay.preview,
     openGraph: {
       title: `${essay.title} | Amy Yuan`,
-      description: essay.description,
+      description: essay.preview,
       type: 'article',
-      publishedTime: essay.date,
+      publishedTime: essay.isoDate,
       authors: ['Zaoshi (Amy) Yuan'],
     },
     twitter: {
       card: 'summary_large_image',
       title: essay.title,
-      description: essay.description,
+      description: essay.preview,
     },
     alternates: {
       canonical: `https://amyzyuan.com/thoughts/${slug}`,
