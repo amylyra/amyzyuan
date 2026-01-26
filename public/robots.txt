@@ -1,0 +1,6 @@
+# robots.txt for amyzyuan.com
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://amyzyuan.com/sitemap.xml

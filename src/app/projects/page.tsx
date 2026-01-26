@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import ChatView from '@/components/ChatView'
+import { ProjectsSeoContent } from '@/components/SeoContent'
 
 export default function ProjectsPage() {
   const router = useRouter()
@@ -13,6 +14,7 @@ export default function ProjectsPage() {
   return (
     <main className="relative min-h-screen">
       <div className="grid-bg" />
+      <ProjectsSeoContent />
       <ChatView
         showChat={true}
         onClose={handleClose}
