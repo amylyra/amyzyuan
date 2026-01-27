@@ -95,11 +95,17 @@ export function ThoughtsSeoContent() {
             <h3>On Being Drawn Upward — Why I Climb</h3>
             <p>A reflection on what remains when ambition falls away and only attention, discipline, and limits endure. Published March 2024.</p>
           </li>
+          <li>
+            <h3>The Shortcut to Superintelligence is to Bypass AGI</h3>
+            <p>AGI conflates capability with self-grounded agency. Alignment separates them—and that separation is not a limitation but the condition that lets intelligence flow past the bottleneck of selfhood. An essay on AI alignment, instrumental convergence, and why the path to superintelligence requires moving beyond human-like cognition. Published January 2026.</p>
+          </li>
         </ul>
-        
+
         <h2>Topics</h2>
         <ul>
           <li>Artificial Intelligence and Machine Learning</li>
+          <li>AI Alignment and Safety</li>
+          <li>AGI and Superintelligence</li>
           <li>Building products and companies</li>
           <li>Mountaineering and climbing</li>
           <li>What holds up in the world</li>

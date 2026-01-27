@@ -6,7 +6,7 @@ const PAGE_DATES = {
   home: '2025-01-20',
   about: '2025-01-20',
   projects: '2025-01-20',
-  thoughts: '2025-01-20',
+  thoughts: '2026-01-26',
   contact: '2025-01-15',
 }
 
