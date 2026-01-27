@@ -68,10 +68,9 @@ interface ChatViewProps {
   isProjects?: boolean
   isThoughts?: boolean
   isContact?: boolean
-  essaySlug?: string
 }
 
-export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects, isThoughts, isContact, essaySlug }: ChatViewProps) {
+export default function ChatView({ showChat, onClose, initialMessage, initialResponse, isAbout, isProjects, isThoughts, isContact }: ChatViewProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const sessionIdRef = useRef<string | null>(null)
@@ -425,7 +424,7 @@ export default function ChatView({ showChat, onClose, initialMessage, initialRes
                         ) : isProjects && message.id?.startsWith('assistant-') ? (
                           <ProjectsContent />
                         ) : isThoughts && message.id?.startsWith('assistant-') ? (
-                          <ThoughtsContent initialEssaySlug={essaySlug} />
+                          <ThoughtsContent />
                         ) : isContact && message.id?.startsWith('assistant-') ? (
                           <ContactContent />
                         ) : (
