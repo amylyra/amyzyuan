@@ -62,8 +62,8 @@ export const essays: Essay[] = [
   {
     id: 'the-shortcut-to-superintelligence',
     title: "The Shortcut to Superintelligence is to Bypass AGI",
-    date: "January 2026",
-    isoDate: "2026-01-26",
+    date: "November 2024",
+    isoDate: "2024-11-01",
     preview: "AGI conflates capability with self-grounded agency. Alignment separates them—and that separation is not a limitation but the condition that lets intelligence flow past the bottleneck of selfhood.",
     paragraphs: [
       "The race for AGI isn't just a search for intelligence—it's a rush to replicate a very specific, and dangerous, kind of mind: our own. Billions are spent pursuing a term that has never stabilized. \"AGI\" acts less like a technical target than a projection surface for our hopes and fears: human-level reasoning, economic replacement, consciousness, even godhood. The confidence with which the word is used far exceeds the clarity of what it names.",
